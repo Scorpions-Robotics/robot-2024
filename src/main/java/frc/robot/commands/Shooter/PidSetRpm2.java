@@ -6,26 +6,26 @@ import frc.robot.Constants;
 import frc.robot.subsystems.ShooterSubsystem;
 
 
-public class PidSetRpm extends PIDCommand {
+public class PidSetRpm2 extends PIDCommand {
 
-  public PidSetRpm(ShooterSubsystem m_shooter, double estimatedRpm) {
+  public PidSetRpm2(ShooterSubsystem m_shooter, double estimatedRpm) {
     super(
         new PIDController(Constants.values.shooter.PidShooterShootKP,
          Constants.values.shooter.PidShooterShootKI,
           Constants.values.shooter.PidShooterShootKD),
 
-        () -> m_shooter.getRpmOutput1(),
+        () -> m_shooter.getRpmOutput2(),
         
         () -> estimatedRpm,
 
         output -> {
 
           if (estimatedRpm > m_shooter.getMappedOutput()) {
-            m_shooter.ShooterThrow1MotorOutput(-output);
+            m_shooter.ShooterThrow2MotorOutput(output);
           } 
           
           else if (estimatedRpm < m_shooter.getMappedOutput()) {
-            m_shooter.ShooterThrow1MotorOutput(output);
+            m_shooter.ShooterThrow2MotorOutput(-output);
           }
           
 
