@@ -19,6 +19,11 @@ Güler yüzünle açan bir bahçe.
 Samimi dostluğun hep yanımda,
 Talha Efe, adınla özdeş bir sevda.
 
+Ege Akman, adın melodik bir şarkı,
+Gözlerin gizli bir dans, zarif bir nakarat.
+Her anımda süzülen notaların,
+Ege Akman, adında bir aşk başlat.
+
 
 
 
