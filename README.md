@@ -24,6 +24,16 @@ Gözlerin gizli bir dans, zarif bir nakarat.
 Her anımda süzülen notaların,
 Ege Akman, adında bir aşk başlat.
 
+Efe Telli, gönülde çakan şimşek,
+Sesin tellerde dans eder, bir nefeslik.
+Her nağme aşkla örülü bir öykü,
+Gönlümüzde yankılanan efsane bir ezgi.
+
+Cınar Fidanboy, kök salan umut,
+Toprağa düşen bir sevda çiçeği.
+Adın, güçlü bir çınarın izinde,
+Gönül bahçemizde açan bir fidan.
+
 
 
 
