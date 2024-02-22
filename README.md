@@ -34,6 +34,10 @@ Toprağa düşen bir sevda çiçeği.
 Adın, güçlü bir çınarın izinde,
 Gönül bahçemizde açan bir fidan.
 
+Irfan Karabacak, adın bir melodi,
+Gönlümüzde açan güzellik bir çiçek.
+Her hece, aşkla yazılmış bir hikaye,
+Seninle örülü, sevgi dolu bir destan.
 
 
 
