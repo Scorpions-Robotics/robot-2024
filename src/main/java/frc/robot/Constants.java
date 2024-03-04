@@ -17,7 +17,7 @@ public final class Constants {
     public static final double kTurningEncoderRot2Rad = kTurningMotorGearRatio * 2 * Math.PI;
     public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60;
     public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60;
-    public static final double kPTurning = 1;
+    public static final double kPTurning = 0.5;
   }
 
   //bura acil konf
@@ -73,14 +73,14 @@ public final class Constants {
         public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = -0.216064;
         public static final double kBackRightDriveAbsoluteEncoderOffsetRad = -0.126221;
 
-        public static final double kPhysicalMaxSpeedMetersPerSecond = 15;
-        public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
+        public static final double kPhysicalMaxSpeedMetersPerSecond = 3;
+        public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 4 * 2 * Math.PI;
 
         public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 4;
         public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = //
                 kPhysicalMaxAngularSpeedRadiansPerSecond / 4;
-        public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
-        public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
+        public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 10;
+        public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 10;
     }
 
     //bura acil

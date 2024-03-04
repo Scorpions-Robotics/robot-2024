@@ -54,7 +54,11 @@ double absoluteEncoderOffsetRad;
 
         turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0);
         turningPidController.enableContinuousInput(-Math.PI, Math.PI);
-  }
+        driveMotor.setOpenLoopRampRate(0.5);
+        turningMotor.setOpenLoopRampRate(0.5);
+
+
+      }
 
    public double getDrivePosition() {
     return driveEncoder.getPosition();
@@ -103,11 +107,11 @@ double absoluteEncoderOffsetRad;
             return;
         }
         state = SwerveModuleState.optimize(state, getState().angle);
-        driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
-        turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
+        driveMotor.set( 3 * (state.speedMetersPerSecond) / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
+        turningMotor.set((turningPidController.calculate(getTurningPosition(), state.angle.getRadians())));
         SmartDashboard.putString("Swerve[" + absoluteEncoder.getDeviceID() + "] state", state.toString());
-        SmartDashboard.putNumber("status", getTurningPosition());
-        SmartDashboard.putNumber("digeri", state.angle.getRadians());
+        SmartDashboard.putNumber("status", (state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond)* 3);
+        SmartDashboard.putNumber("digeri", turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
     }
 
 
