@@ -2,15 +2,14 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
 
-public static CANSparkMax ShooterThrowMotor = new CANSparkMax(Constants.ports.shooter_motor_2, MotorType.kBrushless);
-public static CANSparkMax ShooterAngleMotor = new CANSparkMax(Constants.ports.shooter_motor_1, MotorType.kBrushless);
+public static CANSparkMax ShooterThrowMotor = new CANSparkMax(Constants.ports.shooter_motor_2, com.revrobotics.CANSparkLowLevel.MotorType.kBrushless);
+public static CANSparkMax ShooterAngleMotor = new CANSparkMax(Constants.ports.shooter_motor_1, com.revrobotics.CANSparkLowLevel.MotorType.kBrushless);
 
 public RelativeEncoder ShooterThrowEncoder;
 public RelativeEncoder ShooterAngleEncoder;
