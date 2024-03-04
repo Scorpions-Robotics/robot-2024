@@ -118,6 +118,7 @@ public final class Constants {
     public static final int intake_motor_2 = 0;
     public static final int shooter_motor_1 = 0;
     public static final int shooter_motor_2 = 0;
+    public static final int shooter_motor_3 = 0;
 
   }
 
