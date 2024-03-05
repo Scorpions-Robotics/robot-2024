@@ -20,11 +20,11 @@ public class PidIntakeCommand extends PIDCommand {
         
         output -> {
           if (position > m_intake.getRawEncoderOutput()) {
-            m_intake.NewIntakeMotorOutput(-output);
+            m_intake.NewIntakeMotorOutput(output);
           } 
           
           else if (position < m_intake.getRawEncoderOutput()) {
-            m_intake.NewIntakeMotorOutput(output);
+            m_intake.NewIntakeMotorOutput(-output);
           }
           
         });

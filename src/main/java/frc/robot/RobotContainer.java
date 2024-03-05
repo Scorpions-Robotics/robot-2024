@@ -51,6 +51,8 @@ public class RobotContainer {
 
   private void configureBindings() {
     new JoystickButton(driverJoytick, 2).whileTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+    new JoystickButton(driverJoytick, 3).whileTrue(new PidIntakeCommand(m_intake, 20));
+    new JoystickButton(driverJoytick, 3).whileFalse(new InstantCommand(() -> m_intake.StopAngleMotor()));
 
     new JoystickButton(driverJoytick, 4).whileTrue(new InstantCommand(()-> m_intake.reset()));
 
