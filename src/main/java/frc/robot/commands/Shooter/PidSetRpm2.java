@@ -20,11 +20,11 @@ public class PidSetRpm2 extends PIDCommand {
 
         output -> {
 
-          if (estimatedRpm > m_shooter.getMappedOutput()) {
+          if (estimatedRpm < m_shooter.getMappedOutput()) {
             m_shooter.ShooterThrow2MotorOutput(output);
           } 
           
-          else if (estimatedRpm < m_shooter.getMappedOutput()) {
+          else if (estimatedRpm > m_shooter.getMappedOutput()) {
             m_shooter.ShooterThrow2MotorOutput(-output);
           }
           

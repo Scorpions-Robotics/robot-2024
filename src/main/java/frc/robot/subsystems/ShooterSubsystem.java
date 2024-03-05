@@ -4,15 +4,16 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
 
-public static CANSparkMax ShooterAngleMotor = new CANSparkMax(Constants.ports.shooter_motor_1, MotorType.kBrushless);
-public static CANSparkMax ShooterThrowMotor1 = new CANSparkMax(Constants.ports.shooter_motor_2, MotorType.kBrushless);
-public static CANSparkMax ShooterThrowMotor2 = new CANSparkMax(Constants.ports.shooter_motor_3, MotorType.kBrushless);
-
+public static CANSparkMax ShooterAngleMotor = new CANSparkMax(Constants.ports.shooter_motor_3, MotorType.kBrushless);
+public static CANSparkMax ShooterThrowMotor1 = new CANSparkMax(Constants.ports.shooter_motor_1, MotorType.kBrushless);
+public static CANSparkMax ShooterThrowMotor2 = new CANSparkMax(Constants.ports.shooter_motor_2, MotorType.kBrushless);
 
 public RelativeEncoder ShooterThrow1Encoder;
 public RelativeEncoder ShooterThrow2Encoder;
@@ -20,11 +21,13 @@ public RelativeEncoder ShooterAngleEncoder;
 
   public ShooterSubsystem() {
   
-    ShooterAngleMotor.setIdleMode(IdleMode.kBrake);
+    ShooterAngleMotor.setIdleMode(IdleMode.kCoast);
     ShooterAngleEncoder = ShooterAngleMotor.getEncoder();
     ShooterThrow1Encoder = ShooterThrowMotor1.getEncoder();
     ShooterThrow2Encoder = ShooterThrowMotor2.getEncoder();
     ShooterAngleMotor.setOpenLoopRampRate(Constants.values.shooter.AngleMotorOpenLoopRampRate);
+
+
   }
 
 
@@ -62,7 +65,7 @@ public RelativeEncoder ShooterAngleEncoder;
   }
   
   public double getRpmOutput1(){
-    return ShooterThrow1Encoder.getVelocity() * 600 / 4096.0;
+    return ShooterThrow1Encoder.getVelocity();
   }
   public double getRpmOutput2(){
     return ShooterThrow2Encoder.getVelocity() * 600 / 4096.0;
@@ -71,7 +74,13 @@ public RelativeEncoder ShooterAngleEncoder;
     public void ShooterThrow1MotorOutput(double value){
       ShooterThrowMotor1.set(value);
     }
+
     public void ShooterThrow2MotorOutput(double value){
+      ShooterThrowMotor2.set(value);
+    }
+
+    public void ShooterThrowMotorOutput(double value){
+      ShooterThrowMotor1.set(value);
       ShooterThrowMotor2.set(value);
     }
 
@@ -102,6 +111,8 @@ public RelativeEncoder ShooterAngleEncoder;
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("shooter rpm 1",getRpmOutput1());
+    SmartDashboard.putNumber("shooter rpm 2",getRpmOutput2());
 
   }
 }

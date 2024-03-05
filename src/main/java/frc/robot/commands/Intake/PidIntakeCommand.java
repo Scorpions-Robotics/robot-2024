@@ -3,6 +3,7 @@ package frc.robot.commands.Intake;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants;
+import frc.robot.Constants.controller;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class PidIntakeCommand extends PIDCommand {
@@ -14,15 +15,15 @@ public class PidIntakeCommand extends PIDCommand {
         new PIDController(Constants.values.intake.PidIntakeKP,
          Constants.values.intake.PidIntakeKI,
           Constants.values.intake.PidIntakeKD),
-        () -> m_intake.getMappedOutput(),
+        () -> m_intake.getRawEncoderOutput(),
         () -> position,
         
         output -> {
-          if (position > m_intake.getMappedOutput()) {
+          if (position > m_intake.getRawEncoderOutput()) {
             m_intake.NewIntakeMotorOutput(-output);
           } 
           
-          else if (position < m_intake.getMappedOutput()) {
+          else if (position < m_intake.getRawEncoderOutput()) {
             m_intake.NewIntakeMotorOutput(output);
           }
           
@@ -34,6 +35,6 @@ public class PidIntakeCommand extends PIDCommand {
   
   @Override
   public boolean isFinished() {
-    return false;
+    return getController().atSetpoint();
   }
 }

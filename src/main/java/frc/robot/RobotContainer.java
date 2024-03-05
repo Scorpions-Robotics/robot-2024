@@ -19,13 +19,18 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.Intake.PidIntakeCommand;
+import frc.robot.commands.Shooter.PidSetRpm;
 import frc.robot.commands.Swerve.SwerveJoystickCmd;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class RobotContainer {
+        private final IntakeSubsystem m_intake = new IntakeSubsystem(); 
+        private final ShooterSubsystem m_shooter = new ShooterSubsystem(); 
    private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
     private final XboxController driverJoytick = new XboxController(1);  
-    JoystickButton buton1 = new JoystickButton(driverJoytick,2);
 
   public RobotContainer() {
 
@@ -41,8 +46,21 @@ public class RobotContainer {
   }
 
 
+
+
+
   private void configureBindings() {
     new JoystickButton(driverJoytick, 2).whileTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+
+    new JoystickButton(driverJoytick, 4).whileTrue(new InstantCommand(()-> m_intake.reset()));
+
+   // new JoystickButton(driverJoytick, 3).whileTrue(new InstantCommand(()->m_shooter.ShooterThrowMotorOutput(0.8)));
+    //new JoystickButton(driverJoytick, 3).whileFalse(new InstantCommand(()->m_shooter.ShooterThrowAllMotorStop()));
+
+
+
+
+
   }
 
 

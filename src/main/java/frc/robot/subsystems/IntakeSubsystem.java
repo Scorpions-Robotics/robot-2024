@@ -4,14 +4,16 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
 // intake nota motorları
-public static CANSparkMax intakeMotor1 = new CANSparkMax(0, MotorType.kBrushless);
+public static CANSparkMax intakeMotor1 = new CANSparkMax(Constants.ports.intake_motor_note, MotorType.kBrushless);
 //intake main motor
-public static CANSparkMax intakeMotor = new CANSparkMax(0, MotorType.kBrushless);
+public static CANSparkMax intakeMotor = new CANSparkMax(Constants.ports.intake_motor_angle, MotorType.kBrushless);
 public RelativeEncoder IntakeEncoder;
 
   public IntakeSubsystem() {
@@ -49,9 +51,12 @@ public RelativeEncoder IntakeEncoder;
       intakeMotor1.set(0);
     }
 
+    public void StopAngleMotor(){
+      intakeMotor.set(0);
+    }
   
   @Override
   public void periodic() {
-   
+   SmartDashboard.putNumber("intake", getRawEncoderOutput());
   }
 }

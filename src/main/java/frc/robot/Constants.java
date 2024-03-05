@@ -114,11 +114,11 @@ public final class Constants {
 
 
   public static class ports {
-    public static final int intake_motor_1 = 0;
-    public static final int intake_motor_2 = 0;
-    public static final int shooter_motor_1 = 0;
-    public static final int shooter_motor_2 = 0;
-    public static final int shooter_motor_3 = 0;
+    public static final int intake_motor_note = 0;
+    public static final int intake_motor_angle = 14;
+    public static final int shooter_motor_1 = 6;
+    public static final int shooter_motor_2 = 5;
+    public static final int shooter_motor_3 = 15;
 
   }
 
@@ -157,7 +157,7 @@ public static class shooter {
   public static final double PidShooterShootKP = 1;
   public static final double PidShooterShootKI = 0;
   public static final double PidShooterShootKD = 0;
-  public static final double PidShooterRPMTolerance = 5;
+  public static final double PidShooterRPMTolerance = 25;
 
 }
 
