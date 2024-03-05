@@ -11,7 +11,7 @@ import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
 // intake nota motorları
-public static CANSparkMax intakeMotor1 = new CANSparkMax(Constants.ports.intake_motor_note, MotorType.kBrushless);
+public static CANSparkMax intakeMotor1 = new CANSparkMax(12, MotorType.kBrushless);
 //intake main motor
 public static CANSparkMax intakeMotor = new CANSparkMax(Constants.ports.intake_motor_angle, MotorType.kBrushless);
 public RelativeEncoder IntakeEncoder;
@@ -46,6 +46,11 @@ public RelativeEncoder IntakeEncoder;
     public void getNote(){
       intakeMotor1.set(Constants.values.intake.GetNoteValue);
     }
+    public void runpickupmotor(double a){
+
+      intakeMotor1.set(a);
+
+    }
 
     public void StopNoteMotor(){
       intakeMotor1.set(0);
@@ -57,6 +62,6 @@ public RelativeEncoder IntakeEncoder;
   
   @Override
   public void periodic() {
-   SmartDashboard.putNumber("intake", getRawEncoderOutput());
+SmartDashboard.putNumber("intake", getRawEncoderOutput());   
   }
 }

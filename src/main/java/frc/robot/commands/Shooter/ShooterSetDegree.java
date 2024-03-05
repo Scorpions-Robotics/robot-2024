@@ -17,14 +17,7 @@ public class ShooterSetDegree extends PIDCommand {
         () -> angle,
         output -> {
 
-          if (angle > m_shooter.getMappedOutput()) {
-            m_shooter.ShooterAngleMotorOutput(-output);
-          } 
-          
-          else if (angle < m_shooter.getMappedOutput()) {
-            m_shooter.ShooterAngleMotorOutput(output);
-          }
-
+          m_shooter.ShooterAngleMotorOutput(output*-.2);
 
         });
         addRequirements(m_shooter);
@@ -33,6 +26,6 @@ public class ShooterSetDegree extends PIDCommand {
 
   @Override
   public boolean isFinished() {
-    return false;
+    return getController().atSetpoint();
   }
 }

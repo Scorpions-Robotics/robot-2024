@@ -12,19 +12,19 @@ public class PidIntakeCommand extends PIDCommand {
   public PidIntakeCommand(IntakeSubsystem m_intake, double position) {
     super(
        
-        new PIDController(Constants.values.intake.PidIntakeKP,
+        new PIDController(0.05,
          Constants.values.intake.PidIntakeKI,
           Constants.values.intake.PidIntakeKD),
         () -> m_intake.getRawEncoderOutput(),
         () -> position,
         
         output -> {
-          if (position > m_intake.getRawEncoderOutput()) {
-            m_intake.NewIntakeMotorOutput(output);
+          if (position > -m_intake.getRawEncoderOutput()) {
+            m_intake.NewIntakeMotorOutput(output * 0.5);
           } 
           
-          else if (position < m_intake.getRawEncoderOutput()) {
-            m_intake.NewIntakeMotorOutput(-output);
+          else if (position < -m_intake.getRawEncoderOutput()) {
+            m_intake.NewIntakeMotorOutput(-output * 0.5);
           }
           
         });
@@ -35,6 +35,6 @@ public class PidIntakeCommand extends PIDCommand {
   
   @Override
   public boolean isFinished() {
-    return getController().atSetpoint();
+    return false;
   }
 }

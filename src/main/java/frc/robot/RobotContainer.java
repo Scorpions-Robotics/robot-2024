@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -21,16 +22,21 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.Intake.PidIntakeCommand;
 import frc.robot.commands.Shooter.PidSetRpm;
+import frc.robot.commands.Shooter.ShooterSetDegree;
 import frc.robot.commands.Swerve.SwerveJoystickCmd;
+import frc.robot.commands.common.FeedingPosition;
+import frc.robot.commands.common.IntakeInputPosition;
+import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.SwerveSubsystem;    
 
 public class RobotContainer {
         private final IntakeSubsystem m_intake = new IntakeSubsystem(); 
         private final ShooterSubsystem m_shooter = new ShooterSubsystem(); 
    private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
     private final XboxController driverJoytick = new XboxController(1);  
+    private final FeederSubsystem m_feeder = new FeederSubsystem();
 
   public RobotContainer() {
 
@@ -48,20 +54,35 @@ public class RobotContainer {
 
 
 
-
   private void configureBindings() {
-    new JoystickButton(driverJoytick, 2).whileTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
-    new JoystickButton(driverJoytick, 3).whileTrue(new PidIntakeCommand(m_intake, 20));
-    new JoystickButton(driverJoytick, 3).whileFalse(new InstantCommand(() -> m_intake.StopAngleMotor()));
+    //new JoystickButton(driverJoytick, 2).whileTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+    
+    //new JoystickButton(driverJoytick, 3).whileTrue(new PidIntakeCommand(m_intake, 20));
+    //new JoystickButton(driverJoytick, 3).whileFalse(new InstantCommand(() -> m_intake.StopAngleMotor()));
+    //new JoystickButton(driverJoytick, 4).whileTrue(new InstantCommand(()-> m_intake.reset()));
+    //new JoystickButton(driverJoytick, 5).whileTrue(new InstantCommand(()-> m_shooter.AngleEncoderReset()));
+    //new JoystickButton(driverJoytick, 6).whileTrue(new InstantCommand(()-> m_feeder.backward()));
+  // new JoystickButton(driverJoytick, 3).whileTrue(new InstantCommand(()->m_shooter.ShooterThrowMotorOutput(0.7)));
 
-    new JoystickButton(driverJoytick, 4).whileTrue(new InstantCommand(()-> m_intake.reset()));
+   //new JoystickButton(driverJoytick, 3).whileFalse(new InstantCommand(()->m_shooter.ShooterThrowAllMotorStop()));
+    new JoystickButton(driverJoytick, 1).whileTrue(new IntakeInputPosition(m_intake));
+    new JoystickButton(driverJoytick, 4).whileTrue(new ShooterSetDegree(m_shooter, 50.0));
 
-   // new JoystickButton(driverJoytick, 3).whileTrue(new InstantCommand(()->m_shooter.ShooterThrowMotorOutput(0.8)));
-    //new JoystickButton(driverJoytick, 3).whileFalse(new InstantCommand(()->m_shooter.ShooterThrowAllMotorStop()));
+    new JoystickButton(driverJoytick, 1).whileFalse(new InstantCommand(()->m_intake.StopAngleMotor()));
+    new JoystickButton(driverJoytick, 2).whileTrue(new InstantCommand(()->m_intake.reset()));
+    new JoystickButton(driverJoytick, 2).whileTrue(new InstantCommand(()->m_shooter.AngleEncoderReset()));
 
+   // new JoystickButton(driverJoytick, 1).whileTrue(new InstantCommand(()->m_shooter.AngleEncoderReset()));
+    //new JoystickButton(driverJoytick, 2).whileTrue(new IntakeInputPosition(m_intake));
+    //new JoystickButton(driverJoytick, 3).whileTrue(new FeedingPosition(m_shooter,m_intake));
+  //  new JoystickButton(driverJoytick, 4).whileTrue(new RunCommand(()-> m_feeder.forward()));
+   // new JoystickButton(driverJoytick, 5).whileTrue(new RunCommand(()-> m_feeder.backward()));
+   // new JoystickButton(driverJoytick, 4).whileFalse(new RunCommand(()-> m_feeder.stop()));
+    new JoystickButton(driverJoytick, 5).whileTrue(new InstantCommand(()-> m_intake.runpickupmotor(0.5)));
+    new JoystickButton(driverJoytick, 5).whileFalse(new InstantCommand(()-> m_intake.runpickupmotor(0.0)));
 
-
-
+    new JoystickButton(driverJoytick, 6).whileTrue(new InstantCommand(()-> m_feeder.backward()));
+    new JoystickButton(driverJoytick, 6).whileFalse(new InstantCommand(()->  m_feeder.stop()));
 
   }
 

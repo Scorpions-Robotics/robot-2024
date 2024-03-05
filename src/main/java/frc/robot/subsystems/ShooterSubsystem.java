@@ -8,6 +8,7 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.values.shooter;
 
 public class ShooterSubsystem extends SubsystemBase {
 
@@ -21,7 +22,7 @@ public RelativeEncoder ShooterAngleEncoder;
 
   public ShooterSubsystem() {
   
-    ShooterAngleMotor.setIdleMode(IdleMode.kCoast);
+    ShooterAngleMotor.setIdleMode(IdleMode.kBrake);
     ShooterAngleEncoder = ShooterAngleMotor.getEncoder();
     ShooterThrow1Encoder = ShooterThrowMotor1.getEncoder();
     ShooterThrow2Encoder = ShooterThrowMotor2.getEncoder();
@@ -64,6 +65,7 @@ public RelativeEncoder ShooterAngleEncoder;
     ShooterAngleEncoder.setPosition(0);
   }
   
+  
   public double getRpmOutput1(){
     return ShooterThrow1Encoder.getVelocity();
   }
@@ -87,6 +89,7 @@ public RelativeEncoder ShooterAngleEncoder;
     public void ShooterAngleMotorOutput(double value){
       ShooterAngleMotor.set(value);
     }
+    
     public void ShooterThrow1MotorStop(){
       ShooterThrowMotor1.set(0);
     }
@@ -113,6 +116,6 @@ public RelativeEncoder ShooterAngleEncoder;
   public void periodic() {
     SmartDashboard.putNumber("shooter rpm 1",getRpmOutput1());
     SmartDashboard.putNumber("shooter rpm 2",getRpmOutput2());
-
+    SmartDashboard.putNumber("Shooter degree", getMappedOutput());
   }
 }
