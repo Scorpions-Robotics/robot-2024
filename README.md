@@ -1,3 +1,7 @@
+# Robot Haritası
+![image](https://github.com/Scorpions-Robotics/robot-2024/assets/61086421/ecf17de0-20fe-4555-99c7-9956c77b64e8)
+
+# Şiir
 Yener, adın kalbimde çiçek açan bir melodi,
 Gözlerinde gizli aşkın en güzel hikayesi.
 Sensiz geçen anlar bomboş, karanlık bir gece,
@@ -39,5 +43,7 @@ Gönlümüzde açan güzellik bir çiçek.
 Her hece, aşkla yazılmış bir hikaye,
 Seninle örülü, sevgi dolu bir destan.
 
+# Zuzaylı
+![image](https://github.com/Scorpions-Robotics/robot-2024/assets/61086421/6206e704-9f92-4a80-91e4-34bd9e8fbb39)
 
 
