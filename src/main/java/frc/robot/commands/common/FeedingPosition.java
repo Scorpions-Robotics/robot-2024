@@ -11,7 +11,7 @@ public class FeedingPosition extends SequentialCommandGroup {
 
     addCommands(
     new PidIntakeCommand(m_intake,1.2)
-    .alongWith(new ShooterSetDegree(m_shooter, -7.6))
+    .alongWith(new ShooterSetDegree(m_shooter, -9.0))
     );
   }
 }

@@ -66,7 +66,8 @@ public class RobotContainer {
 
    //new JoystickButton(driverJoytick, 3).whileFalse(new InstantCommand(()->m_shooter.ShooterThrowAllMotorStop()));
     new JoystickButton(driverJoytick, 1).whileTrue(new IntakeInputPosition(m_intake));
-    new JoystickButton(driverJoytick, 4).whileTrue(new ShooterSetDegree(m_shooter, 50.0));
+    new JoystickButton(driverJoytick, 3).whileTrue(new ShooterSetDegree(m_shooter, 50.0));
+    new JoystickButton(driverJoytick, 4).whileTrue(new FeedingPosition(m_shooter, m_intake));
 
     new JoystickButton(driverJoytick, 1).whileFalse(new InstantCommand(()->m_intake.StopAngleMotor()));
     new JoystickButton(driverJoytick, 2).whileTrue(new InstantCommand(()->m_intake.reset()));
