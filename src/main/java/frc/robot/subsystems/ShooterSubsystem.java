@@ -5,6 +5,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -20,15 +21,25 @@ public RelativeEncoder ShooterThrow1Encoder;
 public RelativeEncoder ShooterThrow2Encoder;
 public RelativeEncoder ShooterAngleEncoder;
 
+DigitalInput shooterswitch = new DigitalInput(8);
+
+public void setencodervalue(double value){
+  ShooterAngleEncoder.setPosition(value);
+}
+
   public ShooterSubsystem() {
-  
     ShooterAngleMotor.setIdleMode(IdleMode.kBrake);
     ShooterAngleEncoder = ShooterAngleMotor.getEncoder();
     ShooterThrow1Encoder = ShooterThrowMotor1.getEncoder();
     ShooterThrow2Encoder = ShooterThrowMotor2.getEncoder();
     ShooterAngleMotor.setOpenLoopRampRate(Constants.values.shooter.AngleMotorOpenLoopRampRate);
+    setencodervalue(0.525);
 
 
+  }
+
+  public boolean getshooterswitchvalue(){
+    return shooterswitch.get();
   }
 
 
@@ -106,16 +117,18 @@ public RelativeEncoder ShooterAngleEncoder;
     }
 
 
-    public double calculateShootingRpm(double measure){
-      //bugunluk bu kadar yeter.
-      return 0;
-
-    }
-
   @Override
   public void periodic() {
     SmartDashboard.putNumber("shooter rpm 1",getRpmOutput1());
     SmartDashboard.putNumber("shooter rpm 2",getRpmOutput2());
     SmartDashboard.putNumber("Shooter degree", getMappedOutput());
+
+
+if(getshooterswitchvalue()){
+  ShooterAngleEncoder.setPosition(0);
   }
+SmartDashboard.putBoolean("deger", getshooterswitchvalue());
+
+}
+
 }

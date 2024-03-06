@@ -7,6 +7,6 @@ import frc.robot.subsystems.IntakeSubsystem;
 
 public class IntakeInputPosition extends SequentialCommandGroup {
   public IntakeInputPosition(IntakeSubsystem m_intake) {
-    addCommands(new PidIntakeCommand(m_intake, 13.3));
+    addCommands(new PidIntakeCommand(m_intake, 11.0));
   }
 }

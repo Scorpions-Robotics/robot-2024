@@ -10,14 +10,14 @@ public class ShooterSetDegree extends PIDCommand {
   public ShooterSetDegree(ShooterSubsystem m_shooter, Double angle) {
     super(
 
-    new PIDController(Constants.values.shooter.PidShooterAngleKP,
-         Constants.values.shooter.PidShooterAngleKI,
+    new PIDController(0.04,
+         0.01,
           Constants.values.shooter.PidShooterAngleKD),
         () -> m_shooter.getMappedOutput(),
         () -> angle,
         output -> {
 
-          m_shooter.ShooterAngleMotorOutput(output*-.2);
+          m_shooter.ShooterAngleMotorOutput(output*-.13);
 
         });
         addRequirements(m_shooter);

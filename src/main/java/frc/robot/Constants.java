@@ -139,7 +139,7 @@ public final class Constants {
 
     public static class intake {
     public static final double GetNoteValue = 1;
-    public static final double PidIntakeTolerance = 3;
+    public static final double PidIntakeTolerance = 1;
     public static final double PidIntakeKP = 1;
     public static final double PidIntakeKI = 0;
     public static final double PidIntakeKD = 0;
@@ -149,7 +149,7 @@ public final class Constants {
 
 public static class shooter {
   public static final double AngleMotorOpenLoopRampRate = 0.5;
-  public static final double PidShooterAngleTolerance = 1;
+  public static final double PidShooterAngleTolerance = 0.1;
   public static final double PidShooterAngleKP = 0.05;
   public static final double PidShooterAngleKI = 0;
   public static final double PidShooterAngleKD = 0;
