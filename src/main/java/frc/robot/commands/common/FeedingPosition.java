@@ -13,14 +13,14 @@ public class FeedingPosition extends SequentialCommandGroup {
 
     addCommands(
       //1.8
-      new PidIntakeCommand(m_intake, 1.2)
-      .alongWith(new ShooterSetDegree(m_shooter, -1.15))
+     ( new PidIntakeCommand(m_intake, 1.2)
+      
     //-3.8
     .andThen(
       new InstantCommand(()->m_feeder.runtillswitch()).alongWith(new InstantCommand(() -> m_intake.NewIntakeMotorOutput(0.4)))
+      //ShooterSetDegree(m_shooter, -1.15)
       
-      
-      
+    )
       
       
       )

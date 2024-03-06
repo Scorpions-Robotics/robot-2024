@@ -115,7 +115,13 @@ public void setencodervalue(double value){
     public void ShooterAngleMotorStop(){
       ShooterAngleMotor.set(0);
     }
-
+    public void ShootertoFeederPos(){
+      if(!shooterswitch.get()){
+        ShooterAngleMotor.set(0.1);
+      }else{
+        ShooterAngleMotor.stopMotor();
+      }
+    }
 
   @Override
   public void periodic() {

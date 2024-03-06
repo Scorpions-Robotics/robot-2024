@@ -27,6 +27,7 @@ import frc.robot.commands.Shooter.ShooterSetDegree;
 import frc.robot.commands.Swerve.SwerveJoystickCmd;
 import frc.robot.commands.common.FeedingPosition;
 import frc.robot.commands.common.IntakeInputPosition;
+import frc.robot.commands.common.dalhacan;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -67,7 +68,7 @@ public class RobotContainer {
 
    new JoystickButton(driverJoytick, 10).whileFalse(new InstantCommand(()->m_shooter.ShooterThrowAllMotorStop()));
    
-   new JoystickButton(driverJoytick, 1).whileTrue(new IntakeInputPosition(m_intake));
+   new JoystickButton(driverJoytick, 1).whileTrue(new dalhacan(m_intake, m_shooter));
     new JoystickButton(driverJoytick, 3).whileTrue(new ShooterSetDegree(m_shooter, 160.0));
     new JoystickButton(driverJoytick, 4).whileTrue(new FeedingPosition(m_shooter, m_feeder,m_intake));
 
