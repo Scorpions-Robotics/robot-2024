@@ -50,11 +50,11 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void getNote() {
-    intakeMotor1.set(Constants.values.intake.GetNoteValue);
+    intakeMotor1.set(0.3);
   }
 
   public void degistir() {
-    tekcalisma = false;
+    tekcalisma = true;
   }
 
   public void degistirmee() {
@@ -62,6 +62,8 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void runpickupmotorswitch(double a) {
+
+
     if (tekcalisma) {
       while ((intakedetector1.get() && intakedetector2.get())) {
         intakeMotor1.set(a);
@@ -97,6 +99,8 @@ public class IntakeSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("intake", getRawEncoderOutput());
     SmartDashboard.putBoolean("intake switch1", intakeswitch1());
     SmartDashboard.putBoolean("intake switch2", intakeswitch2());
+
+    SmartDashboard.putBoolean("degistirme", tekcalisma);
 
   }
 }

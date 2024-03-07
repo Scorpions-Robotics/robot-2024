@@ -2,6 +2,8 @@ package frc.robot;
 
 import java.util.List;
 
+import javax.management.RuntimeErrorException;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -23,6 +25,7 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.Intake.PidIntakeCommand;
+import frc.robot.commands.Intake.RunTillSwitch;
 import frc.robot.commands.Shooter.PidSetRpm;
 import frc.robot.commands.Shooter.ShooterSetDegree;
 import frc.robot.commands.Swerve.SwerveJoystickCmd;
@@ -39,7 +42,7 @@ public class RobotContainer {
         private final IntakeSubsystem m_intake = new IntakeSubsystem();
         private final ShooterSubsystem m_shooter = new ShooterSubsystem();
         private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-        private final XboxController driverJoytick = new XboxController(0);
+        private final XboxController driverJoytick = new XboxController(1);
         private final FeederSubsystem m_feeder = new FeederSubsystem();
 
         public RobotContainer() {
@@ -100,11 +103,6 @@ public class RobotContainer {
                 // m_feeder.stop()));
                 new JoystickButton(driverJoytick, 9).whileTrue(new cinarcan(m_intake, m_feeder));
                 new JoystickButton(driverJoytick, 9).whileFalse(new cinarcan(m_intake, m_feeder));
-                new JoystickButton(driverJoytick, 5)
-                                .whileTrue(new InstantCommand(() -> m_intake.runpickupmotorswitch(0.5)));
-                new JoystickButton(driverJoytick, 5)
-                                .whileFalse(new InstantCommand(() -> m_intake.runpickupmotorswitch(0)));
-                new JoystickButton(driverJoytick, 5).onTrue(new InstantCommand(() -> m_intake.degistir()));
 
    // new JoystickButton(driverJoytick, 1).whileTrue(new InstantCommand(()->m_shooter.AngleEncoderReset()));
     //new JoystickButton(driverJoytick, 2).whileTrue(new IntakeInputPosition(m_intake));
@@ -114,9 +112,10 @@ public class RobotContainer {
    // new JoystickButton(driverJoytick, 4).whileFalse(new RunCommand(()-> m_feeder.stop()));
    // new JoystickButton(driverJoytick, 9).whileTrue(new cinarcan(m_intake, m_feeder));
     //new JoystickButton(driverJoytick, 9).whileFalse(new cinarcan(m_intake, m_feeder));
-    new JoystickButton(driverJoytick, 5).whileTrue(new InstantCommand(()-> m_intake.runpickupmotorswitch(0.5)));
-    new JoystickButton(driverJoytick, 5).whileFalse(new InstantCommand(()-> m_intake.runpickupmotorswitch(0)));
-        new JoystickButton(driverJoytick, 5).onTrue(new InstantCommand(()-> m_intake.degistir()));
+    new JoystickButton(driverJoytick, 5).whileTrue(new RunTillSwitch(m_intake));
+    new JoystickButton(driverJoytick, 5).whileFalse(new InstantCommand(()-> m_intake.StopNoteMotor()));
+
+   // new JoystickButton(driverJoytick, 5).onTrue(new InstantCommand(()-> m_intake.degistir()));
 
                 new JoystickButton(driverJoytick, 6).whileTrue(new InstantCommand(() -> m_feeder.runtillswitch()));
                 new JoystickButton(driverJoytick, 6).whileFalse(new InstantCommand(() -> m_feeder.stop()));
