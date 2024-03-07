@@ -13,6 +13,7 @@ public class FeederSubsystem extends SubsystemBase {
   public boolean magstatus;
   public boolean count;
   IntakeSubsystem m_intake;
+  boolean tekcalisma ;
   //public AnalogInput intechedetector = new AnalogInput(0);
   
 
@@ -27,18 +28,20 @@ public class FeederSubsystem extends SubsystemBase {
   public void backward(){
     feedmotor.set(-0.8);
   }
-
+  
   public void runtillswitch(){
-     
-  while((detector.get())){
-  feedmotor.set(-0.8);
+while((detector.get())){
+  feedmotor.set(-0.5);
 
   
 }
 feedmotor.set(0); 
 
 
-  }
+  
+
+   }  
+  
   //while((detector.getValue() > 250)&&(intechedetector.getValue() < 2000)){
   //feedmotor.set(-0.8);
 

@@ -86,8 +86,8 @@ public class RobotContainer {
   //  new JoystickButton(driverJoytick, 4).whileTrue(new RunCommand(()-> m_feeder.forward()));
    // new JoystickButton(driverJoytick, 5).whileTrue(new RunCommand(()-> m_feeder.backward()));
    // new JoystickButton(driverJoytick, 4).whileFalse(new RunCommand(()-> m_feeder.stop()));
-    new JoystickButton(driverJoytick, 9).whileTrue(new cinarcan(m_intake, m_feeder));
-    new JoystickButton(driverJoytick, 9).whileFalse(new cinarcan(m_intake, m_feeder));
+   // new JoystickButton(driverJoytick, 9).whileTrue(new cinarcan(m_intake, m_feeder));
+    //new JoystickButton(driverJoytick, 9).whileFalse(new cinarcan(m_intake, m_feeder));
     new JoystickButton(driverJoytick, 5).whileTrue(new InstantCommand(()-> m_intake.runpickupmotorswitch(0.5)));
     new JoystickButton(driverJoytick, 5).whileFalse(new InstantCommand(()-> m_intake.runpickupmotorswitch(0)));
         new JoystickButton(driverJoytick, 5).onTrue(new InstantCommand(()-> m_intake.degistir()));
@@ -96,8 +96,8 @@ public class RobotContainer {
     new JoystickButton(driverJoytick, 6).whileFalse(new InstantCommand(()->  m_feeder.stop()));
     new JoystickButton(driverJoytick, 8).whileTrue(new InstantCommand(()-> m_intake.runpickupmotor(0.8)));
     new JoystickButton(driverJoytick, 8).whileFalse(new InstantCommand(()->  m_intake.runpickupmotor(0)));
-    new JoystickButton(driverJoytick, 10).whileTrue(new InstantCommand(()-> m_feeder.backward()));
-    new JoystickButton(driverJoytick, 10).whileFalse(new InstantCommand(()-> m_feeder.stop()));
+    new JoystickButton(driverJoytick, 9).whileTrue(new InstantCommand(()-> m_feeder.backward()));
+    new JoystickButton(driverJoytick, 9).whileFalse(new InstantCommand(()-> m_feeder.stop()));
   }
 
 
