@@ -12,17 +12,17 @@ public class ResetShooterEncoder extends Command {
   }
 
   @Override
-  public void initialize() {}
-
+  public void initialize() {
+  }
 
   @Override
   public void execute() {
-  m_shooter.AngleEncoderReset();
+    m_shooter.AngleEncoderReset();
   }
 
-
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   @Override
   public boolean isFinished() {

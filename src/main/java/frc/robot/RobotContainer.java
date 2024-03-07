@@ -1,4 +1,5 @@
 package frc.robot;
+
 import java.util.List;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -32,53 +33,78 @@ import frc.robot.commands.common.dalhacan;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.SwerveSubsystem;    
+import frc.robot.subsystems.SwerveSubsystem;
 
 public class RobotContainer {
-        private final IntakeSubsystem m_intake = new IntakeSubsystem(); 
-        private final ShooterSubsystem m_shooter = new ShooterSubsystem(); 
-   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-    private final XboxController driverJoytick = new XboxController(0);  
-    private final FeederSubsystem m_feeder = new FeederSubsystem();
+        private final IntakeSubsystem m_intake = new IntakeSubsystem();
+        private final ShooterSubsystem m_shooter = new ShooterSubsystem();
+        private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+        private final XboxController driverJoytick = new XboxController(0);
+        private final FeederSubsystem m_feeder = new FeederSubsystem();
 
-  public RobotContainer() {
+        public RobotContainer() {
 
-    swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
-                swerveSubsystem,
-                () -> -driverJoytick.getRawAxis(OIConstants.kDriverYAxis),
-                () -> driverJoytick.getRawAxis(OIConstants.kDriverXAxis),
-                () -> driverJoytick.getRawAxis(OIConstants.kDriverRotAxis),
-                () -> !driverJoytick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
+                swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
+                                swerveSubsystem,
+                                () -> -driverJoytick.getRawAxis(OIConstants.kDriverYAxis),
+                                () -> driverJoytick.getRawAxis(OIConstants.kDriverXAxis),
+                                () -> driverJoytick.getRawAxis(OIConstants.kDriverRotAxis),
+                                () -> !driverJoytick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
 
-            configureBindings();
-    
-  }
+                configureBindings();
 
+        }
 
+        private void configureBindings() {
 
+                new JoystickButton(driverJoytick, 7).whileTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+                // new JoystickButton(driverJoytick, 3).whileTrue(new PidIntakeCommand(m_intake,
+                // 20));
+                // new JoystickButton(driverJoytick, 3).whileFalse(new InstantCommand(() ->
+                // m_intake.StopAngleMotor()));
+                // new JoystickButton(driverJoytick, 4).whileTrue(new InstantCommand(()->
+                // m_intake.reset()));
+                // new JoystickButton(driverJoytick, 5).whileTrue(new InstantCommand(()->
+                // m_shooter.AngleEncoderReset()));
+                // new JoystickButton(driverJoytick, 6).whileTrue(new InstantCommand(()->
+                // m_feeder.backward()));
+                new JoystickButton(driverJoytick, 10)
+                                .whileTrue(new InstantCommand(() -> m_shooter.ShooterThrowMotorOutput(0.8)));
 
-  private void configureBindings() {
+                new JoystickButton(driverJoytick, 10)
+                                .whileFalse(new InstantCommand(() -> m_shooter.ShooterThrowAllMotorStop()));
 
-    new JoystickButton(driverJoytick, 7).whileTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
-    //new JoystickButton(driverJoytick, 3).whileTrue(new PidIntakeCommand(m_intake, 20));
-    //new JoystickButton(driverJoytick, 3).whileFalse(new InstantCommand(() -> m_intake.StopAngleMotor()));
-    //new JoystickButton(driverJoytick, 4).whileTrue(new InstantCommand(()-> m_intake.reset()));
-    //new JoystickButton(driverJoytick, 5).whileTrue(new InstantCommand(()-> m_shooter.AngleEncoderReset()));
-    //new JoystickButton(driverJoytick, 6).whileTrue(new InstantCommand(()-> m_feeder.backward()));
-   new JoystickButton(driverJoytick, 10).whileTrue(new InstantCommand(()->m_shooter.ShooterThrowMotorOutput(0.8)));
+                new JoystickButton(driverJoytick, 1).whileTrue(new dalhacan(m_intake, m_shooter));
+                new JoystickButton(driverJoytick, 1).whileTrue(new InstantCommand(() -> m_intake.degistirmee()));
+                new JoystickButton(driverJoytick, 3).whileTrue(new ShooterSetDegree(m_shooter, 160.0));
+                // new JoystickButton(driverJoytick, 4).whileTrue(new cinarcan(m_intake,
+                // m_feeder));
+                new JoystickButton(driverJoytick, 4).whileTrue(new PidIntakeCommand(m_intake, 1.2));
+                new JoystickButton(driverJoytick, 4).whileTrue(new InstantCommand(() -> m_intake.degistir()));
+                new JoystickButton(driverJoytick, 1).whileFalse(new InstantCommand(() -> m_intake.StopAngleMotor()));
 
-   new JoystickButton(driverJoytick, 10).whileFalse(new InstantCommand(()->m_shooter.ShooterThrowAllMotorStop()));
-   
-   new JoystickButton(driverJoytick, 1).whileTrue(new dalhacan(m_intake, m_shooter));
-   new JoystickButton(driverJoytick, 1).whileTrue(new InstantCommand(()->m_intake.degistirmee()));
-    new JoystickButton(driverJoytick, 3).whileTrue(new ShooterSetDegree(m_shooter, 160.0));
-    //new JoystickButton(driverJoytick, 4).whileTrue(new cinarcan(m_intake, m_feeder));
-        new JoystickButton(driverJoytick, 4).whileTrue(new PidIntakeCommand(m_intake, 1.2));
-        new JoystickButton(driverJoytick, 4).whileTrue(new InstantCommand(()-> m_intake.degistir()));
-    new JoystickButton(driverJoytick, 1).whileFalse(new InstantCommand(()->m_intake.StopAngleMotor()));
+                new JoystickButton(driverJoytick, 2).whileTrue(new InstantCommand(() -> m_intake.reset()));
+                new JoystickButton(driverJoytick, 2).whileTrue(new InstantCommand(() -> m_shooter.AngleEncoderReset()));
 
-    new JoystickButton(driverJoytick, 2).whileTrue(new InstantCommand(()->m_intake.reset()));
-    new JoystickButton(driverJoytick, 2).whileTrue(new InstantCommand(()->m_shooter.AngleEncoderReset()));
+                // new JoystickButton(driverJoytick, 1).whileTrue(new
+                // InstantCommand(()->m_shooter.AngleEncoderReset()));
+                // new JoystickButton(driverJoytick, 2).whileTrue(new
+                // IntakeInputPosition(m_intake));
+                // new JoystickButton(driverJoytick, 3).whileTrue(new
+                // FeedingPosition(m_shooter,m_intake));
+                // new JoystickButton(driverJoytick, 4).whileTrue(new RunCommand(()->
+                // m_feeder.forward()));
+                // new JoystickButton(driverJoytick, 5).whileTrue(new RunCommand(()->
+                // m_feeder.backward()));
+                // new JoystickButton(driverJoytick, 4).whileFalse(new RunCommand(()->
+                // m_feeder.stop()));
+                new JoystickButton(driverJoytick, 9).whileTrue(new cinarcan(m_intake, m_feeder));
+                new JoystickButton(driverJoytick, 9).whileFalse(new cinarcan(m_intake, m_feeder));
+                new JoystickButton(driverJoytick, 5)
+                                .whileTrue(new InstantCommand(() -> m_intake.runpickupmotorswitch(0.5)));
+                new JoystickButton(driverJoytick, 5)
+                                .whileFalse(new InstantCommand(() -> m_intake.runpickupmotorswitch(0)));
+                new JoystickButton(driverJoytick, 5).onTrue(new InstantCommand(() -> m_intake.degistir()));
 
    // new JoystickButton(driverJoytick, 1).whileTrue(new InstantCommand(()->m_shooter.AngleEncoderReset()));
     //new JoystickButton(driverJoytick, 2).whileTrue(new IntakeInputPosition(m_intake));
@@ -92,15 +118,13 @@ public class RobotContainer {
     new JoystickButton(driverJoytick, 5).whileFalse(new InstantCommand(()-> m_intake.runpickupmotorswitch(0)));
         new JoystickButton(driverJoytick, 5).onTrue(new InstantCommand(()-> m_intake.degistir()));
 
-    new JoystickButton(driverJoytick, 6).whileTrue(new InstantCommand(()-> m_feeder.runtillswitch()));
-    new JoystickButton(driverJoytick, 6).whileFalse(new InstantCommand(()->  m_feeder.stop()));
-    new JoystickButton(driverJoytick, 8).whileTrue(new InstantCommand(()-> m_intake.runpickupmotor(0.8)));
-    new JoystickButton(driverJoytick, 8).whileFalse(new InstantCommand(()->  m_intake.runpickupmotor(0)));
-    new JoystickButton(driverJoytick, 9).whileTrue(new InstantCommand(()-> m_feeder.backward()));
-    new JoystickButton(driverJoytick, 9).whileFalse(new InstantCommand(()-> m_feeder.stop()));
-  }
-
-
+                new JoystickButton(driverJoytick, 6).whileTrue(new InstantCommand(() -> m_feeder.runtillswitch()));
+                new JoystickButton(driverJoytick, 6).whileFalse(new InstantCommand(() -> m_feeder.stop()));
+                new JoystickButton(driverJoytick, 8).whileTrue(new InstantCommand(() -> m_intake.runpickupmotor(0.8)));
+                new JoystickButton(driverJoytick, 8).whileFalse(new InstantCommand(() -> m_intake.runpickupmotor(0)));
+                new JoystickButton(driverJoytick, 9).whileTrue(new InstantCommand(() -> m_feeder.backward()));
+                new JoystickButton(driverJoytick, 9).whileFalse(new InstantCommand(() -> m_feeder.stop()));
+        }
 
   public Command getAutonomousCommand() {
 /* // 1. Create trajectory settings
@@ -142,5 +166,7 @@ public class RobotContainer {
                 new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectory.getInitialPose())),
                 swerveControllerCommand,
                 new InstantCommand(() -> swerveSubsystem.stopModules())); */
+
                 return null;
-    }  }
+        }
+}
