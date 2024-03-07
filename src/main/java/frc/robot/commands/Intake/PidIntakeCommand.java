@@ -26,7 +26,7 @@ public class PidIntakeCommand extends PIDCommand {
           else if (position < -m_intake.getRawEncoderOutput()) {
             m_intake.NewIntakeMotorOutput(-output * 0.8);
           }
-          
+        
         });
         addRequirements(m_intake);
         getController().setTolerance(Constants.values.intake.PidIntakeTolerance);

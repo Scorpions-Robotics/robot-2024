@@ -70,10 +70,13 @@ public class RobotContainer {
    new JoystickButton(driverJoytick, 10).whileFalse(new InstantCommand(()->m_shooter.ShooterThrowAllMotorStop()));
    
    new JoystickButton(driverJoytick, 1).whileTrue(new dalhacan(m_intake, m_shooter));
+   new JoystickButton(driverJoytick, 1).whileTrue(new InstantCommand(()->m_intake.degistirmee()));
     new JoystickButton(driverJoytick, 3).whileTrue(new ShooterSetDegree(m_shooter, 160.0));
     //new JoystickButton(driverJoytick, 4).whileTrue(new cinarcan(m_intake, m_feeder));
         new JoystickButton(driverJoytick, 4).whileTrue(new PidIntakeCommand(m_intake, 1.2));
+        new JoystickButton(driverJoytick, 4).whileTrue(new InstantCommand(()-> m_intake.degistir()));
     new JoystickButton(driverJoytick, 1).whileFalse(new InstantCommand(()->m_intake.StopAngleMotor()));
+
     new JoystickButton(driverJoytick, 2).whileTrue(new InstantCommand(()->m_intake.reset()));
     new JoystickButton(driverJoytick, 2).whileTrue(new InstantCommand(()->m_shooter.AngleEncoderReset()));
 
@@ -93,6 +96,8 @@ public class RobotContainer {
     new JoystickButton(driverJoytick, 6).whileFalse(new InstantCommand(()->  m_feeder.stop()));
     new JoystickButton(driverJoytick, 8).whileTrue(new InstantCommand(()-> m_intake.runpickupmotor(0.8)));
     new JoystickButton(driverJoytick, 8).whileFalse(new InstantCommand(()->  m_intake.runpickupmotor(0)));
+    new JoystickButton(driverJoytick, 10).whileTrue(new InstantCommand(()-> m_feeder.backward()));
+    new JoystickButton(driverJoytick, 10).whileFalse(new InstantCommand(()-> m_feeder.stop()));
   }
 
 

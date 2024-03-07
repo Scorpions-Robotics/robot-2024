@@ -57,15 +57,18 @@ public boolean tekcalisma = true;
 
 
 public void degistir(){
+tekcalisma = false;
+}
+
+public void degistirmee(){
 tekcalisma = true;
 }
 
 
 
+
     public void runpickupmotorswitch(double a){
-
-
-
+if(tekcalisma){
 while((intakedetector1.get() && intakedetector2.get())){
       intakeMotor1.set(a);
   }
@@ -73,6 +76,12 @@ while((intakedetector1.get() && intakedetector2.get())){
 
   intakeMotor1.set(0); 
 }
+
+
+}
+
+
+
         
 
 
