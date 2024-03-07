@@ -20,7 +20,10 @@ public class dalhacan extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-new InstantCommand(()->m_shooter.ShootertoFeederPos()).alongWith(new PidIntakeCommand(m_intake, 12.0)));
+new InstantCommand(()->m_shooter.ShootertoFeederPos())
+.alongWith(new PidIntakeCommand(m_intake, 12.0))
+
+    );
 
   }
 }

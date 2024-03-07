@@ -21,7 +21,7 @@ public RelativeEncoder ShooterThrow1Encoder;
 public RelativeEncoder ShooterThrow2Encoder;
 public RelativeEncoder ShooterAngleEncoder;
 
-DigitalInput shooterswitch = new DigitalInput(8);
+DigitalInput shooterswitch = new DigitalInput(7);
 
 public void setencodervalue(double value){
   ShooterAngleEncoder.setPosition(value);
