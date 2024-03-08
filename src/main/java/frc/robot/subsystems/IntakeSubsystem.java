@@ -52,7 +52,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void getNote() {
-    intakeMotor1.set(0.6);
+    intakeMotor1.set(0.67);
   }
 
   public void degistir() {

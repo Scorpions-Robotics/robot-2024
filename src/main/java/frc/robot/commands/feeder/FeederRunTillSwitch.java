@@ -10,7 +10,6 @@ import frc.robot.subsystems.FeederSubsystem;
 public class FeederRunTillSwitch extends Command {
   FeederSubsystem m_feeder;
   boolean dursunmu;
-boolean varmi = false;
 
 
   public FeederRunTillSwitch(FeederSubsystem m_feeder, boolean dursunmu) {
@@ -34,20 +33,21 @@ boolean varmi = false;
 
     ilkswitch = m_feeder.detector();
 
+if(m_feeder.varmi){
+
 
 if(!dursunmu){
 
   if(ilkswitch){
-
+    
     m_feeder.backward2();
     
         }else{
-    
+          m_feeder.varmifalse();
           m_feeder.stop();
-          varmi = true;
         }
       }
-
+}
 
 
   }

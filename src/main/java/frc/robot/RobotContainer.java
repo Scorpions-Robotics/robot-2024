@@ -79,6 +79,8 @@ public class RobotContainer {
                 new JoystickButton(driverJoytick, 6).whileFalse(new InstantCommand(()->m_intake.StopNoteMotor()));
 
                 new JoystickButton(driverJoytick, 5).whileTrue(new InstantCommand(() -> m_feeder.backward()));
+                new JoystickButton(driverJoytick, 5).whileTrue(new InstantCommand(() -> m_feeder.varmitrue()));
+
                 new JoystickButton(driverJoytick, 5).whileFalse(new InstantCommand(() -> m_feeder.stop()));
                
                
