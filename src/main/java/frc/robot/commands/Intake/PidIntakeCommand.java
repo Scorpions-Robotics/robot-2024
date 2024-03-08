@@ -34,6 +34,6 @@ public class PidIntakeCommand extends PIDCommand {
 
   @Override
   public boolean isFinished() {
-    return false;
+    return getController().atSetpoint();
   }
 }

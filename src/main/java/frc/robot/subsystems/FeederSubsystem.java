@@ -15,6 +15,8 @@ public class FeederSubsystem extends SubsystemBase {
   public boolean count;
   IntakeSubsystem m_intake;
   boolean tekcalisma ;
+  boolean dolumu = false;
+  
   //public AnalogInput intechedetector = new AnalogInput(0);
   
 
@@ -23,8 +25,18 @@ public class FeederSubsystem extends SubsystemBase {
 
   }
 
+
+  public boolean detector() {
+      return detector.get();
+  }
+
+
   public void forward() {
-    feedmotor.set(0.8);
+    feedmotor.set(0.3);
+  }
+
+  public void backward2() {
+    feedmotor.set(-0.36);
   }
 
   public void backward() {

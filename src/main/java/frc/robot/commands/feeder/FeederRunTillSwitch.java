@@ -2,21 +2,20 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Intake;
+package frc.robot.commands.feeder;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.FeederSubsystem;
 
-public class RunTillSwitch extends Command {
-  IntakeSubsystem m_intake;
+public class FeederRunTillSwitch extends Command {
+  FeederSubsystem m_feeder;
   boolean dursunmu;
 boolean varmi = false;
 
 
-  public RunTillSwitch(IntakeSubsystem m_intake, boolean dursunmu) {
+  public FeederRunTillSwitch(FeederSubsystem m_feeder, boolean dursunmu) {
 
-    this.m_intake = m_intake;
+    this.m_feeder = m_feeder;
 
   }
 
@@ -32,37 +31,25 @@ boolean varmi = false;
 
 
     boolean ilkswitch;
-    boolean ikinciswitch;
 
-    ilkswitch = m_intake.intakedetector1.get();
-    ikinciswitch = m_intake.intakedetector1.get();
-
-
+    ilkswitch = m_feeder.detector();
 
 
 if(!dursunmu){
 
-  if(ikinciswitch && ilkswitch){
+  if(ilkswitch){
 
-    m_intake.getNote();
+    m_feeder.backward2();
     
         }else{
     
-          m_intake.StopNoteMotor();
+          m_feeder.stop();
           varmi = true;
         }
       }
 
 
 
-    //  if(varmi){
-    //    m_intake.getNote();
-    //  }
-
-
-
-    SmartDashboard.putBoolean("asdadssdaasd", ilkswitch);
-    SmartDashboard.putBoolean("asdadssdaasd2222", ikinciswitch);
   }
 
   // Called once the command ends or is interrupted.
