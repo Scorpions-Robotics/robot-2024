@@ -9,7 +9,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.proto.Trajectory;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.Joystick;
@@ -34,6 +34,7 @@ import frc.robot.commands.common.IntakeInputPosition;
 import frc.robot.commands.common.dalhacan;
 import frc.robot.commands.common.fedleme;
 import frc.robot.commands.feeder.FeederRunTillSwitch;
+import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -172,7 +173,7 @@ public class RobotContainer {
         }
 
   public Command getAutonomousCommand() {
-/* // 1. Create trajectory settings
+ // 1. Create trajectory settings
         TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
                 AutoConstants.kMaxSpeedMetersPerSecond,
                 AutoConstants.kMaxAccelerationMetersPerSecondSquared)
@@ -210,8 +211,6 @@ public class RobotContainer {
         return new SequentialCommandGroup(
                 new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectory.getInitialPose())),
                 swerveControllerCommand,
-                new InstantCommand(() -> swerveSubsystem.stopModules())); */
-
-                return null;
+                new InstantCommand(() -> swerveSubsystem.stopModules()));
         }
 }

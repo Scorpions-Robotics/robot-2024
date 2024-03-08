@@ -55,16 +55,16 @@ public class SwerveSubsystem extends SubsystemBase {
       DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
 
   private final AHRS gyro = new AHRS(SerialPort.Port.kUSB);
-  /*
-   * private final SwerveDriveOdometry odometer = new
-   * SwerveDriveOdometry(DriveConstants.kDriveKinematics, new Rotation2d(0),
-   * new SwerveModulePosition[] {
-   * frontLeft.getPosition(),
-   * frontRight.getPosition(),
-   * backLeft.getPosition(),
-   * backRight.getPosition()
-   * }, new Pose2d(5.0, 13.5, new Rotation2d()));
-   */
+  
+   private final SwerveDriveOdometry odometer = new
+   SwerveDriveOdometry(DriveConstants.kDriveKinematics, new Rotation2d(0),
+   new SwerveModulePosition[] {
+   frontLeft.getPosition(),
+   frontRight.getPosition(),
+   backLeft.getPosition(),
+   backRight.getPosition()
+   }, new Pose2d(5.0, 13.5, new Rotation2d()));
+   
 
   public SwerveSubsystem() {
 
@@ -90,18 +90,19 @@ public class SwerveSubsystem extends SubsystemBase {
     return Rotation2d.fromDegrees(getHeading());
   }
 
-  /*
-   * public Pose2d getPose() {
-   * return odometer.getPoseMeters();
-   * }
-   */
+  
+   public Pose2d getPose() {
+   return odometer.getPoseMeters();
+   }
 
-  /*
-   * public void resetOdometry(Pose2d pose) {
-   * odometer.resetPosition(getRotation2d(),pose);
-   * 
-   * }
-   */
+
+  
+   public void resetOdometry(Pose2d pose) {
+    odometer.resetPosition(getRotation2d(), new SwerveModulePosition[] {
+   frontLeft.getPosition(), frontRight.getPosition(), backLeft.getPosition(), backRight.getPosition()}
+   , getPose());
+   }
+   
 
   public void stopModules() {
     frontLeft.stop();
@@ -120,14 +121,19 @@ public class SwerveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    /*
-     * odometer.update(getRotation2d(), frontLeft.getState(), frontRight.getState(),
-     * backLeft.getState(),
-     * backRight.getState());
-     * SmartDashboard.putNumber("Robot Heading", getHeading());
-     * SmartDashboard.putString("Robot Location",
-     * getPose().getTranslation().toString());
-     */
+    
+    odometer.update(getRotation2d(), new SwerveModulePosition[] {
+   frontLeft.getPosition(),
+   frontRight.getPosition(),
+   backLeft.getPosition(),
+   backRight.getPosition()
+   });
+
+
+     SmartDashboard.putNumber("Robot Heading", getHeading());
+     SmartDashboard.putString("Robot Location",
+     getPose().getTranslation().toString());
+     
     SmartDashboard.putNumber("gyro", getHeading());
 
   }
