@@ -12,10 +12,10 @@ import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
   // intake nota motorları
-  public static WPI_VictorSPX intakeMotor1 = new WPI_VictorSPX(12);
+  public static CANSparkMax intakeMotor1 = new CANSparkMax(12,MotorType.kBrushed);
   // intake main motor
   public static CANSparkMax intakeMotor = new CANSparkMax(Constants.ports.intake_motor_angle, MotorType.kBrushless);
-  
+
   public RelativeEncoder IntakeEncoder;
   public DigitalInput intakedetector1 = new DigitalInput(8);
   public DigitalInput intakedetector2 = new DigitalInput(9);
@@ -52,7 +52,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void getNote() {
-    intakeMotor1.set(0.4);
+    intakeMotor1.set(0.6);
   }
 
   public void degistir() {

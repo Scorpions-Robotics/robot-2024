@@ -44,6 +44,7 @@ public class RobotContainer {
         private final ShooterSubsystem m_shooter = new ShooterSubsystem();
         private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
         private final XboxController driverJoytick = new XboxController(1);
+        private final XboxController subJoytick = new XboxController(3);
         private final FeederSubsystem m_feeder = new FeederSubsystem();
 
         public RobotContainer() {
@@ -60,8 +61,48 @@ public class RobotContainer {
         }
 
         private void configureBindings() {
+                //Driver
+                new JoystickButton(driverJoytick, 8).whileTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+                
+                new JoystickButton(driverJoytick, 6).whileTrue(new RunTillSwitch(m_intake,false));
+               
+                new JoystickButton(driverJoytick, 6).whileFalse(new InstantCommand(()->m_intake.StopNoteMotor()));
 
-                new JoystickButton(driverJoytick, 7).whileTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+                new JoystickButton(driverJoytick, 5).whileTrue(new InstantCommand(() -> m_feeder.backward()));
+                new JoystickButton(driverJoytick, 5).whileFalse(new InstantCommand(() -> m_feeder.stop()));
+               
+               
+               
+               
+               //sub
+                new JoystickButton(subJoytick, 1).whileTrue(new dalhacan(m_intake, m_shooter));
+
+                new JoystickButton(subJoytick, 6).whileTrue(new FeederRunTillSwitch(m_feeder, false));
+                new JoystickButton(subJoytick, 6).whileFalse(new InstantCommand(() -> m_feeder.stop()));
+
+                new JoystickButton(subJoytick, 2).whileTrue(new PidIntakeCommand(m_intake,1.3));
+                
+//once                 new JoystickButton(subJoytick, 2).whileTrue(new PidIntakeCommand(m_intake,1.3));
+
+//sonra 
+
+                new JoystickButton(subJoytick, 5).whileTrue(new InstantCommand(()->m_intake.getNote()));
+                new JoystickButton(subJoytick, 5).whileFalse(new InstantCommand(()->m_intake.StopNoteMotor()));
+
+                new JoystickButton(subJoytick, 3).whileTrue(new ShooterSetDegree(m_shooter, 70.0));
+                
+                new JoystickButton(subJoytick, 4)
+                          .whileTrue(new InstantCommand(() -> m_shooter.ShooterThrowMotorOutput(0.8)));
+
+                new JoystickButton(subJoytick, 4)
+                         .whileFalse(new InstantCommand(() -> m_shooter.ShooterThrowAllMotorStop()));
+                                
+                new JoystickButton(subJoytick, 7).whileTrue(new InstantCommand(() -> m_intake.reset()));
+
+
+
+
+
                 // new JoystickButton(driverJoytick, 3).whileTrue(new PidIntakeCommand(m_intake,
                 // 20));
                 // new JoystickButton(driverJoytick, 3).whileFalse(new InstantCommand(() ->
@@ -72,23 +113,23 @@ public class RobotContainer {
                 // m_shooter.AngleEncoderReset()));
                 // new JoystickButton(driverJoytick, 6).whileTrue(new InstantCommand(()->
                 // m_feeder.backward()));
-                new JoystickButton(driverJoytick, 10)
-                                .whileTrue(new InstantCommand(() -> m_shooter.ShooterThrowMotorOutput(0.8)));
 
-                new JoystickButton(driverJoytick, 10)
-                                .whileFalse(new InstantCommand(() -> m_shooter.ShooterThrowAllMotorStop()));
+        //         new JoystickButton(driverJoytick, 10)
+        //                         .whileTrue(new InstantCommand(() -> m_shooter.ShooterThrowMotorOutput(0.8)));
 
-                new JoystickButton(driverJoytick, 1).whileTrue(new dalhacan(m_intake, m_shooter));
-                new JoystickButton(driverJoytick, 1).whileTrue(new InstantCommand(() -> m_intake.degistirmee()));
-                new JoystickButton(driverJoytick, 3).whileTrue(new ShooterSetDegree(m_shooter, 160.0));
-                // new JoystickButton(driverJoytick, 4).whileTrue(new cinarcan(m_intake,
-                // m_feeder));
-                new JoystickButton(driverJoytick, 4).whileTrue(new RunTillSwitch(m_intake,false));
-               new JoystickButton(driverJoytick, 4).whileFalse(new InstantCommand(() -> m_intake.StopNoteMotor()));
+        //         new JoystickButton(driverJoytick, 10)
+        //                         .whileFalse(new InstantCommand(() -> m_shooter.ShooterThrowAllMotorStop()));
 
-                new JoystickButton(driverJoytick, 1).whileFalse(new InstantCommand(() -> m_intake.StopAngleMotor()));
-                new JoystickButton(driverJoytick, 2).whileTrue(new InstantCommand(() -> m_intake.reset()));
-                new JoystickButton(driverJoytick, 2).whileTrue(new InstantCommand(() -> m_shooter.AngleEncoderReset()));
+        //         new JoystickButton(driverJoytick, 1).whileTrue(new InstantCommand(() -> m_intake.degistirmee()));
+        //         new JoystickButton(driverJoytick, 3).whileTrue(new ShooterSetDegree(m_shooter, 160.0));
+        //         // new JoystickButton(driverJoytick, 4).whileTrue(new cinarcan(m_intake,
+        //         // m_feeder));
+        //         new JoystickButton(driverJoytick, 4).whileTrue(new RunTillSwitch(m_intake,false));
+        //        new JoystickButton(driverJoytick, 4).whileFalse(new InstantCommand(() -> m_intake.StopNoteMotor()));
+
+        //         new JoystickButton(driverJoytick, 1).whileFalse(new InstantCommand(() -> m_intake.StopAngleMotor()));
+        //         new JoystickButton(driverJoytick, 2).whileTrue(new InstantCommand(() -> m_intake.reset()));
+        //         new JoystickButton(driverJoytick, 2).whileTrue(new InstantCommand(() -> m_shooter.AngleEncoderReset()));
 
                 // new JoystickButton(driverJoytick, 1).whileTrue(new
                 // InstantCommand(()->m_shooter.AngleEncoderReset()));
@@ -113,20 +154,19 @@ public class RobotContainer {
    // new JoystickButton(driverJoytick, 4).whileFalse(new RunCommand(()-> m_feeder.stop()));
    // new JoystickButton(driverJoytick, 9).whileTrue(new cinarcan(m_intake, m_feeder));
     //new JoystickButton(driverJoytick, 9).whileFalse(new cinarcan(m_intake, m_feeder));
-    new JoystickButton(driverJoytick, 5).whileTrue(new RunTillSwitch(m_intake,false));
-    new JoystickButton(driverJoytick, 5).whileFalse(new InstantCommand(()->m_intake.StopNoteMotor()));
+//     new JoystickButton(driverJoytick, 5).whileTrue(new RunTillSwitch(m_intake,false));
+//     new JoystickButton(driverJoytick, 5).whileFalse(new InstantCommand(()->m_intake.StopNoteMotor()));
 
     
    // new JoystickButton(driverJoytick, 5).onTrue(new InstantCommand(()-> m_intake.degistir()));
 
-                new JoystickButton(driverJoytick, 6).whileTrue(new FeederRunTillSwitch(m_feeder, false));
-                new JoystickButton(driverJoytick, 6).whileFalse(new InstantCommand(() -> m_feeder.stop()));
+                // new JoystickButton(driverJoytick, 6).whileTrue(new FeederRunTillSwitch(m_feeder, false));
+                // new JoystickButton(driverJoytick, 6).whileFalse(new InstantCommand(() -> m_feeder.stop()));
 
-                new JoystickButton(driverJoytick, 8).whileTrue(new InstantCommand(() -> m_intake.runpickupmotor(0.8)));
-                new JoystickButton(driverJoytick, 8).whileFalse(new InstantCommand(() -> m_intake.runpickupmotor(0)));
-                //new JoystickButton(driverJoytick, 9).whileTrue(new InstantCommand(() -> m_feeder.backward()));
-                new JoystickButton(driverJoytick, 9).whileFalse(new InstantCommand(() -> m_feeder.stop()));
-                new JoystickButton(driverJoytick, 9).whileFalse(new InstantCommand(() -> m_intake.getNote()));
+                // new JoystickButton(driverJoytick, 8).whileTrue(new InstantCommand(() -> m_intake.runpickupmotor(0.8)));
+                // new JoystickButton(driverJoytick, 8).whileFalse(new InstantCommand(() -> m_intake.runpickupmotor(0)));
+               
+                // new JoystickButton(driverJoytick, 9).whileFalse(new InstantCommand(() -> m_intake.getNote()));
 
         
         }

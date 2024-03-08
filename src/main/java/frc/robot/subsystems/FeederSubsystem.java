@@ -36,11 +36,11 @@ public class FeederSubsystem extends SubsystemBase {
   }
 
   public void backward2() {
-    feedmotor.set(-0.36);
+    feedmotor.set(-0.5);
   }
 
   public void backward() {
-    feedmotor.set(-0.8);
+    feedmotor.set(-0.6);
   }
   
   public void runtillswitch(){
