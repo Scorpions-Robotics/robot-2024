@@ -36,7 +36,7 @@ public class FeederSubsystem extends SubsystemBase {
   }
 
   public void backward2() {
-    feedmotor.set(-0.5);
+    feedmotor.set(-0.6);
   }
 
   public void backward() {
@@ -45,7 +45,7 @@ public class FeederSubsystem extends SubsystemBase {
   
   public void runtillswitch(){
 while((detector.get())){
-  feedmotor.set(-0.5);
+  feedmotor.set(-0.6);
 
 
     while ((detector.get())) {

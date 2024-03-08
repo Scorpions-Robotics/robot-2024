@@ -13,7 +13,7 @@ public class FeedingPosition extends SequentialCommandGroup {
 
     addCommands(
         // 1.8
-        (new PidIntakeCommand(m_intake, 1.2)
+        (new PidIntakeCommand(m_intake, ()->1.2)
 
             // -3.8
             .andThen(

@@ -24,9 +24,12 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.Intake.GetNote;
+import frc.robot.commands.Intake.IntakeModeChange;
 import frc.robot.commands.Intake.PidIntakeCommand;
 import frc.robot.commands.Intake.RunTillSwitch;
 import frc.robot.commands.Shooter.PidSetRpm;
+import frc.robot.commands.Shooter.ShooterModeChange;
 import frc.robot.commands.Shooter.ShooterSetDegree;
 import frc.robot.commands.Swerve.SwerveJoystickCmd;
 import frc.robot.commands.common.FeedingPosition;
@@ -36,8 +39,9 @@ import frc.robot.commands.common.fedleme;
 import frc.robot.commands.feeder.FeederRunTillSwitch;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.JoystickSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.SwerveSubsystem; 
 
 public class RobotContainer {
         private final IntakeSubsystem m_intake = new IntakeSubsystem();
@@ -46,7 +50,7 @@ public class RobotContainer {
         private final XboxController driverJoytick = new XboxController(1);
         private final XboxController subJoytick = new XboxController(3);
         private final FeederSubsystem m_feeder = new FeederSubsystem();
-
+        private final JoystickSubsystem m_joystick = new JoystickSubsystem();
         public RobotContainer() {
 
                 swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
@@ -55,6 +59,12 @@ public class RobotContainer {
                                 () -> driverJoytick.getRawAxis(OIConstants.kDriverXAxis),
                                 () -> driverJoytick.getRawAxis(OIConstants.kDriverRotAxis),
                                 () -> !driverJoytick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
+
+
+                m_intake.setDefaultCommand(new PidIntakeCommand(m_intake,() -> m_joystick.getintakevalue()));
+             //   m_shooter.setDefaultCommand(new ShooterSetDegree(m_shooter, () -> m_joystick.getshootervalue()));
+
+
 
                 configureBindings();
 
@@ -75,21 +85,25 @@ public class RobotContainer {
                
                
                //sub
-                new JoystickButton(subJoytick, 1).whileTrue(new dalhacan(m_intake, m_shooter));
+                new JoystickButton(subJoytick, 1).whileTrue(new InstantCommand(()->m_joystick.intakemodchange(1)));
 
-                new JoystickButton(subJoytick, 6).whileTrue(new FeederRunTillSwitch(m_feeder, false));
-                new JoystickButton(subJoytick, 6).whileFalse(new InstantCommand(() -> m_feeder.stop()));
+                new JoystickButton(subJoytick, 6).whileTrue(new fedleme(m_intake, m_feeder, m_joystick,m_shooter));
+                new JoystickButton(subJoytick, 6).whileFalse(new InstantCommand(()->m_intake.StopNoteMotor()));
+                new JoystickButton(subJoytick, 6).whileFalse(new InstantCommand(()->m_feeder.stop()));
 
-                new JoystickButton(subJoytick, 2).whileTrue(new PidIntakeCommand(m_intake,1.3));
+                //new JoystickButton(subJoytick, 6).whileTrue(new FeederRunTillSwitch(m_feeder, false));
+                //new JoystickButton(subJoytick, 6).whileFalse(new InstantCommand(() -> m_feeder.stop()));
+
+                new JoystickButton(subJoytick, 2).whileTrue(new IntakeModeChange(m_joystick, 0));
                 
 //once                 new JoystickButton(subJoytick, 2).whileTrue(new PidIntakeCommand(m_intake,1.3));
 
-//sonra 
+//sonra                 
 
-                new JoystickButton(subJoytick, 5).whileTrue(new InstantCommand(()->m_intake.getNote()));
-                new JoystickButton(subJoytick, 5).whileFalse(new InstantCommand(()->m_intake.StopNoteMotor()));
+                //new JoystickButton(subJoytick, 5).whileTrue(new GetNote(m_intake));
+              //  new JoystickButton(subJoytick, 5).whileFalse(new InstantCommand(()->m_intake.StopNoteMotor()));
 
-                new JoystickButton(subJoytick, 3).whileTrue(new ShooterSetDegree(m_shooter, 70.0));
+                new JoystickButton(subJoytick, 3).whileTrue(new ShooterSetDegree(m_shooter, ()->70.0));
                 
                 new JoystickButton(subJoytick, 4)
                           .whileTrue(new InstantCommand(() -> m_shooter.ShooterThrowMotorOutput(0.8)));

@@ -4,11 +4,14 @@
 
 package frc.robot.commands.common;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.Intake.IntakeModeChange;
 import frc.robot.commands.Intake.PidIntakeCommand;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.JoystickSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -16,12 +19,13 @@ import frc.robot.subsystems.ShooterSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class dalhacan extends SequentialCommandGroup {
   /** Creates a new dalhacan. */
-  public dalhacan(IntakeSubsystem m_intake, ShooterSubsystem m_shooter) {
+  public dalhacan(IntakeSubsystem m_intake, ShooterSubsystem m_shooter,JoystickSubsystem m_joystick) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-        new InstantCommand(() -> m_shooter.ShootertoFeederPos())
-            .alongWith(new PidIntakeCommand(m_intake, 12.0))
+      new IntakeModeChange(m_joystick, 1)
+        .andThen(new InstantCommand(() -> m_shooter.ShootertoFeederPos()))
+            //.alongWith(new IntakeModeChange(m_joystick, 1))
 
     );
 

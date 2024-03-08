@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Constants.values.shooter;
 
 public class ShooterSubsystem extends SubsystemBase {
 
@@ -128,6 +127,7 @@ public class ShooterSubsystem extends SubsystemBase {
       ShooterAngleMotor.set(0.1);
     } else {
       ShooterAngleMotor.stopMotor();
+  
     }
   }
 
