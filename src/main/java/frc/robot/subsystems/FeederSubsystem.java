@@ -11,8 +11,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 public class FeederSubsystem extends SubsystemBase {
 
-  public WPI_VictorSPX feedmotor = new WPI_VictorSPX(7);
-  public DigitalInput detector = new DigitalInput(6);
+ // public WPI_VictorSPX feedmotor = new WPI_VictorSPX(7);
+  //public DigitalInput detector = new DigitalInput(6);
   public boolean magstatus;
   public boolean count;
   IntakeSubsystem m_intake;
@@ -39,24 +39,25 @@ public void varmifalse(){
 }
 
   public boolean detector() {
-      return detector.get();
+      //return detector.get();
+      return false;
   }
 
 
   public void forward() {
-    feedmotor.set(0.3);
+   // feedmotor.set(0.3);
   }
 
   public void backward2() {
-    feedmotor.set(-0.7);
+    //feedmotor.set(-0.7);
   }
 
   public void backward() {
-    feedmotor.set(-0.9);
+   // feedmotor.set(-0.9);
   }
   
   public void runtillswitch(){
-while((detector.get())){
+/*while((detector.get())){
   feedmotor.set(-0.6);
 
 
@@ -66,7 +67,7 @@ while((detector.get())){
     }
     feedmotor.set(0);
 
-}
+}*/
 
    }  
   
@@ -88,13 +89,13 @@ while((detector.get())){
   // }
 
   public void stop() {
-    feedmotor.set(0);
+    //feedmotor.set(0);
   }
 
   @Override
   public void periodic() {
 
-    SmartDashboard.putBoolean("bakacaz", detector.get());
+    //SmartDashboard.putBoolean("bakacaz", detector.get());
 
   }
 }

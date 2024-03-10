@@ -4,14 +4,26 @@ import java.util.List;
 
 import javax.management.RuntimeErrorException;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.proto.Trajectory;
+//import edu.wpi.first.math.proto.Trajectory;
+//import edu.wpi.first.math.proto.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
+//import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -42,10 +54,13 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.JoystickSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem; 
+//import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.proto.Trajectory;
+
 
 public class RobotContainer {
         private final IntakeSubsystem m_intake = new IntakeSubsystem();
-        private final ShooterSubsystem m_shooter = new ShooterSubsystem();
+      //  private final ShooterSubsystem m_shooter = new ShooterSubsystem();
         private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
         private final XboxController driverJoytick = new XboxController(1);
         private final XboxController subJoytick = new XboxController(3);
@@ -89,7 +104,7 @@ public class RobotContainer {
                //sub
                 new JoystickButton(subJoytick, 1).whileTrue(new InstantCommand(()->m_joystick.intakemodchange(1)));
 
-                new JoystickButton(subJoytick, 6).whileTrue(new fedleme(m_intake, m_feeder, m_joystick,m_shooter));
+             //   new JoystickButton(subJoytick, 6).whileTrue(new fedleme(m_intake, m_feeder, m_joystick,m_shooter));
                 new JoystickButton(subJoytick, 6).whileFalse(new InstantCommand(()->m_intake.StopNoteMotor()));
                 new JoystickButton(subJoytick, 6).whileFalse(new InstantCommand(()->m_feeder.stop()));
 
@@ -105,13 +120,13 @@ public class RobotContainer {
                 //new JoystickButton(subJoytick, 5).whileTrue(new GetNote(m_intake));
               //  new JoystickButton(subJoytick, 5).whileFalse(new InstantCommand(()->m_intake.StopNoteMotor()));
 
-                new JoystickButton(subJoytick, 3).whileTrue(new ShooterSetDegree(m_shooter, ()->70.0));
+               // new JoystickButton(subJoytick, 3).whileTrue(new ShooterSetDegree(m_shooter, ()->70.0));
                 
-                new JoystickButton(subJoytick, 4)
-                          .whileTrue(new InstantCommand(() -> m_shooter.ShooterThrowMotorOutput(0.8)));
+             //   new JoystickButton(subJoytick, 4)
+               //           .whileTrue(new InstantCommand(() -> m_shooter.ShooterThrowMotorOutput(0.8)));
 
-                new JoystickButton(subJoytick, 4)
-                         .whileFalse(new InstantCommand(() -> m_shooter.ShooterThrowAllMotorStop()));
+             //   new JoystickButton(subJoytick, 4)
+               //                .whileFalse(new InstantCommand(() -> m_shooter.ShooterThrowAllMotorStop()));
                                 
                 new JoystickButton(subJoytick, 7).whileTrue(new InstantCommand(() -> m_intake.reset()));
 
@@ -188,32 +203,34 @@ public class RobotContainer {
         }
 
   public Command getAutonomousCommand() {
-/* // 1. Create trajectory settings
+
+        // TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
+        //         AutoConstants.kMaxSpeedMetersPerSecond,
+        //         AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+        //                 .setKinematics(DriveConstants.kDriveKinematics);
+
         TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
                 AutoConstants.kMaxSpeedMetersPerSecond,
                 AutoConstants.kMaxAccelerationMetersPerSecondSquared)
                         .setKinematics(DriveConstants.kDriveKinematics);
 
-        // 2. Generate trajectory
-        Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
-                new Pose2d(0, 0, new Rotation2d(0)),
-                List.of(
-                        new Translation2d(1, 0),
-                        new Translation2d(1, -1)),
-                new Pose2d(2, -1, Rotation2d.fromDegrees(180)),
-                trajectoryConfig);
 
-
-        // 3. Define PID controllers for tracking trajectory
-        PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
+                        var trajectoryOne =
+                        TrajectoryGenerator.generateTrajectory(
+                           new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
+                           List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+                           new Pose2d(3, 0, Rotation2d.fromDegrees(0)),
+                           new TrajectoryConfig(Units.feetToMeters(0.5), Units.feetToMeters(0.5)));
+                        
+                           PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
         PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);
+        
         ProfiledPIDController thetaController = new ProfiledPIDController(
                 AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
-        // 4. Construct command to follow trajectory
         SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
-                trajectory,
+                trajectoryOne,
                 swerveSubsystem::getPose,
                 DriveConstants.kDriveKinematics,
                 xController,
@@ -222,12 +239,10 @@ public class RobotContainer {
                 swerveSubsystem::setModuleStates,
                 swerveSubsystem);
 
-        // 5. Add some init and wrap-up, and return everything
-        return new SequentialCommandGroup(
-                new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectory.getInitialPose())),
-                swerveControllerCommand,
-                new InstantCommand(() -> swerveSubsystem.stopModules())); */
+                return swerveControllerCommand;
+  // PathPlannerPath path = PathPlannerPath.fromPathFile("New New Path");
+        // Create a path following command using AutoBuilder. This will also trigger event markers.
+      //  return swerveSubsystem.autobuilder.followPath(path);
 
-                return null;
         }
 }

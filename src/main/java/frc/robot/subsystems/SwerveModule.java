@@ -9,10 +9,12 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ModuleConstants;
+import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 
 public class SwerveModule extends SubsystemBase {
@@ -62,6 +64,10 @@ public class SwerveModule extends SubsystemBase {
     return driveEncoder.getPosition();
   }
 
+  public double getDrivePositionForSwerve() {
+    return driveEncoder.getPosition() * (Math.sqrt(Constants.ModuleConstants.kWheelDiameterMeters / 2) * Math.PI) / (6.75 * 2048.0);
+  }
+
   public double getTurningPosition() {
     return turningEncoder.getPosition();
   }
@@ -72,6 +78,20 @@ public class SwerveModule extends SubsystemBase {
 
   public double getTurningVelocity() {
     return turningEncoder.getVelocity();
+  }
+
+  public double getDegrees(){
+    return turningEncoder.getPosition() % 180;
+  }
+
+  public Rotation2d getRot2dAngle(){
+    return Rotation2d.fromDegrees(
+      getDegrees()
+     );
+  }
+
+  public SwerveModulePosition getModulePosition(){
+    return new SwerveModulePosition(getDrivePositionForSwerve(), getRot2dAngle());
   }
 
   public double getAbsoluteEncoderRad() {
@@ -112,5 +132,6 @@ public class SwerveModule extends SubsystemBase {
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("pozisssyonlar", getTurningPosition() * 50);
   }
 }
