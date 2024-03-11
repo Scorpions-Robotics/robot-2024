@@ -55,6 +55,11 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeMotor1.set(0.67);
   }
 
+
+  public void pushNote() {
+    intakeMotor1.set(-1);
+  }
+
   public void degistir() {
     tekcalisma = true;
   }

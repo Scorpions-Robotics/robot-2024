@@ -6,8 +6,9 @@ package frc.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.common.fedleme;
 import frc.robot.subsystems.IntakeSubsystem;
-
+ 
 public class RunTillSwitch extends Command {
   IntakeSubsystem m_intake;
   boolean dursunmu;
@@ -35,7 +36,7 @@ boolean varmi = false;
     boolean ikinciswitch;
 
     ilkswitch = m_intake.intakedetector1.get();
-    ikinciswitch = m_intake.intakedetector1.get();
+    ikinciswitch = m_intake.intakedetector2.get();
 
 
 
@@ -50,6 +51,7 @@ if(!dursunmu){
     
           m_intake.StopNoteMotor();
           varmi = true;
+
         }
       }
 

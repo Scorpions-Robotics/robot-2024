@@ -86,7 +86,8 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public double getRpmOutput2() {
-    return ShooterThrow2Encoder.getVelocity() * 600 / 4096.0;
+   // return ShooterThrow2Encoder.getVelocity() * 600 / 4096.0;
+    return 0.0;
   }
 
   public void ShooterThrow1MotorOutput(double value) {
