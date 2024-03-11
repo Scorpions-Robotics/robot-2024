@@ -14,7 +14,6 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ModuleConstants;
-import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 
 public class SwerveModule extends SubsystemBase {
@@ -31,10 +30,13 @@ public class SwerveModule extends SubsystemBase {
   boolean absoluteEncoderReversed;
   double absoluteEncoderOffsetRad;
 
+  int driveMotorId;
+
   public SwerveModule(int driveMotorId, int turningMotorId, boolean driveMotorReversed, boolean turningMotorReversed,
       int absoluteEncoderId, double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
 
     this.absoluteEncoderOffsetRad = absoluteEncoderOffset;
+    this.driveMotorId = driveMotorId;
     this.absoluteEncoderReversed = absoluteEncoderReversed;
 
     absoluteEncoder = new CANcoder(absoluteEncoderId);
@@ -61,37 +63,35 @@ public class SwerveModule extends SubsystemBase {
   }
 
   public double getDrivePosition() {
+    SmartDashboard.putNumber("swervePos"+ driveMotorId, driveEncoder.getPosition());
     return driveEncoder.getPosition();
   }
 
-  public double getDrivePositionForSwerve() {
-    return driveEncoder.getPosition() * (Math.sqrt(Constants.ModuleConstants.kWheelDiameterMeters / 2) * Math.PI) / (6.75 * 2048.0);
+  public SwerveModulePosition getPosition(){
+
+    return new SwerveModulePosition(
+        driveEncoder.getPosition() ,
+        new Rotation2d(turningEncoder.getPosition()));
+    
   }
 
   public double getTurningPosition() {
-    return turningEncoder.getPosition();
+    SmartDashboard.putNumber("swervePosTur"+ driveMotorId, turningEncoder.getPosition());
+    return  turningEncoder.getPosition();
+  }
+
+   public double getTurningPosition2() {
+    return  turningEncoder.getPosition() * 50;
   }
 
   public double getDriveVelocity() {
+    SmartDashboard.putNumber("swerveVelo"+ driveMotorId, driveEncoder.getVelocity());
+
     return driveEncoder.getVelocity();
   }
 
   public double getTurningVelocity() {
     return turningEncoder.getVelocity();
-  }
-
-  public double getDegrees(){
-    return turningEncoder.getPosition() % 180;
-  }
-
-  public Rotation2d getRot2dAngle(){
-    return Rotation2d.fromDegrees(
-      getDegrees()
-     );
-  }
-
-  public SwerveModulePosition getModulePosition(){
-    return new SwerveModulePosition(getDrivePositionForSwerve(), getRot2dAngle());
   }
 
   public double getAbsoluteEncoderRad() {
@@ -122,7 +122,7 @@ public class SwerveModule extends SubsystemBase {
       return;
     }
     state = SwerveModuleState.optimize(state, getState().angle);
-    driveMotor.set(3 * (state.speedMetersPerSecond) / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
+    driveMotor.set(2 * (state.speedMetersPerSecond) / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
     turningMotor.set((turningPidController.calculate(getTurningPosition(), state.angle.getRadians())));
     SmartDashboard.putString("Swerve[" + absoluteEncoder.getDeviceID() + "] state", state.toString());
     SmartDashboard.putNumber("status",
@@ -130,8 +130,22 @@ public class SwerveModule extends SubsystemBase {
     SmartDashboard.putNumber("digeri", turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
   }
 
+  public void OtosetDesiredState(SwerveModuleState state) {
+    if (Math.abs(state.speedMetersPerSecond) < 0.001) {
+      stop();
+      return;
+    }
+    state = SwerveModuleState.optimize(state, getState().angle);
+    driveMotor.set(3*(state.speedMetersPerSecond) / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
+    turningMotor.set((turningPidController.calculate(getTurningPosition(), state.angle.getRadians())));
+    SmartDashboard.putString("Swerve[" + absoluteEncoder.getDeviceID() + "] state", state.toString());
+    SmartDashboard.putNumber("OHOOHOHOHOHOHOOHOHOOHOHOOHO",
+        (state.speedMetersPerSecond) / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
+    SmartDashboard.putNumber("ASDSKMA SKDASDMASPKDASDAPKMP", (turningPidController.calculate(getTurningPosition(), state.angle.getRadians())));
+  }
+
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("pozisssyonlar", getTurningPosition() * 50);
+        SmartDashboard.putString("POSSSSS"+ driveMotorId, getPosition().toString());
   }
 }

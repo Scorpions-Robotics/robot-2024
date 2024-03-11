@@ -218,20 +218,20 @@ public class RobotContainer {
         //                 .setKinematics(DriveConstants.kDriveKinematics);
 
         TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
-                AutoConstants.kMaxSpeedMetersPerSecond,
-                AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+                3,
+                1)
                         .setKinematics(DriveConstants.kDriveKinematics);
 
 
                         var trajectoryOne =
                         TrajectoryGenerator.generateTrajectory(
                            new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
-                           List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-                           new Pose2d(3, 0, Rotation2d.fromDegrees(0)),
+                           List.of(new Translation2d(-1, 0), new Translation2d(-3, 1)),
+                           new Pose2d(-2, 0, Rotation2d.fromDegrees(0)),
                            new TrajectoryConfig(Units.feetToMeters(0.5), Units.feetToMeters(0.5)));
                         
-                           PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
-        PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);
+                        PIDController xController = new PIDController(5, 0, 0);
+                        PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);
         
         ProfiledPIDController thetaController = new ProfiledPIDController(
                 AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
@@ -244,7 +244,7 @@ public class RobotContainer {
                 xController,
                 yController,
                 thetaController,
-                swerveSubsystem::setModuleStates,
+                swerveSubsystem::OtosetModuleStates,
                 swerveSubsystem);
 
                 return swerveControllerCommand;
