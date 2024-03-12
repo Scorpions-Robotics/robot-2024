@@ -96,9 +96,13 @@ public class RobotContainer {
 
 
 
-
+//buton 1
 new JoystickButton(driverJoytick, 1).whileTrue(new InstantCommand(()-> m_feeder.forward()));
+
+//buton 2
 new JoystickButton(driverJoytick, 2).whileTrue(new InstantCommand(()-> m_feeder.backward()));
+
+//button 3
 // TIRMANMA new JoystickButton(driverJoytick, 1).whileTrue(new InstantCommand(()-> m_feeder.forward()));
 
 
@@ -112,11 +116,29 @@ new JoystickButton(driverJoytick, 2).whileTrue(new InstantCommand(()-> m_feeder.
 
 
 
+//buton 1
+new JoystickButton(subJoytick, 1).whileTrue(new pickup(m_intake, m_joystick));
+new JoystickButton(subJoytick, 1).whileFalse(new InstantCommand(()-> m_intake.StopNoteMotor()));
 
-new JoystickButton(subJoytick, 2).whileTrue(new pickup(m_intake, m_joystick));
+
+//buton 2
 new JoystickButton(subJoytick, 2).whileTrue(new fedleme(m_intake, m_feeder, m_joystick,m_shooter));
+new JoystickButton(driverJoytick, 2).whileTrue(new InstantCommand(()->m_feeder.varmitrue()));
+new JoystickButton(driverJoytick, 2).whileFalse(new InstantCommand(()->m_feeder.stop()));
+new JoystickButton(driverJoytick, 2).whileFalse(new InstantCommand(()->m_intake.StopNoteMotor()));
 
+//buton 3 Shooter Manuel subbuffer
+new JoystickButton(subJoytick, 3).whileTrue(new ShooterSetDegree(m_shooter, ()->70.0));
+new JoystickButton(subJoytick, 3).whileTrue(new InstantCommand(()-> m_shooter.ShooterThrow1MotorOutput(0.9)));
+new JoystickButton(subJoytick, 3).whileTrue(new InstantCommand(()-> m_shooter.ShooterThrow1MotorOutput(-0.9)));
+new JoystickButton(subJoytick, 3).whileTrue(new InstantCommand(()-> m_shooter.ShooterThrow1MotorStop()));
+new JoystickButton(subJoytick, 3).whileTrue(new InstantCommand(()-> m_shooter.ShooterThrow2MotorStop()));
 
+//button 4 Shooter oto aim ve hız
+// new JoystickButton(subJoytick, 3).whileTrue(new ShooterSetDegree(m_shooter, ()->70.0));
+
+//button 5 Amfi 
+// new JoystickButton(subJoytick, 3).whileTrue(new ShooterSetDegree(m_shooter, ()->70.0));
 
 
 
@@ -157,7 +179,7 @@ new JoystickButton(subJoytick, 2).whileTrue(new fedleme(m_intake, m_feeder, m_jo
 
 
 
-             new JoystickButton(driverJoytick, 1).whileTrue(new InstantCommand(()-> m_joystick.intakemodchange(1)));
+             //new JoystickButton(driverJoytick, 1).whileTrue(new InstantCommand(()-> m_joystick.intakemodchange(1)));
               // new JoystickButton(driverJoytick, 5).whileTrue(new RunTillSwitch(m_intake,false,m_feeder,m_joystick,m_shooter));
                 //new JoystickButton(driverJoytick, 5).whileFalse(new InstantCommand(()->m_intake.StopNoteMotor()));
                 // new JoystickButton(subJoytick, 3).whileTrue(new ShooterSetDegree(m_shooter, ()->70.0));
@@ -165,10 +187,10 @@ new JoystickButton(subJoytick, 2).whileTrue(new fedleme(m_intake, m_feeder, m_jo
             //  new JoystickButton(driverJoytick, 6).whileTrue(new FedX(m_intake, m_feeder, m_joystick,m_shooter));
 
                
-            new JoystickButton(driverJoytick, 6).whileFalse(new InstantCommand(()->m_intake.StopNoteMotor()));
+            //new JoystickButton(driverJoytick, 6).whileFalse(new InstantCommand(()->m_intake.StopNoteMotor()));
 
-            new JoystickButton(driverJoytick, 6).whileTrue(new InstantCommand(()->m_intake.pushNote()));
-            new JoystickButton(driverJoytick, 6).whileFalse(new InstantCommand(()->m_intake.StopNoteMotor()));
+            //new JoystickButton(driverJoytick, 6).whileTrue(new InstantCommand(()->m_intake.pushNote()));
+           // new JoystickButton(driverJoytick, 6).whileFalse(new InstantCommand(()->m_intake.StopNoteMotor()));
 
                 //new JoystickButton(driverJoytick, 5).whileTrue(new InstantCommand(() -> m_feeder.backward()));
                 //new JoystickButton(driverJoytick, 5).whileTrue(new InstantCommand(() -> m_feeder.varmitrue()));
@@ -179,17 +201,17 @@ new JoystickButton(subJoytick, 2).whileTrue(new fedleme(m_intake, m_feeder, m_jo
                
                
                //sub
-                new JoystickButton(subJoytick, 1).whileTrue(new InstantCommand(()->m_joystick.intakemodchange(1)));
+               // new JoystickButton(subJoytick, 1).whileTrue(new InstantCommand(()->m_joystick.intakemodchange(1)));
 
              //   new JoystickButton(subJoytick, 6).whileTrue(new fedleme(m_intake, m_feeder, m_joystick,m_shooter));
 
-             new JoystickButton(subJoytick, 6).whileFalse(new InstantCommand(()->m_intake.StopNoteMotor()));
-                new JoystickButton(subJoytick, 6).whileFalse(new InstantCommand(()->m_feeder.stop()));
+             //new JoystickButton(subJoytick, 6).whileFalse(new InstantCommand(()->m_intake.StopNoteMotor()));
+                //new JoystickButton(subJoytick, 6).whileFalse(new InstantCommand(()->m_feeder.stop()));
 
                 //new JoystickButton(subJoytick, 6).whileTrue(new FeederRunTillSwitch(m_feeder, false));
                 //new JoystickButton(subJoytick, 6).whileFalse(new InstantCommand(() -> m_feeder.stop()));
 
-                new JoystickButton(subJoytick, 2).whileTrue(new IntakeModeChange(m_joystick, 0));
+                //new JoystickButton(subJoytick, 2).whileTrue(new IntakeModeChange(m_joystick, 0));
                 //new JoystickButton(subJoytick, 2).whileTrue(new ShooterSetDegree(m_shooter, 30));
                 
 //once                 new JoystickButton(subJoytick, 2).whileTrue(new PidIntakeCommand(m_intake,1.3));
@@ -207,7 +229,7 @@ new JoystickButton(subJoytick, 2).whileTrue(new fedleme(m_intake, m_feeder, m_jo
              //   new JoystickButton(subJoytick, 4)
                //                .whileFalse(new InstantCommand(() -> m_shooter.ShooterThrowAllMotorStop()));
                                 
-                new JoystickButton(subJoytick, 7).whileTrue(new InstantCommand(() -> m_intake.reset()));
+                //new JoystickButton(subJoytick, 7).whileTrue(new InstantCommand(() -> m_intake.reset()));
                // new JoystickButton(driverJoytick, 4).whileTrue(new InstantCommand(()->m_shooter.ShootertoFeederPos()));
 
                 // new JoystickButton(driverJoytick, 3).whileTrue(new PidIntakeCommand(m_intake,
