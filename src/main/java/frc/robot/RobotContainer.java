@@ -44,7 +44,6 @@ import frc.robot.commands.Shooter.PidSetRpm;
 import frc.robot.commands.Shooter.ShooterModeChange;
 import frc.robot.commands.Shooter.ShooterSetDegree;
 import frc.robot.commands.Swerve.SwerveJoystickCmd;
-import frc.robot.commands.common.FedX;
 import frc.robot.commands.common.FeedingPosition;
 import frc.robot.commands.common.IntakeInputPosition;
 import frc.robot.commands.common.dalhacan;
@@ -94,7 +93,7 @@ public class RobotContainer {
                 new JoystickButton(driverJoytick, 6).whileFalse(new InstantCommand(()->m_intake.StopNoteMotor()));
 
 
-                new JoystickButton(driverJoytick, 5).whileTrue(new RunTillSwitch(m_intake,false));
+               // new JoystickButton(driverJoytick, 5).whileTrue(new RunTillSwitch(m_intake,false,m_feeder,m_joystick,m_shooter));
                 new JoystickButton(driverJoytick, 5).whileFalse(new InstantCommand(()->m_intake.StopNoteMotor()));
 
             //  new JoystickButton(driverJoytick, 6).whileTrue(new FedX(m_intake, m_feeder, m_joystick,m_shooter));
@@ -218,20 +217,28 @@ public class RobotContainer {
         //                 .setKinematics(DriveConstants.kDriveKinematics);
 
         TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
-                3,
-                1)
+                4,
+                3)
                         .setKinematics(DriveConstants.kDriveKinematics);
-
 
                         var trajectoryOne =
                         TrajectoryGenerator.generateTrajectory(
-                           new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
-                           List.of(new Translation2d(-1, 0), new Translation2d(-3, 1)),
-                           new Pose2d(-2, 0, Rotation2d.fromDegrees(0)),
-                           new TrajectoryConfig(Units.feetToMeters(0.5), Units.feetToMeters(0.5)));
+                           new Pose2d(0, 0, new Rotation2d(0)),
+                           List.of(new Translation2d(-1.28, 0),new Translation2d(-0.56, -0.91)),
+                           new Pose2d(-1.28, -1.44, new Rotation2d(0)),
+                           trajectoryConfig);
+
+                        // var trajectoryOne =
+                        //    TrajectoryGenerator.generateTrajectory(
+                        //         List.of(
+                        //                 new Pose2d(0, 0, new Rotation2d(0)),
+                        //                 new Pose2d(-1.4, -1.8, new Rotation2d(1.2)),
+                        //                 new Pose2d(0, -1, new Rotation2d(-2)),
+                        //                 new Pose2d(-1, -1, new Rotation2d(0))),
+                        //       trajectoryConfig);
                         
-                        PIDController xController = new PIDController(5, 0, 0);
-                        PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);
+                        PIDController xController = new PIDController(0.08, 0, 0);
+                        PIDController yController = new PIDController(0.08, 0, 0);
         
         ProfiledPIDController thetaController = new ProfiledPIDController(
                 AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);

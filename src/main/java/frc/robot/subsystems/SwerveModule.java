@@ -55,7 +55,7 @@ public class SwerveModule extends SubsystemBase {
     turningEncoder.setPositionConversionFactor(ModuleConstants.kTurningEncoderRot2Rad);
     turningEncoder.setVelocityConversionFactor(ModuleConstants.kTurningEncoderRPM2RadPerSec);
 
-    turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0);
+    turningPidController = new PIDController(0.5, 0, 0);
     turningPidController.enableContinuousInput(-Math.PI, Math.PI);
     driveMotor.setOpenLoopRampRate(0.5);
     turningMotor.setOpenLoopRampRate(0.5);
@@ -136,7 +136,7 @@ public class SwerveModule extends SubsystemBase {
       return;
     }
     state = SwerveModuleState.optimize(state, getState().angle);
-    driveMotor.set(3*(state.speedMetersPerSecond) / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
+    driveMotor.set((state.speedMetersPerSecond) / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
     turningMotor.set((turningPidController.calculate(getTurningPosition(), state.angle.getRadians())));
     SmartDashboard.putString("Swerve[" + absoluteEncoder.getDeviceID() + "] state", state.toString());
     SmartDashboard.putNumber("OHOOHOHOHOHOHOOHOHOOHOHOOHO",

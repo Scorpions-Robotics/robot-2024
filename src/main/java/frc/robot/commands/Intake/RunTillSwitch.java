@@ -4,21 +4,30 @@
 
 package frc.robot.commands.Intake;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.common.fedleme;
+import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.JoystickSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
  
 public class RunTillSwitch extends Command {
   IntakeSubsystem m_intake;
   boolean dursunmu;
+  FeederSubsystem m_feeder;
+  JoystickSubsystem m_joystick;
+  ShooterSubsystem m_shooter;
 boolean varmi = false;
 
 
-  public RunTillSwitch(IntakeSubsystem m_intake, boolean dursunmu) {
+  public RunTillSwitch(IntakeSubsystem m_intake, boolean dursunmu,FeederSubsystem m_feeder,JoystickSubsystem m_joystick, ShooterSubsystem m_shooter) {
 
     this.m_intake = m_intake;
-
+    this.m_feeder = m_feeder;
+    this.m_joystick = m_joystick;
+    this.m_shooter = m_shooter;
   }
 
   // Called when the command is initially scheduled.
@@ -51,6 +60,7 @@ if(!dursunmu){
     
           m_intake.StopNoteMotor();
           varmi = true;
+          new fedleme(m_intake, m_feeder, m_joystick, m_shooter);
 
         }
       }
