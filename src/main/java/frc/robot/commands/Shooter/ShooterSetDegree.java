@@ -14,7 +14,7 @@ public class ShooterSetDegree extends PIDCommand {
     super(
 
         new PIDController(0.04,
-            0.01,
+            0.03,
             Constants.values.shooter.PidShooterAngleKD),
         () -> m_shooter.getMappedOutput(),
         () -> angle.getAsDouble(),

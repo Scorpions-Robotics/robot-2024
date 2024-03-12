@@ -48,6 +48,10 @@ public void varmifalse(){
     feedmotor.set(-0.9);
   }
 
+  public void forward() {
+    feedmotor.set(0.9);
+  }
+
   public void runtillswitch(){
       if(detector.get()){
         feedmotor.set(-0.6);

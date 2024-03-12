@@ -51,7 +51,7 @@ break;
 
 switch (shootermod){
   case 0:
-  shooterdeger = 0;
+  shooterdeger = -2.0;
   break;
   
   case 1:

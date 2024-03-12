@@ -22,12 +22,9 @@ public class RunTillSwitch extends Command {
 boolean varmi = false;
 
 
-  public RunTillSwitch(IntakeSubsystem m_intake, boolean dursunmu,FeederSubsystem m_feeder,JoystickSubsystem m_joystick, ShooterSubsystem m_shooter) {
+  public RunTillSwitch(IntakeSubsystem m_intake, boolean dursunmu) {
 
     this.m_intake = m_intake;
-    this.m_feeder = m_feeder;
-    this.m_joystick = m_joystick;
-    this.m_shooter = m_shooter;
   }
 
   // Called when the command is initially scheduled.
@@ -60,8 +57,6 @@ if(!dursunmu){
     
           m_intake.StopNoteMotor();
           varmi = true;
-          new fedleme(m_intake, m_feeder, m_joystick, m_shooter);
-
         }
       }
 

@@ -12,9 +12,9 @@ import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
 
-  //public static CANSparkMax ShooterAngleMotor = new CANSparkMax(Constants.ports.shooter_motor_3, MotorType.kBrushless);
-  //public static CANSparkMax ShooterThrowMotor1 = new CANSparkMax(Constants.ports.shooter_motor_1, MotorType.kBrushless);
-  //public static CANSparkMax ShooterThrowMotor2 = new CANSparkMax(Constants.ports.shooter_motor_2, MotorType.kBrushless);
+  public static CANSparkMax ShooterAngleMotor = new CANSparkMax(Constants.ports.shooter_motor_3, MotorType.kBrushless);
+  public static CANSparkMax ShooterThrowMotor1 = new CANSparkMax(Constants.ports.shooter_motor_1, MotorType.kBrushless);
+  public static CANSparkMax ShooterThrowMotor2 = new CANSparkMax(Constants.ports.shooter_motor_2, MotorType.kBrushless);
 
   public RelativeEncoder ShooterThrow1Encoder;
   public RelativeEncoder ShooterThrow2Encoder;
@@ -27,12 +27,12 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public ShooterSubsystem() {
-   /* ShooterAngleMotor.setIdleMode(IdleMode.kBrake);
+   ShooterAngleMotor.setIdleMode(IdleMode.kBrake);
     ShooterAngleEncoder = ShooterAngleMotor.getEncoder();
     ShooterThrow1Encoder = ShooterThrowMotor1.getEncoder();
     ShooterThrow2Encoder = ShooterThrowMotor2.getEncoder();
     ShooterAngleMotor.setOpenLoopRampRate(Constants.values.shooter.AngleMotorOpenLoopRampRate);
-    setencodervalue(0.525);*/ 
+    setencodervalue(1.0); 
 
   }
 
@@ -41,31 +41,31 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void brakemode1() {
-   // ShooterThrowMotor1.setIdleMode(IdleMode.kBrake);
+   ShooterThrowMotor1.setIdleMode(IdleMode.kBrake);
 
   }
 
   public void brakemode2() {
-//    ShooterThrowMotor2.setIdleMode(IdleMode.kBrake);
+   ShooterThrowMotor2.setIdleMode(IdleMode.kBrake);
 
   }
 
   public void coastmode1() {
-  //  ShooterThrowMotor1.setIdleMode(IdleMode.kCoast);
+   ShooterThrowMotor1.setIdleMode(IdleMode.kCoast);
   }
 
   public void coastmode2() {
-    //ShooterThrowMotor1.setIdleMode(IdleMode.kCoast);
+    ShooterThrowMotor1.setIdleMode(IdleMode.kCoast);
   }
 
   public void barkeall() {
-   // ShooterThrowMotor1.setIdleMode(IdleMode.kBrake);
-    //ShooterThrowMotor2.setIdleMode(IdleMode.kBrake);
+   ShooterThrowMotor1.setIdleMode(IdleMode.kBrake);
+    ShooterThrowMotor2.setIdleMode(IdleMode.kBrake);
   }
 
   public void coastall() {
-   // ShooterThrowMotor1.setIdleMode(IdleMode.kCoast);
-   // ShooterThrowMotor2.setIdleMode(IdleMode.kCoast);
+   ShooterThrowMotor1.setIdleMode(IdleMode.kCoast);
+   ShooterThrowMotor2.setIdleMode(IdleMode.kCoast);
   }
 
   public double getRawEncoderOutput() {
@@ -81,54 +81,52 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public double getRpmOutput1() {
-    //return ShooterThrow1Encoder.getVelocity();
-    return 0.0;
+    return ShooterThrow1Encoder.getVelocity();
   }
 
   public double getRpmOutput2() {
-   // return ShooterThrow2Encoder.getVelocity() * 600 / 4096.0;
-    return 0.0;
+   return ShooterThrow2Encoder.getVelocity() * 600 / 4096.0;
   }
 
   public void ShooterThrow1MotorOutput(double value) {
-    //ShooterThrowMotor1.set(value);
+    ShooterThrowMotor1.set(value);
   }
 
   public void ShooterThrow2MotorOutput(double value) {
-    //ShooterThrowMotor2.set(value);
+    ShooterThrowMotor2.set(value);
   }
 
   public void ShooterThrowMotorOutput(double value) {
-   // ShooterThrowMotor1.set(value);
-  //  ShooterThrowMotor2.set(value);
+   ShooterThrowMotor1.set(value);
+   ShooterThrowMotor2.set(value);
   }
 
   public void ShooterAngleMotorOutput(double value) {
-  //  ShooterAngleMotor.set(value);
+   ShooterAngleMotor.set(value);
   }
 
   public void ShooterThrow1MotorStop() {
-  //  ShooterThrowMotor1.set(0);
+   ShooterThrowMotor1.set(0);
   }
 
   public void ShooterThrow2MotorStop() {
- //   ShooterThrowMotor2.set(0);
+   ShooterThrowMotor2.set(0);
   }
 
   public void ShooterThrowAllMotorStop() {
-   // ShooterThrowMotor1.set(0);
-    //ShooterThrowMotor2.set(0);
+   ShooterThrowMotor1.set(0);
+    ShooterThrowMotor2.set(0);
   }
 
   public void ShooterAngleMotorStop() {
-   // ShooterAngleMotor.set(0);
+   ShooterAngleMotor.set(0);
   }
 
   public void ShootertoFeederPos() {
     if (!shooterswitch.get()) {
-     // ShooterAngleMotor.set(0.1);
+     ShooterAngleMotor.set(0.1);
     } else {
-     // ShooterAngleMotor.stopMotor();
+     ShooterAngleMotor.stopMotor();
   
     }
   }
@@ -137,7 +135,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("shooter rpm 1", getRpmOutput1());
     SmartDashboard.putNumber("shooter rpm 2", getRpmOutput2());
-    SmartDashboard.putNumber("Shooter degree", getMappedOutput());
+    SmartDashboard.putNumber("Shooter deqqSAQEgree", getMappedOutput());
 
     if (getshooterswitchvalue()) {
       ShooterAngleEncoder.setPosition(0);
