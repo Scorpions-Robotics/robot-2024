@@ -60,7 +60,7 @@ import edu.wpi.first.math.proto.Trajectory;
 
 public class RobotContainer {
         private final IntakeSubsystem m_intake = new IntakeSubsystem();
-       // private final ShooterSubsystem m_shooter = new ShooterSubsystem();
+        // private final ShooterSubsystem m_shooter = new ShooterSubsystem();
         private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
         private final XboxController driverJoytick = new XboxController(1);
         private final XboxController subJoytick = new XboxController(3);
@@ -95,6 +95,7 @@ public class RobotContainer {
 
                // new JoystickButton(driverJoytick, 5).whileTrue(new RunTillSwitch(m_intake,false,m_feeder,m_joystick,m_shooter));
                 new JoystickButton(driverJoytick, 5).whileFalse(new InstantCommand(()->m_intake.StopNoteMotor()));
+                // new JoystickButton(subJoytick, 3).whileTrue(new ShooterSetDegree(m_shooter, ()->70.0));
 
             //  new JoystickButton(driverJoytick, 6).whileTrue(new FedX(m_intake, m_feeder, m_joystick,m_shooter));
 
@@ -226,8 +227,23 @@ public class RobotContainer {
                         TrajectoryGenerator.generateTrajectory(
                            new Pose2d(0, 0, new Rotation2d(0)),
                            List.of(new Translation2d(-1.28, 0),new Translation2d(-0.56, -0.91)),
-                           new Pose2d(-1.28, -1.44, new Rotation2d(0)),
+                           new Pose2d(-1.28, -1.44, new Rotation2d(3.1)),
                            trajectoryConfig);
+                        
+                        var trajectoryTwo =
+                           TrajectoryGenerator.generateTrajectory(
+                              new Pose2d(-1.28, -1.44, new Rotation2d(0)),
+                              List.of(new Translation2d(-1.28, 0),new Translation2d(0.5, -0.5)),
+                              new Pose2d(-0,0, new Rotation2d(0)),
+                              trajectoryConfig);
+
+                        var trajectoryThree =
+                              TrajectoryGenerator.generateTrajectory(
+                                 new Pose2d(0, 0, new Rotation2d(0)),
+                                 List.of(new Translation2d(1, 0),new Translation2d(1, -1)),
+                                 new Pose2d(0,0, new Rotation2d(2)),
+                                 trajectoryConfig);
+   
 
                         // var trajectoryOne =
                         //    TrajectoryGenerator.generateTrajectory(
@@ -255,7 +271,27 @@ public class RobotContainer {
                 swerveSubsystem::OtosetModuleStates,
                 swerveSubsystem);
 
-                return swerveControllerCommand;
+        SwerveControllerCommand swerveControllerCommand2 = new SwerveControllerCommand(
+                trajectoryTwo,
+                swerveSubsystem::getPose,
+                DriveConstants.kDriveKinematics,
+                xController,
+                yController,
+                thetaController,
+                swerveSubsystem::OtosetModuleStates,
+                swerveSubsystem);
+
+                SwerveControllerCommand swerveControllerCommand3 = new SwerveControllerCommand(
+                trajectoryThree,
+                swerveSubsystem::getPose,
+                DriveConstants.kDriveKinematics,
+                xController,
+                yController,
+                thetaController,
+                swerveSubsystem::OtosetModuleStates,
+                swerveSubsystem);
+
+                return swerveControllerCommand.andThen(swerveControllerCommand2).andThen(swerveControllerCommand3);
   // PathPlannerPath path = PathPlannerPath.fromPathFile("New New Path");
         // Create a path following command using AutoBuilder. This will also trigger event markers.
       //  return swerveSubsystem.autobuilder.followPath(path);

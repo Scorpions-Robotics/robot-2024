@@ -13,15 +13,13 @@ public class FeederRunTillSwitch extends Command {
 
 
   public FeederRunTillSwitch(FeederSubsystem m_feeder, boolean dursunmu) {
-
     this.m_feeder = m_feeder;
-
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -29,28 +27,22 @@ public class FeederRunTillSwitch extends Command {
   public void execute() {
 
 
-    boolean ilkswitch;
-
-    ilkswitch = m_feeder.detector();
-
 if(m_feeder.varmi){
-
-
-if(!dursunmu){
-
-  if(ilkswitch){
-    
-    m_feeder.backward2();
-    
-        }else{
-          m_feeder.varmifalse();
-          m_feeder.stop();
-        }
-      }
+if(m_feeder.detector()){
+m_feeder.backward2();
 }
+else{
+  m_feeder.stop();
+  m_feeder.varmifalse();
+
+}}
 
 
-  }
+
+
+
+
+}
 
   // Called once the command ends or is interrupted.
   @Override
