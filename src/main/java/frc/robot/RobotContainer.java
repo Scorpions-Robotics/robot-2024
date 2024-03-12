@@ -1,33 +1,32 @@
 package frc.robot;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.management.RuntimeErrorException;
-
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.ReplanningConfig;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.trajectory.Trajectory;
 //import edu.wpi.first.math.proto.Trajectory;
 //import edu.wpi.first.math.proto.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 //import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -56,17 +55,18 @@ import frc.robot.subsystems.JoystickSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem; 
 //import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import edu.wpi.first.math.proto.Trajectory;
-
 
 public class RobotContainer {
         private final IntakeSubsystem m_intake = new IntakeSubsystem();
-         private final ShooterSubsystem m_shooter = new ShooterSubsystem();
+        private final ShooterSubsystem m_shooter = new ShooterSubsystem();
         private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
         private final XboxController driverJoytick = new XboxController(1);
         private final XboxController subJoytick = new XboxController(3);
         private final FeederSubsystem m_feeder = new FeederSubsystem();
         private final JoystickSubsystem m_joystick = new JoystickSubsystem();
+
+        int autonomous_case = 1;
+
         public RobotContainer() {
 
                 swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
@@ -307,83 +307,140 @@ new JoystickButton(subJoytick, 3).whileTrue(new InstantCommand(()-> m_shooter.Sh
         //         AutoConstants.kMaxAccelerationMetersPerSecondSquared)
         //                 .setKinematics(DriveConstants.kDriveKinematics);
 
-        TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
-                4,
-                3)
-                        .setKinematics(DriveConstants.kDriveKinematics);
-
-                        var trajectoryOne =
-                        TrajectoryGenerator.generateTrajectory(
-                           new Pose2d(0, 0, new Rotation2d(0)),
-                           List.of(new Translation2d(-1.28, 0),new Translation2d(-0.56, -0.91)),
-                           new Pose2d(-1.28, -1.44, new Rotation2d(3.1)),
-                           trajectoryConfig);
-                        
-                        var trajectoryTwo =
-                           TrajectoryGenerator.generateTrajectory(
-                              new Pose2d(-1.28, -1.44, new Rotation2d(0)),
-                              List.of(new Translation2d(-1.28, 0),new Translation2d(0.5, -0.5)),
-                              new Pose2d(-0,0, new Rotation2d(0)),
-                              trajectoryConfig);
-
-                        var trajectoryThree =
-                              TrajectoryGenerator.generateTrajectory(
-                                 new Pose2d(0, 0, new Rotation2d(0)),
-                                 List.of(new Translation2d(1, 0),new Translation2d(1, -1)),
-                                 new Pose2d(0,0, new Rotation2d(2)),
-                                 trajectoryConfig);
-   
-
-                        // var trajectoryOne =
-                        //    TrajectoryGenerator.generateTrajectory(
-                        //         List.of(
-                        //                 new Pose2d(0, 0, new Rotation2d(0)),
-                        //                 new Pose2d(-1.4, -1.8, new Rotation2d(1.2)),
-                        //                 new Pose2d(0, -1, new Rotation2d(-2)),
-                        //                 new Pose2d(-1, -1, new Rotation2d(0))),
-                        //       trajectoryConfig);
-                        
-                        PIDController xController = new PIDController(0.08, 0, 0);
-                        PIDController yController = new PIDController(0.08, 0, 0);
+        PIDController xController = new PIDController(0.08, 0, 0);
+        PIDController yController = new PIDController(0.08, 0, 0);
         
         ProfiledPIDController thetaController = new ProfiledPIDController(
                 AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
-        SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
-                trajectoryOne,
-                swerveSubsystem::getPose,
-                DriveConstants.kDriveKinematics,
-                xController,
-                yController,
-                thetaController,
-                swerveSubsystem::OtosetModuleStates,
-                swerveSubsystem);
+        TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
+                4,
+                3)
+                        .setKinematics(DriveConstants.kDriveKinematics);
 
-        SwerveControllerCommand swerveControllerCommand2 = new SwerveControllerCommand(
-                trajectoryTwo,
-                swerveSubsystem::getPose,
-                DriveConstants.kDriveKinematics,
-                xController,
-                yController,
-                thetaController,
-                swerveSubsystem::OtosetModuleStates,
-                swerveSubsystem);
+        // Pathler
 
-                SwerveControllerCommand swerveControllerCommand3 = new SwerveControllerCommand(
-                trajectoryThree,
-                swerveSubsystem::getPose,
-                DriveConstants.kDriveKinematics,
-                xController,
-                yController,
-                thetaController,
-                swerveSubsystem::OtosetModuleStates,
-                swerveSubsystem);
+        var trajectoryOne =
+                TrajectoryGenerator.generateTrajectory(
+                  new Pose2d(0, 0, new Rotation2d(0)),
+                  List.of(new Translation2d(-1.28, 0),new Translation2d(-0.56, -0.91)),
+                  new Pose2d(-1.28, -1.44, new Rotation2d(3.1)),
+                trajectoryConfig);
+                        
+        var trajectoryTwo =
+                TrajectoryGenerator.generateTrajectory(
+                  new Pose2d(-1.28, -1.44, new Rotation2d(0)),
+                  List.of(new Translation2d(-1.28, 0),new Translation2d(0.5, -0.5)),
+                  new Pose2d(-0,0, new Rotation2d(0)),
+                trajectoryConfig);
 
-                return swerveControllerCommand.andThen(swerveControllerCommand2).andThen(swerveControllerCommand3);
-  // PathPlannerPath path = PathPlannerPath.fromPathFile("New New Path");
+        var trajectoryThree =
+                TrajectoryGenerator.generateTrajectory(
+                  new Pose2d(0, 0, new Rotation2d(0)),
+                  List.of(new Translation2d(1, 0),new Translation2d(1, -1)),
+                  new Pose2d(0,0, new Rotation2d(2)),
+                trajectoryConfig);
+
+        var goSecondNote =
+                TrajectoryGenerator.generateTrajectory(
+                  List.of(new Pose2d(0,0, new Rotation2d(0)),
+                  new Pose2d(-1.3,0, new Rotation2d(0))),
+                trajectoryConfig);
+
+        var secondNoteToSpeaker =
+                TrajectoryGenerator.generateTrajectory(
+                  List.of(new Pose2d(-1.3,0, new Rotation2d(0)),
+                  new Pose2d(0,0, new Rotation2d(0))),
+                trajectoryConfig);
+   
+
+        // var trajectoryOne =
+        //    TrajectoryGenerator.generateTrajectory(
+        //         List.of(
+        //                 new Pose2d(0, 0, new Rotation2d(0)),
+        //                 new Pose2d(-1.4, -1.8, new Rotation2d(1.2)),
+        //                 new Pose2d(0, -1, new Rotation2d(-2)),
+        //                 new Pose2d(-1, -1, new Rotation2d(0))),
+        //       trajectoryConfig);
+
+        // SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
+        //         trajectoryOne,
+        //         swerveSubsystem::getPose,
+        //         DriveConstants.kDriveKinematics,
+        //         xController,
+        //         yController,
+        //         thetaController,
+        //         swerveSubsystem::OtosetModuleStates,
+        //         swerveSubsystem);
+
+        // SwerveControllerCommand swerveControllerCommand2 = new SwerveControllerCommand(
+        //         trajectoryTwo,
+        //         swerveSubsystem::getPose,
+        //         DriveConstants.kDriveKinematics,
+        //         xController,
+        //         yController,
+        //         thetaController,
+        //         swerveSubsystem::OtosetModuleStates,
+        //         swerveSubsystem);
+
+        // SwerveControllerCommand swerveControllerCommand3 = new SwerveControllerCommand(
+        //         trajectoryThree,
+        //         swerveSubsystem::getPose,
+        //         DriveConstants.kDriveKinematics,
+        //         xController,
+        //         yController,
+        //         thetaController,
+        //         swerveSubsystem::OtosetModuleStates,
+        //         swerveSubsystem);
+
+        switch(autonomous_case) {
+                case 0: // Önce içindekini atacak sonrasında arkasındakini atıp atabiliyorsa onu oradan atacak sonra en arkadaki
+                return pathCommand(goSecondNote).andThen(pathCommand(secondNoteToSpeaker));
+
+                case 1: 
+
+                case 2:
+                            
+                default: return pathCommand(goSecondNote).andThen(pathCommand(secondNoteToSpeaker));
+                    }
+
+                         
+                
+        // return swerveControllerCommand.andThen(swerveControllerCommand2).andThen(swerveControllerCommand3);
+        // PathPlannerPath path = PathPlannerPath.fromPathFile("New New Path");
         // Create a path following command using AutoBuilder. This will also trigger event markers.
-      //  return swerveSubsystem.autobuilder.followPath(path);
+        // return swerveSubsystem.autobuilder.followPath(path);
 
         }
+
+
+        public SwerveControllerCommand pathCommand(Trajectory m_tra){
+                
+        PIDController xController = new PIDController(0.08, 0, 0);
+        PIDController yController = new PIDController(0.08, 0, 0);
+        
+        ProfiledPIDController thetaController = new ProfiledPIDController(
+                AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
+        thetaController.enableContinuousInput(-Math.PI, Math.PI);
+
+                TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
+                4,
+                3)
+                        .setKinematics(DriveConstants.kDriveKinematics);
+
+        SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
+                m_tra,
+                swerveSubsystem::getPose,
+                DriveConstants.kDriveKinematics,
+                xController,
+                yController,
+                thetaController,
+                swerveSubsystem::OtosetModuleStates,
+                swerveSubsystem);
+
+        return swerveControllerCommand;        
+
+        }
+
 }
