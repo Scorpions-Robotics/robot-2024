@@ -123,6 +123,7 @@ public class RobotContainer {
                 //new JoystickButton(subJoytick, 6).whileFalse(new InstantCommand(() -> m_feeder.stop()));
 
                 new JoystickButton(subJoytick, 2).whileTrue(new IntakeModeChange(m_joystick, 0));
+                //new JoystickButton(subJoytick, 2).whileTrue(new ShooterSetDegree(m_shooter, 30));
                 
 //once                 new JoystickButton(subJoytick, 2).whileTrue(new PidIntakeCommand(m_intake,1.3));
 
