@@ -71,8 +71,8 @@ public class RobotContainer {
 
                 swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
                                 swerveSubsystem,
-                                () -> -driverJoytick.getRawAxis(OIConstants.kDriverYAxis),
-                                () -> driverJoytick.getRawAxis(OIConstants.kDriverXAxis),
+                                () -> driverJoytick.getRawAxis(OIConstants.kDriverYAxis),
+                                () -> -driverJoytick.getRawAxis(OIConstants.kDriverXAxis),
                                 () -> driverJoytick.getRawAxis(OIConstants.kDriverRotAxis),
                                 () -> !driverJoytick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
 
@@ -98,6 +98,8 @@ public class RobotContainer {
 
 //buton 1
 new JoystickButton(driverJoytick, 1).whileTrue(new InstantCommand(()-> m_feeder.forward()));
+new JoystickButton(driverJoytick, 1).whileFalse(new InstantCommand(()-> m_feeder.stop()));
+
 
 //buton 2
 new JoystickButton(driverJoytick, 2).whileTrue(new InstantCommand(()-> m_feeder.backward()));
@@ -140,7 +142,7 @@ new JoystickButton(subJoytick, 3).whileFalse(new InstantCommand(()-> m_shooter.S
 // new JoystickButton(subJoytick, 3).whileTrue(new ShooterSetDegree(m_shooter, ()->70.0));
 
 //button 5 Amfi 
-// new JoystickButton(subJoytick, 3).whileTrue(new ShooterSetDegree(m_shooter, ()->70.0));
+ new JoystickButton(subJoytick, 5).whileTrue(new ShooterSetDegree(m_shooter, ()->180.0));
 
 
 

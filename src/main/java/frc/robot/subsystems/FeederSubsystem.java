@@ -57,7 +57,7 @@ public void varmifalse(){
         feedmotor.set(-0.6);
       }else{
         feedmotor.set(0.0);
-
+        
       }
   }
   

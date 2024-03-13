@@ -6,14 +6,17 @@ package frc.robot.commands.feeder;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.FeederSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
 public class FeederRunTillSwitch extends Command {
   FeederSubsystem m_feeder;
   boolean dursunmu;
+  IntakeSubsystem m_intake;
 
 
-  public FeederRunTillSwitch(FeederSubsystem m_feeder, boolean dursunmu) {
+  public FeederRunTillSwitch(FeederSubsystem m_feeder, boolean dursunmu, IntakeSubsystem m_intake) {
     this.m_feeder = m_feeder;
+    this.m_intake = m_intake;
   }
 
   // Called when the command is initially scheduled.
@@ -33,6 +36,7 @@ m_feeder.backward2();
 }
 else{
   m_feeder.stop();
+  m_intake.StopNoteMotor();
   m_feeder.varmifalse();
 
 }}

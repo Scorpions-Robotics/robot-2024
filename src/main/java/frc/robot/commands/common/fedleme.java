@@ -27,7 +27,7 @@ public class fedleme extends SequentialCommandGroup {
       new InstantCommand(()-> m_shooter.ShootertoFeederPos())
       .andThen(new IntakeModeChange(m_joystick, 0))
       .alongWith(new WaitCommand(1).andThen(new GetNote(m_intake)))
-      .alongWith(new FeederRunTillSwitch(m_feeder, false))
+      .alongWith(new FeederRunTillSwitch(m_feeder, false, m_intake))
 
 
 

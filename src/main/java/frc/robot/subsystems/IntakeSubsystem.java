@@ -20,10 +20,25 @@ public class IntakeSubsystem extends SubsystemBase {
   public DigitalInput intakedetector1 = new DigitalInput(8);
   public DigitalInput intakedetector2 = new DigitalInput(9);
   public boolean tekcalisma = true;
+  public boolean digeride = false;
 
   public IntakeSubsystem() {
     intakeMotor.setIdleMode(IdleMode.kBrake);
     IntakeEncoder = intakeMotor.getEncoder();
+  }
+
+  public void digeridetrue(){
+    digeride = true;
+
+  }
+
+  public void digeridefalse(){
+    digeride = false;
+
+  }
+
+  public boolean digeridedondur(){
+  return digeride;
   }
 
   public void brakemode() {

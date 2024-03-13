@@ -43,7 +43,7 @@ intakedeger = 1.6;
 break;
 
 case 1:
-intakedeger = 11.7;
+intakedeger = 12.5;
 break;
 }
 
@@ -59,7 +59,7 @@ switch (shootermod){
   break;
 
   case 2:
-  shooterdeger = 140;
+  shooterdeger = 164;
   break;
   }
   
