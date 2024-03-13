@@ -102,6 +102,9 @@ new JoystickButton(driverJoytick, 1).whileTrue(new InstantCommand(()-> m_feeder.
 //buton 2
 new JoystickButton(driverJoytick, 2).whileTrue(new InstantCommand(()-> m_feeder.backward()));
 
+new JoystickButton(driverJoytick, 2).whileFalse(new InstantCommand(()-> m_feeder.stop()));
+
+
 //button 3
 // TIRMANMA new JoystickButton(driverJoytick, 1).whileTrue(new InstantCommand(()-> m_feeder.forward()));
 
@@ -123,16 +126,15 @@ new JoystickButton(subJoytick, 1).whileFalse(new InstantCommand(()-> m_intake.St
 
 //buton 2
 new JoystickButton(subJoytick, 2).whileTrue(new fedleme(m_intake, m_feeder, m_joystick,m_shooter));
-new JoystickButton(driverJoytick, 2).whileTrue(new InstantCommand(()->m_feeder.varmitrue()));
-new JoystickButton(driverJoytick, 2).whileFalse(new InstantCommand(()->m_feeder.stop()));
-new JoystickButton(driverJoytick, 2).whileFalse(new InstantCommand(()->m_intake.StopNoteMotor()));
+new JoystickButton(subJoytick, 2).whileTrue(new InstantCommand(()->m_feeder.varmitrue()));
+new JoystickButton(subJoytick, 2).whileFalse(new InstantCommand(()->m_feeder.stop()));
+new JoystickButton(subJoytick, 2).whileFalse(new InstantCommand(()->m_intake.StopNoteMotor()));
 
 //buton 3 Shooter Manuel subbuffer
 new JoystickButton(subJoytick, 3).whileTrue(new ShooterSetDegree(m_shooter, ()->70.0));
-new JoystickButton(subJoytick, 3).whileTrue(new InstantCommand(()-> m_shooter.ShooterThrow1MotorOutput(0.9)));
-new JoystickButton(subJoytick, 3).whileTrue(new InstantCommand(()-> m_shooter.ShooterThrow1MotorOutput(-0.9)));
-new JoystickButton(subJoytick, 3).whileTrue(new InstantCommand(()-> m_shooter.ShooterThrow1MotorStop()));
-new JoystickButton(subJoytick, 3).whileTrue(new InstantCommand(()-> m_shooter.ShooterThrow2MotorStop()));
+new JoystickButton(subJoytick, 3).whileTrue(new InstantCommand(()-> m_shooter.ShooterThrowMotorOutput(-0.9)));
+new JoystickButton(subJoytick, 3).whileFalse(new InstantCommand(()-> m_shooter.ShooterThrow1MotorStop()));
+new JoystickButton(subJoytick, 3).whileFalse(new InstantCommand(()-> m_shooter.ShooterThrow2MotorStop()));
 
 //button 4 Shooter oto aim ve hız
 // new JoystickButton(subJoytick, 3).whileTrue(new ShooterSetDegree(m_shooter, ()->70.0));
