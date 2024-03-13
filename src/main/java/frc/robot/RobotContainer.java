@@ -31,6 +31,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.DriveConstants;
@@ -44,12 +45,14 @@ import frc.robot.commands.Shooter.PidSetRpm;
 import frc.robot.commands.Shooter.ShooterModeChange;
 import frc.robot.commands.Shooter.ShooterSetDegree;
 import frc.robot.commands.Swerve.SwerveJoystickCmd;
+import frc.robot.commands.autonomous.AutoNoteShoot;
 import frc.robot.commands.common.FeedingPosition;
 import frc.robot.commands.common.IntakeInputPosition;
 import frc.robot.commands.common.dalhacan;
 import frc.robot.commands.common.fedleme;
 import frc.robot.commands.common.pickup;
 import frc.robot.commands.feeder.FeederRunTillSwitch;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.JoystickSubsystem;
@@ -66,6 +69,7 @@ public class RobotContainer {
         private final XboxController driverJoytick = new XboxController(1);
         private final XboxController subJoytick = new XboxController(3);
         private final FeederSubsystem m_feeder = new FeederSubsystem();
+        private final ArmSubsystem m_arm = new ArmSubsystem();
         private final JoystickSubsystem m_joystick = new JoystickSubsystem();
         public int autonomous_case;
 
@@ -112,6 +116,17 @@ new JoystickButton(driverJoytick, 2).whileFalse(new InstantCommand(()-> m_feeder
 //button 3
 // TIRMANMA new JoystickButton(driverJoytick, 1).whileTrue(new InstantCommand(()-> m_feeder.forward()));
 
+new JoystickButton(driverJoytick, 5).whileTrue(new InstantCommand(()-> m_arm.leftarmup()));
+new JoystickButton(driverJoytick, 6).whileTrue(new InstantCommand(()-> m_arm.rightarmup()));
+
+new JoystickButton(driverJoytick, 7).whileTrue(new InstantCommand(()-> m_arm.leftarmdown()));
+new JoystickButton(driverJoytick, 8).whileTrue(new InstantCommand(()-> m_arm.rightarmdown()));
+
+new JoystickButton(driverJoytick, 5).whileFalse(new InstantCommand(()-> m_arm.leftarmstop()));
+new JoystickButton(driverJoytick, 6).whileFalse(new InstantCommand(()-> m_arm.rightarmstop()));
+
+new JoystickButton(driverJoytick, 7).whileFalse(new InstantCommand(()-> m_arm.leftarmstop()));
+new JoystickButton(driverJoytick, 8).whileFalse(new InstantCommand(()-> m_arm.rightarmstop()));
 
 /* 
  ____  _  _  ____  ____  ____  __  _  _  ____  ____ 
@@ -171,17 +186,17 @@ new JoystickButton(subJoytick, 3).whileFalse(new InstantCommand(()-> m_shooter.S
                 //Driver
                // new JoystickButton(driverJoytick, 8).whileTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
                 
-                new JoystickButton(driverJoytick, 6).whileTrue(new InstantCommand(()-> m_intake.pushNote()));
-                new JoystickButton(driverJoytick, 6).whileFalse(new InstantCommand(()->m_intake.StopNoteMotor()));
+                // new JoystickButton(driverJoytick, 6).whileTrue(new InstantCommand(()-> m_intake.pushNote()));
+                // new JoystickButton(driverJoytick, 6).whileFalse(new InstantCommand(()->m_intake.StopNoteMotor()));
 
 
               //  new JoystickButton(driverJoytick, 7).whileTrue(new InstantCommand(()-> m_joystick.shootermodchange(0)));
                 //new JoystickButton(driverJoytick, 8).whileTrue(new InstantCommand(()-> m_joystick.shootermodchange(1)));
 
-             new JoystickButton(subJoytick, 4).whileTrue(new fedleme(m_intake, m_feeder, m_joystick,m_shooter));
-             new JoystickButton(driverJoytick, 4).whileTrue(new InstantCommand(()->m_feeder.varmitrue()));
-             new JoystickButton(driverJoytick, 4).whileFalse(new InstantCommand(()->m_feeder.stop()));
-             new JoystickButton(driverJoytick, 4).whileFalse(new InstantCommand(()->m_intake.StopNoteMotor()));
+        //      new JoystickButton(subJoytick, 4).whileTrue(new fedleme(m_intake, m_feeder, m_joystick,m_shooter));
+        //      new JoystickButton(driverJoytick, 4).whileTrue(new InstantCommand(()->m_feeder.varmitrue()));
+        //      new JoystickButton(driverJoytick, 4).whileFalse(new InstantCommand(()->m_feeder.stop()));
+        //      new JoystickButton(driverJoytick, 4).whileFalse(new InstantCommand(()->m_intake.StopNoteMotor()));
 
 
 
@@ -329,17 +344,39 @@ new JoystickButton(subJoytick, 3).whileFalse(new InstantCommand(()-> m_shooter.S
         
                 var trajectoryOne =
                         TrajectoryGenerator.generateTrajectory(
-                          new Pose2d(0, 0, new Rotation2d(0)),
-                          List.of(new Translation2d(-1.28, 0),new Translation2d(-0.56, -0.91)),
-                          new Pose2d(-1.28, -1.44, new Rotation2d(3.1)),
+                          new Pose2d(-1, -1, new Rotation2d(0)),
+                          List.of(new Translation2d(0, -1)),
+                          new Pose2d(0.0, -1, new Rotation2d(0)),
                         trajectoryConfig);
+                
+                        // var trajectoryOne =
+                        // TrajectoryGenerator.generateTrajectory(
+                        //   new Pose2d(0, 0, new Rotation2d(0)),
+                        //   List.of(new Translation2d(-1.28, 0),new Translation2d(-0.56, -0.91)),
+                        //   new Pose2d(-1.28, -1.44, new Rotation2d(3.1)),
+                        // trajectoryConfig);
                                 
                 var trajectoryTwo =
                         TrajectoryGenerator.generateTrajectory(
-                          new Pose2d(-1.28, -1.44, new Rotation2d(0)),
+                          new Pose2d(-1.28, -1.44, new Rotation2d(3.1)),
                           List.of(new Translation2d(-1.28, 0),new Translation2d(0.5, -0.5)),
                           new Pose2d(-0,0, new Rotation2d(0)),
                         trajectoryConfig);
+
+                var trajectoryF =
+                        TrajectoryGenerator.generateTrajectory(
+                          new Pose2d(0, 0, new Rotation2d(0)),
+                          List.of(new Translation2d(-0.60, 0),new Translation2d(-1, 0)),
+                          new Pose2d(-1.28, 0, new Rotation2d(0)),
+                        trajectoryConfig);
+                                
+                var trajectoryP =
+                        TrajectoryGenerator.generateTrajectory(
+                          new Pose2d(-1.28, 0, new Rotation2d(0)),
+                          List.of(new Translation2d(-0.70, 0),new Translation2d(-0.35, 0)),
+                          new Pose2d(-0,0, new Rotation2d(0)),
+                        trajectoryConfig);
+
         
                 var trajectoryThree =
                         TrajectoryGenerator.generateTrajectory(
@@ -350,15 +387,17 @@ new JoystickButton(subJoytick, 3).whileFalse(new InstantCommand(()-> m_shooter.S
         
                 var goSecondNote =
                         TrajectoryGenerator.generateTrajectory(
-                          List.of(new Pose2d(0,0, new Rotation2d(0)),
-                          new Pose2d(-1.3,0, new Rotation2d(0))),
-                        trajectoryConfig);
+                        new Pose2d(0, 0, new Rotation2d(0)),
+                        List.of(new Translation2d(-1.3, 0)),
+                        new Pose2d(-1.3,0, new Rotation2d(0)),
+                      trajectoryConfig);
         
                 var secondNoteToSpeaker =
                         TrajectoryGenerator.generateTrajectory(
-                          List.of(new Pose2d(-1.3,0, new Rotation2d(0)),
-                          new Pose2d(0,0, new Rotation2d(0))),
-                        trajectoryConfig);
+                         new Pose2d(-1.3, 0, new Rotation2d(0)),
+                         List.of(new Translation2d(-1.3, 0),new Translation2d(0,0)),
+                         new Pose2d(0,0, new Rotation2d(0)),
+                      trajectoryConfig);
            
         
                 // var trajectoryOne =
@@ -400,19 +439,25 @@ new JoystickButton(subJoytick, 3).whileFalse(new InstantCommand(()-> m_shooter.S
                 //         swerveSubsystem::OtosetModuleStates,
                 //         swerveSubsystem);
         
-                switch(autonomous_case) {
-                        case 0: // Önce içindekini atacak sonrasında arkasındakini atıp atabiliyorsa onu oradan atacak sonra en arkadaki
-                        return pathCommand(goSecondNote).andThen(pathCommand(secondNoteToSpeaker));
+                // switch(autonomous_case) {
+                        
+                //         case 0: // Önce içindekini atacak sonrasında arkasındakini atıp atabiliyorsa onu oradan atacak sonra en arkadaki
+                //         return new AutoNoteShoot(m_shooter, m_feeder, () -> 70);
+                //         //Command(goSecondNote).andThen(pathCommand(secondNoteToSpeaker));
         
-                        case 1: 
+                //         case 1: 
         
-                        case 2:
+                //         case 2:
                                     
-                        default: return pathCommand(goSecondNote).andThen(pathCommand(secondNoteToSpeaker));
-                            }
+                //         default: return new AutoNoteShoot(m_shooter, m_feeder, () -> 70); 
+                //         //pathCommand(goSecondNote).andThen(pathCommand(secondNoteToSpeaker));
+                //         }
         
                                  
-                        
+                return new AutoNoteShoot(m_shooter, m_feeder, () -> 60).withTimeout(2).andThen(pathCommand(trajectoryOne));
+
+                //return pathCommand(trajectoryF).andThen(pathCommand(trajectoryP));
+
                 // return swerveControllerCommand.andThen(swerveControllerCommand2).andThen(swerveControllerCommand3);
                 // PathPlannerPath path = PathPlannerPath.fromPathFile("New New Path");
                 // Create a path following command using AutoBuilder. This will also trigger event markers.
