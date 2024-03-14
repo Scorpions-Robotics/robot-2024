@@ -1,9 +1,7 @@
 package frc.robot.commands.Shooter;
 
-import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants;
 import frc.robot.subsystems.NetworkSubsystem;
@@ -11,22 +9,27 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 public class VisionShooter extends PIDCommand {
 
-  public VisionShooter(ShooterSubsystem m_shooter, NetworkSubsystem m_network , DoubleSupplier angle) {
+  public VisionShooter(ShooterSubsystem m_shooter, NetworkSubsystem m_network) {
     super(
 
-        new PIDController(0.04,
-            0.03,
+        new PIDController(0.004,
+            0,
             Constants.values.shooter.PidShooterAngleKD),
         () -> m_network.getY(),
-        () -> 0,
+        () -> -100,
         output -> {
-
-          m_shooter.ShooterAngleMotorOutput(output * -.13);
+         /*  try {
+            m_shooter.ShooterAngleMotorOutput(output * .13);
+            Thread.sleep(150); // 2 saniye durakla
+            m_shooter.ShooterAngleMotorStop();
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+        }*/
+        m_shooter.ShooterAngleMotorOutput(output * .13);
 
         });
     addRequirements(m_shooter);
-    getController().setTolerance(Constants.values.shooter.PidShooterAngleTolerance);
-      SmartDashboard.putNumber("pid shooter gonderilen pozisyon", angle.getAsDouble());
+    getController().setTolerance(5);
 
   }
 

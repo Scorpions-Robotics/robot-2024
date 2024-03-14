@@ -3,15 +3,18 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.ConnectionInfo;
+// import edu.wpi.first.networktables.
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class NetworkSubsystem extends SubsystemBase {
 
   double apriltag_x_value;
   double apriltag_y_value;
 
-  public NetworkTableInstance inst = NetworkTableInstance.create();
+  public NetworkTableInstance inst = NetworkTableInstance.getDefault();
   //table
   public NetworkTable table = inst.getTable("vision");
 
@@ -23,7 +26,9 @@ public class NetworkSubsystem extends SubsystemBase {
   public NetworkTableEntry apriltag_y = networkTable.getEntry("apriltag_y");
 
   public NetworkSubsystem() {
-    inst.startServer("10.76.72.2");
+   // inst.setServerTeam(7672);
+    //inst.startServer("10.76.72.2");
+    inst.setServerTeam(7672);
   }
 
   public double getX(){
@@ -38,6 +43,9 @@ public class NetworkSubsystem extends SubsystemBase {
   public void periodic() {
     apriltag_x_value = apriltag_x.getDouble(0.0);
     apriltag_y_value = apriltag_y.getDouble(0.0);
+    SmartDashboard.putNumber("apriltag x value", apriltag_x_value);
+    SmartDashboard.putNumber("apriltag y value", apriltag_y_value);
+    SmartDashboard.putBoolean("connection",inst.isConnected());
   }
 
 
