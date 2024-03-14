@@ -109,6 +109,9 @@ public class RobotContainer {
 //buton 1
 new JoystickButton(driverJoytick, 1).whileTrue(new InstantCommand(()-> m_feeder.forward()));
 new JoystickButton(driverJoytick, 1).whileFalse(new InstantCommand(()-> m_feeder.stop()));
+new JoystickButton(driverJoytick, 1).whileTrue(new InstantCommand(()-> m_shooter.ShooterThrowMotorOutput(0.2)));
+new JoystickButton(driverJoytick, 1).whileFalse(new InstantCommand(()-> m_shooter.ShooterThrow1MotorStop()));
+new JoystickButton(driverJoytick, 1).whileFalse(new InstantCommand(()-> m_shooter.ShooterThrow2MotorStop()));
 
 
 //buton 2
@@ -132,6 +135,8 @@ new JoystickButton(driverJoytick, 6).whileFalse(new InstantCommand(()-> m_arm.ri
 new JoystickButton(driverJoytick, 7).whileFalse(new InstantCommand(()-> m_arm.leftarmstop()));
 new JoystickButton(driverJoytick, 8).whileFalse(new InstantCommand(()-> m_arm.rightarmstop()));
 
+
+
 /* 
  ____  _  _  ____  ____  ____  __  _  _  ____  ____ 
 / ___)/ )( \(  _ \(    \(  _ \(  )/ )( \(  __)(  _ \
@@ -154,8 +159,8 @@ new JoystickButton(subJoytick, 2).whileFalse(new InstantCommand(()->m_feeder.sto
 new JoystickButton(subJoytick, 2).whileFalse(new InstantCommand(()->m_intake.StopNoteMotor()));
 
 //buton 3 Shooter Manuel subbuffer
-new JoystickButton(subJoytick, 3).whileTrue(new VisionShooter(m_shooter, m_network));
-    new JoystickButton(subJoytick, 3).whileTrue(new InstantCommand(()-> m_shooter.ShooterThrowMotorOutput(-0.9)));
+//new JoystickButton(subJoytick, 3).whileTrue(new VisionShooter(m_shooter, m_network));
+new JoystickButton(subJoytick, 3).whileTrue(new InstantCommand(()-> m_shooter.ShooterThrowMotorOutput(-1)));
 new JoystickButton(subJoytick, 3).whileFalse(new InstantCommand(()-> m_shooter.ShooterThrow1MotorStop()));
 new JoystickButton(subJoytick, 3).whileFalse(new InstantCommand(()-> m_shooter.ShooterThrow2MotorStop()));
 
@@ -164,7 +169,10 @@ new JoystickButton(subJoytick, 3).whileFalse(new InstantCommand(()-> m_shooter.S
 
 //button 5 Amfi 
  new JoystickButton(subJoytick, 5).whileTrue(new ShooterSetDegree(m_shooter, ()->180.0));
-
+ new JoystickButton(subJoytick, 6).whileTrue(new ShooterSetDegree(m_shooter, ()->70.0));
+ new JoystickButton(subJoytick, 6).whileTrue(new InstantCommand(()-> m_shooter.ShooterThrowMotorOutput(-1)));
+ new JoystickButton(subJoytick, 6).whileFalse(new InstantCommand(()-> m_shooter.ShooterThrow1MotorStop()));
+ new JoystickButton(subJoytick, 6).whileFalse(new InstantCommand(()-> m_shooter.ShooterThrow2MotorStop()));
 
 
 

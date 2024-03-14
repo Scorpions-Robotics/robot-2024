@@ -13,6 +13,8 @@ public class NetworkSubsystem extends SubsystemBase {
 
   double apriltag_x_value;
   double apriltag_y_value;
+  boolean has_apriltag_value;
+
 
   public NetworkTableInstance inst = NetworkTableInstance.getDefault();
   //table
@@ -24,11 +26,16 @@ public class NetworkSubsystem extends SubsystemBase {
   //entry
   public NetworkTableEntry apriltag_x = networkTable.getEntry("apriltag_x");
   public NetworkTableEntry apriltag_y = networkTable.getEntry("apriltag_y");
+  public NetworkTableEntry has_apriltag = networkTable.getEntry("has_apriltag");
 
   public NetworkSubsystem() {
    // inst.setServerTeam(7672);
     //inst.startServer("10.76.72.2");
     inst.setServerTeam(7672);
+  }
+
+  public boolean hasApriltag(){
+    return has_apriltag_value;
   }
 
   public double getX(){
@@ -43,6 +50,9 @@ public class NetworkSubsystem extends SubsystemBase {
   public void periodic() {
     apriltag_x_value = apriltag_x.getDouble(0.0);
     apriltag_y_value = apriltag_y.getDouble(0.0);
+    has_apriltag_value = has_apriltag.getBoolean(false);
+    
+    SmartDashboard.putBoolean("Has apriltag", has_apriltag_value);
     SmartDashboard.putNumber("apriltag x value", apriltag_x_value);
     SmartDashboard.putNumber("apriltag y value", apriltag_y_value);
     SmartDashboard.putBoolean("connection",inst.isConnected());

@@ -45,6 +45,16 @@ public class ShooterSubsystem extends SubsystemBase {
 
   }
 
+  public boolean whichSide(){
+
+if(getMappedOutput() > 90){
+  return true;
+}
+else{
+  return false;
+}
+  }
+
   public void brakemode2() {
    ShooterThrowMotor2.setIdleMode(IdleMode.kBrake);
 

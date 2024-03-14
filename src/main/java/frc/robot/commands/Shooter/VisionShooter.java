@@ -16,7 +16,7 @@ public class VisionShooter extends PIDCommand {
             0,
             Constants.values.shooter.PidShooterAngleKD),
         () -> m_network.getY(),
-        () -> -100,
+        () -> -165,
         output -> {
          /*  try {
             m_shooter.ShooterAngleMotorOutput(output * .13);
@@ -25,9 +25,15 @@ public class VisionShooter extends PIDCommand {
           } catch (InterruptedException e) {
             e.printStackTrace();
         }*/
-        m_shooter.ShooterAngleMotorOutput(output * .13);
 
-        });
+
+
+
+
+
+  m_shooter.ShooterAngleMotorOutput(output * .13);
+});
+
     addRequirements(m_shooter);
     getController().setTolerance(5);
 
