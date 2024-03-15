@@ -13,10 +13,10 @@ public class VisionShooter extends PIDCommand {
     super(
 
         new PIDController(0.004,
-            0,
+            0.01,
             Constants.values.shooter.PidShooterAngleKD),
         () -> m_network.getY(),
-        () -> -165,
+        () -> m_network.getTarget(),
         output -> {
          /*  try {
             m_shooter.ShooterAngleMotorOutput(output * .13);
@@ -25,11 +25,6 @@ public class VisionShooter extends PIDCommand {
           } catch (InterruptedException e) {
             e.printStackTrace();
         }*/
-
-
-
-
-
 
   m_shooter.ShooterAngleMotorOutput(output * .13);
 });

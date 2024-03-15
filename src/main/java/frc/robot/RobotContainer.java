@@ -159,10 +159,10 @@ new JoystickButton(subJoytick, 2).whileFalse(new InstantCommand(()->m_feeder.sto
 new JoystickButton(subJoytick, 2).whileFalse(new InstantCommand(()->m_intake.StopNoteMotor()));
 
 //buton 3 Shooter Manuel subbuffer
-//new JoystickButton(subJoytick, 3).whileTrue(new VisionShooter(m_shooter, m_network));
-new JoystickButton(subJoytick, 3).whileTrue(new InstantCommand(()-> m_shooter.ShooterThrowMotorOutput(-1)));
-new JoystickButton(subJoytick, 3).whileFalse(new InstantCommand(()-> m_shooter.ShooterThrow1MotorStop()));
-new JoystickButton(subJoytick, 3).whileFalse(new InstantCommand(()-> m_shooter.ShooterThrow2MotorStop()));
+new JoystickButton(subJoytick, 3).whileTrue(new VisionShooter(m_shooter, m_network));
+new JoystickButton(subJoytick, 7).whileTrue(new InstantCommand(()-> m_shooter.ShooterThrowMotorOutput(-1)));
+new JoystickButton(subJoytick, 7).whileFalse(new InstantCommand(()-> m_shooter.ShooterThrow1MotorStop()));
+new JoystickButton(subJoytick, 7).whileFalse(new InstantCommand(()-> m_shooter.ShooterThrow2MotorStop()));
 
 //button 4 Shooter oto aim ve hız
 // new JoystickButton(subJoytick, 3).whileTrue(new ShooterSetDegree(m_shooter, ()->70.0));
