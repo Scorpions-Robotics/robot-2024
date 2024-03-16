@@ -365,13 +365,6 @@ new JoystickButton(subJoytick, 9).whileFalse(new InstantCommand(()-> m_intake.St
                                 .setKinematics(DriveConstants.kDriveKinematics);
         
                 // Pathler
-        
-                // var trajectoryOne =
-                //         TrajectoryGenerator.generateTrajectory(
-                //           new Pose2d(-1, -1, new Rotation2d(0)),
-                //           List.of(new Translation2d(0, -1)),
-                //           new Pose2d(0.0, -1, new Rotation2d(0)),
-                //         trajectoryConfig);
 
                 var trajectoryOne =
                         TrajectoryGenerator.generateTrajectory(
@@ -395,36 +388,6 @@ new JoystickButton(subJoytick, 9).whileFalse(new InstantCommand(()-> m_intake.St
                           List.of(new Translation2d(-0.4, -0.3),new Translation2d(-2, 0.0),
                           new Translation2d(0.0, 0.0)),
                           new Pose2d(-0.1,0, new Rotation2d(0)),
-                        trajectoryConfig);
-
-                var trajectoryF =
-                        TrajectoryGenerator.generateTrajectory(
-                          new Pose2d(0, 0, new Rotation2d(0)),
-                          List.of(new Translation2d(-0.60, 0),new Translation2d(-1, 0)),
-                          new Pose2d(-1.28, 0, new Rotation2d(0)),
-                        trajectoryConfig);
-                                
-                var trajectoryP =
-                        TrajectoryGenerator.generateTrajectory(
-                          new Pose2d(-1.28, 0, new Rotation2d(0)),
-                          List.of(new Translation2d(-0.70, 0),new Translation2d(-0.35, 0)),
-                          new Pose2d(-0,0, new Rotation2d(0)),
-                        trajectoryConfig);
-
-        
-                // var trajectoryThree =
-                //         TrajectoryGenerator.generateTrajectory(
-                //           new Pose2d(0, 0, new Rotation2d(0)),
-                //           List.of(new Translation2d(-0.5, -1),new Translation2d(-1.48, -1),new Translation2d(0, -1)
-                //           ,new Translation2d(0, -0.5)),
-                //           new Pose2d(0,-0.1, new Rotation2d(0)),
-                //         trajectoryConfig);
-
-                var topusikim =
-                        TrajectoryGenerator.generateTrajectory(
-                          List.of(new Pose2d(0, 0, new Rotation2d(0)),
-                          new Pose2d(-0.5, -1, new Rotation2d(0)),
-                          new Pose2d(-1.58, -1.2, new Rotation2d(Math.PI/6))),
                         trajectoryConfig);
                         
                 var note3path =
@@ -457,61 +420,6 @@ new JoystickButton(subJoytick, 9).whileFalse(new InstantCommand(()-> m_intake.St
                          List.of(new Translation2d(-1.3, 0),new Translation2d(0,0)),
                          new Pose2d(0,0, new Rotation2d(0)),
                       trajectoryConfig);
-           
-        
-                // var trajectoryOne =
-                //    TrajectoryGenerator.generateTrajectory(
-                //         List.of(
-                //                 new Pose2d(0, 0, new Rotation2d(0)),
-                //                 new Pose2d(-1.4, -1.8, new Rotation2d(1.2)),
-                //                 new Pose2d(0, -1, new Rotation2d(-2)),
-                //                 new Pose2d(-1, -1, new Rotation2d(0))),
-                //       trajectoryConfig);
-        
-                // SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
-                //         trajectoryOne,
-                //         swerveSubsystem::getPose,
-                //         DriveConstants.kDriveKinematics,
-                //         xController,
-                //         yController,
-                //         thetaController,
-                //         swerveSubsystem::OtosetModuleStates,
-                //         swerveSubsystem);
-        
-                // SwerveControllerCommand swerveControllerCommand2 = new SwerveControllerCommand(
-                //         trajectoryTwo,
-                //         swerveSubsystem::getPose,
-                //         DriveConstants.kDriveKinematics,
-                //         xController,
-                //         yController,
-                //         thetaController,
-                //         swerveSubsystem::OtosetModuleStates,
-                //         swerveSubsystem);
-        
-                // SwerveControllerCommand swerveControllerCommand3 = new SwerveControllerCommand(
-                //         trajectoryThree,
-                //         swerveSubsystem::getPose,
-                //         DriveConstants.kDriveKinematics,
-                //         xController,
-                //         yController,
-                //         thetaController,
-                //         swerveSubsystem::OtosetModuleStates,
-                //         swerveSubsystem);
-        
-                // switch(autonomous_case) {
-                        
-                //         case 0: // Önce içindekini atacak sonrasında arkasındakini atıp atabiliyorsa onu oradan atacak sonra en arkadaki
-                //         return new AutoNoteShoot(m_shooter, m_feeder, () -> 70);
-                //         //Command(goSecondNote).andThen(pathCommand(secondNoteToSpeaker));
-        
-                //         case 1: 
-        
-                //         case 2:
-                                    
-                //         default: return new AutoNoteShoot(m_shooter, m_feeder, () -> 70); 
-                //         //pathCommand(goSecondNote).andThen(pathCommand(secondNoteToSpeaker));
-                //         }
-                        // return null;
                                  
                 // return new AutoNoteShoot(m_shooter, m_feeder, () -> 55).withTimeout(2)
                 // .andThen(pathCommand(trajectoryOne).alongWith(new pickupforAuto(m_intake, m_joystick).withTimeout(3.8))
@@ -572,22 +480,19 @@ new JoystickButton(subJoytick, 9).whileFalse(new InstantCommand(()-> m_intake.St
                 // .andThen(new InstantCommand(()-> m_shooter.throwStop()))
                 // .andThen(new InstantCommand(()-> m_intake.StopNoteMotor()));
 
-                                return new AutoNoteShoot(m_shooter, m_feeder, () -> 64).withTimeout(2)
-                .andThen(pathCommand(trajectoryOne).alongWith(new pickupforAuto(m_intake, m_joystick).withTimeout(3.75))
-                .withTimeout(4.75)
-                .andThen(new InstantCommand(()-> m_intake.StopNoteMotor())
-                .andThen(new InstantCommand(()-> swerveSubsystem.stopModules()))))
-                .andThen(new otofeedleme(m_intake, m_feeder, m_joystick, m_shooter)).withTimeout(6.75)
-                .andThen(new InstantCommand(()-> m_intake.StopNoteMotor()))
-                .andThen(new AutoNoteShoot(m_shooter, m_feeder, ()-> 70)).withTimeout(8)
+                // İKİ NOTA
 
-                
-                // return new AutoNoteShoot(m_shooter, m_feeder, () -> 60).andThen(new SwerveJoystickCmd(swerveSubsystem, () -> -0.8, 
-                // () -> 0.0, () -> 0.0, () -> !driverJoytick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)).withTimeout(3))
-                // .alongWith(new pickupforAuto(m_intake, m_joystick)).withTimeout(3)
-                // .andThen(new AutoNoteShoot(m_shooter, m_feeder, ()-> 40));
+                // return new AutoNoteShoot(m_shooter, m_feeder, () -> 64).withTimeout(2)
+                // .andThen(pathCommand(trajectoryOne).alongWith(new pickupforAuto(m_intake, m_joystick).withTimeout(3.75))
+                // .withTimeout(4.75)
+                // .andThen(new InstantCommand(()-> m_intake.StopNoteMotor())
+                // .andThen(new InstantCommand(()-> swerveSubsystem.stopModules()))))
+                // .andThen(new otofeedleme(m_intake, m_feeder, m_joystick, m_shooter)).withTimeout(6.75)
+                // .andThen(new InstantCommand(()-> m_intake.StopNoteMotor()))
+                // .andThen(new AutoNoteShoot(m_shooter, m_feeder, ()-> 70)).withTimeout(8);
 
-                //İKİ NOTA
+                // İKİ NOTA ESKİ
+
                 // return new AutoNoteShoot(m_shooter, m_feeder, () -> 60).withTimeout(2)
                 // .andThen(pathCommand(trajectoryOne).alongWith(new pickupforAuto(m_intake, m_joystick).withTimeout(4))
                 // .withTimeout(5)
@@ -596,17 +501,14 @@ new JoystickButton(subJoytick, 9).whileFalse(new InstantCommand(()-> m_intake.St
                 // .andThen(new InstantCommand(()-> m_joystick.intakemodchange(0)))
                 // .andThen(new fedleme(m_intake, m_feeder, m_joystick, m_shooter)).withTimeout(8.5)
                 // .andThen(new AutoNoteShoot(m_shooter, m_feeder, ()-> 60));
-                        
-                // .andThen((pathCommand(trajectoryOne).alongWith(new pickupforAuto(m_intake, m_joystick).withTimeout(3))
-                // .andThen(new fedleme(m_intake, m_feeder, m_joystick, m_shooter)).withTimeout(1)));
-                // .andThen(new AutoNoteShoot(m_shooter, m_feeder, () -> 60));
 
-                //return pathCommand(trajectoryF).andThen(pathCommand(trajectoryP));
+                // BİR NOTA
 
-                // return swerveControllerCommand.andThen(swerveControllerCommand2).andThen(swerveControllerCommand3);
-                // PathPlannerPath path = PathPlannerPath.fromPathFile("New New Path");
-                // Create a path following command using AutoBuilder. This will also trigger event markers.
-                // return swerveSubsystem.autobuilder.followPath(path);
+                // return new AutoNoteShoot(m_shooter, m_feeder, () -> 55).withTimeout(3);
+
+                // sıfır nota (kullanmanız tavsiye olunmaz)
+
+                return null;
         
                 }
         

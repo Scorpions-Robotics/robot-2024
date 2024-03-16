@@ -206,12 +206,12 @@ public static AutoBuilder autoBuilder = new AutoBuilder();
       backRight.getPosition()
         });
 
-     SmartDashboard.putNumber("Robot Heading", getHeading());
-     SmartDashboard.putString("Robot Anglue Value", getRotation2d().toString());
-     SmartDashboard.putString("Robot Location",
-     getPose().getTranslation().toString());
+    SmartDashboard.putNumber("Robot Heading", getHeading());
+    SmartDashboard.putString("Robot Anglue Value", getRotation2d().toString());
+    SmartDashboard.putString("Robot Location",
+    getPose().getTranslation().toString());
      
     SmartDashboard.putNumber("gyro", getHeading());
-
+    SmartDashboard.putString("ÇINAR VE TALHAYA MESAJ", "YAPACAKSANIZ LAN YAPACAKSANIZ BAŞKA ŞANSINIZ YOK TAMAM MI LAN BAŞKA ŞANSINIZ YOK GİDİN ORTALIĞI FETH EDİN - İRFAN + RCP");
   }
 }
