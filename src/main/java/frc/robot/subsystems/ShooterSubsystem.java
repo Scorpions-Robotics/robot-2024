@@ -44,6 +44,11 @@ public class ShooterSubsystem extends SubsystemBase {
    ShooterThrowMotor1.setIdleMode(IdleMode.kBrake);
 
   }
+  public void throwStop(){
+    ShooterThrow1MotorStop();
+    ShooterThrow2MotorStop();
+
+  }
 
   public boolean whichSide(){
 

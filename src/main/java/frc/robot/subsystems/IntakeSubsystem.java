@@ -69,6 +69,9 @@ public class IntakeSubsystem extends SubsystemBase {
   public void getNote() {
     intakeMotor1.set(0.67);
   }
+  public void otogetNote() {
+    intakeMotor1.set(0.7);
+  }
 
 
   public void pushNote() {
@@ -114,6 +117,15 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public Boolean intakeswitch2() {
     return intakedetector2.get();
+  }
+
+  public Boolean intakeTwoStich(){
+    if(!intakedetector2.get()|| !intakedetector1.get()){
+      return true;
+    }
+    else{
+      return false;
+    }
   }
 
   @Override

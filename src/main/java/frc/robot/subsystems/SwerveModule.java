@@ -122,8 +122,8 @@ public class SwerveModule extends SubsystemBase {
       return;
     }
     state = SwerveModuleState.optimize(state, getState().angle);
-    driveMotor.set(2 * (state.speedMetersPerSecond) / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
-    turningMotor.set((turningPidController.calculate(getTurningPosition(), state.angle.getRadians())));
+    driveMotor.set(4 * (state.speedMetersPerSecond) / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
+    turningMotor.set(0.5*(turningPidController.calculate(getTurningPosition(), state.angle.getRadians())));
     SmartDashboard.putString("Swerve[" + absoluteEncoder.getDeviceID() + "] state", state.toString());
     SmartDashboard.putNumber("status",
         (state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond) * 3);

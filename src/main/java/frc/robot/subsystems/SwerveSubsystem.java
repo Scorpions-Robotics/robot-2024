@@ -135,6 +135,10 @@ public static AutoBuilder autoBuilder = new AutoBuilder();
    public Pose2d getPose() {
    return odometer.getPoseMeters();
    }
+   public void resetGyro() {
+    gyro.reset();
+  }
+
 
 
   

@@ -41,8 +41,12 @@ public void varmifalse(){
   }
 
   public void backward2() {
+    feedmotor.set(-0.54);
+  }
+  public void otobackward2() {
     feedmotor.set(-0.70);
   }
+
 
   public void backward() {
     feedmotor.set(-0.9);

@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -44,6 +45,7 @@ import frc.robot.commands.Intake.RunTillSwitch;
 import frc.robot.commands.Shooter.PidSetRpm;
 import frc.robot.commands.Shooter.ShooterModeChange;
 import frc.robot.commands.Shooter.ShooterSetDegree;
+import frc.robot.commands.Shooter.TurnForShooter;
 import frc.robot.commands.Shooter.VisionShooter;
 import frc.robot.commands.Swerve.SwerveJoystickCmd;
 import frc.robot.commands.autonomous.AutoNoteShoot;
@@ -51,7 +53,9 @@ import frc.robot.commands.common.FeedingPosition;
 import frc.robot.commands.common.IntakeInputPosition;
 import frc.robot.commands.common.dalhacan;
 import frc.robot.commands.common.fedleme;
+import frc.robot.commands.common.otofeedleme;
 import frc.robot.commands.common.pickup;
+import frc.robot.commands.common.pickupforAuto;
 import frc.robot.commands.feeder.FeederRunTillSwitch;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
@@ -65,27 +69,25 @@ import edu.wpi.first.math.trajectory.Trajectory;
 
 
 public class RobotContainer {
-        private final IntakeSubsystem m_intake = new IntakeSubsystem();
-         private final ShooterSubsystem m_shooter = new ShooterSubsystem();
-        private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-        private final XboxController driverJoytick = new XboxController(1);
-        private final XboxController subJoytick = new XboxController(3);
-        private final FeederSubsystem m_feeder = new FeederSubsystem();
-         private final ArmSubsystem m_arm = new ArmSubsystem();
-        private final JoystickSubsystem m_joystick = new JoystickSubsystem();
+        public final IntakeSubsystem m_intake = new IntakeSubsystem();
+        public final ShooterSubsystem m_shooter = new ShooterSubsystem();
+        public final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+        public final XboxController driverJoytick = new XboxController(0);
+        public final XboxController subJoytick = new XboxController(1);
+        public final FeederSubsystem m_feeder = new FeederSubsystem();
+        public final ArmSubsystem m_arm = new ArmSubsystem();
+        public final JoystickSubsystem m_joystick = new JoystickSubsystem();
         NetworkSubsystem m_network = new NetworkSubsystem();
         
         public int autonomous_case;
 
         public RobotContainer() {
-
                 swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
                                 swerveSubsystem,
                                 () -> driverJoytick.getRawAxis(OIConstants.kDriverYAxis),
                                 () -> -driverJoytick.getRawAxis(OIConstants.kDriverXAxis),
                                 () -> driverJoytick.getRawAxis(OIConstants.kDriverRotAxis),
                                 () -> !driverJoytick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
-
 
         m_intake.setDefaultCommand(new PidIntakeCommand(m_intake,() -> m_joystick.getintakevalue()));
         //m_shooter.setDefaultCommand(new ShooterSetDegree(m_shooter, () -> m_joystick.getshootervalue()));
@@ -124,29 +126,27 @@ new JoystickButton(driverJoytick, 2).whileFalse(new InstantCommand(()-> m_feeder
 // TIRMANMA new JoystickButton(driverJoytick, 1).whileTrue(new InstantCommand(()-> m_feeder.forward()));
 
 new JoystickButton(driverJoytick, 5).whileTrue(new InstantCommand(()-> m_arm.leftarmup()));
-new JoystickButton(driverJoytick, 6).whileTrue(new InstantCommand(()-> m_arm.rightarmup()));
-
-new JoystickButton(driverJoytick, 7).whileTrue(new InstantCommand(()-> m_arm.leftarmdown()));
-new JoystickButton(driverJoytick, 8).whileTrue(new InstantCommand(()-> m_arm.rightarmdown()));
-
 new JoystickButton(driverJoytick, 5).whileFalse(new InstantCommand(()-> m_arm.leftarmstop()));
+
+new JoystickButton(driverJoytick, 6).whileTrue(new InstantCommand(()-> m_arm.rightarmup()));
 new JoystickButton(driverJoytick, 6).whileFalse(new InstantCommand(()-> m_arm.rightarmstop()));
 
+
+new JoystickButton(driverJoytick, 7).whileTrue(new InstantCommand(()-> m_arm.leftarmdown()));
 new JoystickButton(driverJoytick, 7).whileFalse(new InstantCommand(()-> m_arm.leftarmstop()));
+
+
+new JoystickButton(driverJoytick, 8).whileTrue(new InstantCommand(()-> m_arm.rightarmdown()));
 new JoystickButton(driverJoytick, 8).whileFalse(new InstantCommand(()-> m_arm.rightarmstop()));
 
-
+new JoystickButton(driverJoytick, 10).whileTrue(new InstantCommand(()-> swerveSubsystem.resetGyro()));
 
 /* 
- ____  _  _  ____  ____  ____  __  _  _  ____  ____ 
+ ____  _  _  ____  ____  ____  __  _  _  ____  ____
 / ___)/ )( \(  _ \(    \(  _ \(  )/ )( \(  __)(  _ \
-\___ \) \/ ( ) _ ( ) D ( )   / )( \ \/ / ) _)  )   /
+\___ \) \/ ( ) _ ( ) D ) )   / )( \ \/ / ) _)  )   /
 (____/\____/(____/(____/(__\_)(__) \__/ (____)(__\_)
 */
-
-
-
-
 //buton 1
 new JoystickButton(subJoytick, 1).whileTrue(new pickup(m_intake, m_joystick));
 new JoystickButton(subJoytick, 1).whileFalse(new InstantCommand(()-> m_intake.StopNoteMotor()));
@@ -160,23 +160,35 @@ new JoystickButton(subJoytick, 2).whileFalse(new InstantCommand(()->m_intake.Sto
 
 //buton 3 Shooter Manuel subbuffer
 new JoystickButton(subJoytick, 3).whileTrue(new VisionShooter(m_shooter, m_network));
+new JoystickButton(subJoytick, 3).whileTrue(new TurnForShooter(m_network, swerveSubsystem));
+
+//new JoystickButton(subJoytick, 3).whileTrue(new InstantCommand(() -> m_joystick.shooterdegistiraktif()));
+//new JoystickButton(subJoytick, 3).whileTrue(new InstantCommand(() -> m_joystick.shooterkayma(m_shooter.getMappedOutput())));
+
+//new JoystickButton(subJoytick, 7).whileTrue(new ShooterSetDegree(m_shooter, () -> m_joystick.returnshooterdegeri()));
 new JoystickButton(subJoytick, 7).whileTrue(new InstantCommand(()-> m_shooter.ShooterThrowMotorOutput(-1)));
 new JoystickButton(subJoytick, 7).whileFalse(new InstantCommand(()-> m_shooter.ShooterThrow1MotorStop()));
 new JoystickButton(subJoytick, 7).whileFalse(new InstantCommand(()-> m_shooter.ShooterThrow2MotorStop()));
 
-//button 4 Shooter oto aim ve hız
-// new JoystickButton(subJoytick, 3).whileTrue(new ShooterSetDegree(m_shooter, ()->70.0));
-
+//button 4 intake push
+new JoystickButton(subJoytick, 4).whileTrue(new ShooterSetDegree(m_shooter, ()-> 82.0));
+new JoystickButton(subJoytick, 4).whileTrue(new InstantCommand(()-> m_shooter.ShooterThrowMotorOutput(0.5)));
+new JoystickButton(subJoytick, 4).whileFalse(new InstantCommand(()-> m_shooter.ShooterThrow1MotorStop()));
+ new JoystickButton(subJoytick, 4).whileFalse(new InstantCommand(()-> m_shooter.ShooterThrow2MotorStop()));
 //button 5 Amfi 
  new JoystickButton(subJoytick, 5).whileTrue(new ShooterSetDegree(m_shooter, ()->180.0));
- new JoystickButton(subJoytick, 6).whileTrue(new ShooterSetDegree(m_shooter, ()->70.0));
+ new JoystickButton(subJoytick, 6).whileTrue(new ShooterSetDegree(m_shooter, ()->73.0));
  new JoystickButton(subJoytick, 6).whileTrue(new InstantCommand(()-> m_shooter.ShooterThrowMotorOutput(-1)));
  new JoystickButton(subJoytick, 6).whileFalse(new InstantCommand(()-> m_shooter.ShooterThrow1MotorStop()));
  new JoystickButton(subJoytick, 6).whileFalse(new InstantCommand(()-> m_shooter.ShooterThrow2MotorStop()));
 
+ new JoystickButton(subJoytick, 8).whileTrue(new ShooterSetDegree(m_shooter, ()->160.0));
+ new JoystickButton(subJoytick, 8).whileTrue(new InstantCommand(()-> m_shooter.ShooterThrowMotorOutput(-1)));
+ new JoystickButton(subJoytick, 8).whileFalse(new InstantCommand(()-> m_shooter.ShooterThrow1MotorStop()));
+ new JoystickButton(subJoytick, 8).whileFalse(new InstantCommand(()-> m_shooter.ShooterThrow2MotorStop()));
 
-
-
+new JoystickButton(subJoytick, 9).whileTrue(new InstantCommand(()-> m_intake.pushNote()));
+new JoystickButton(subJoytick, 9).whileFalse(new InstantCommand(()-> m_intake.StopNoteMotor()));
 
 
 
@@ -354,25 +366,35 @@ new JoystickButton(subJoytick, 7).whileFalse(new InstantCommand(()-> m_shooter.S
         
                 // Pathler
         
+                // var trajectoryOne =
+                //         TrajectoryGenerator.generateTrajectory(
+                //           new Pose2d(-1, -1, new Rotation2d(0)),
+                //           List.of(new Translation2d(0, -1)),
+                //           new Pose2d(0.0, -1, new Rotation2d(0)),
+                //         trajectoryConfig);
+
                 var trajectoryOne =
                         TrajectoryGenerator.generateTrajectory(
-                          new Pose2d(-1, -1, new Rotation2d(0)),
-                          List.of(new Translation2d(0, -1)),
-                          new Pose2d(0.0, -1, new Rotation2d(0)),
+                          List.of(new Pose2d(0.0, 0.0, new Rotation2d(0.0)),
+                          new Pose2d(-1.28, -0.02, new Rotation2d(0.0)),
+                          new Pose2d(0.0, 0.0, new Rotation2d(0.0))),
                         trajectoryConfig);
                 
-                        // var trajectoryOne =
-                        // TrajectoryGenerator.generateTrajectory(
-                        //   new Pose2d(0, 0, new Rotation2d(0)),
-                        //   List.of(new Translation2d(-1.28, 0),new Translation2d(-0.56, -0.91)),
-                        //   new Pose2d(-1.28, -1.44, new Rotation2d(3.1)),
-                        // trajectoryConfig);
+                // var trajectoryOne =
+                //         TrajectoryGenerator.generateTrajectory(
+                //           new Pose2d(0, 0, new Rotation2d(0)),
+                //           List.of(new Translation2d(-1.28, 0),
+                //           new Translation2d(-1.28, 0),
+                //           new Translation2d(-1.28, 0)),
+                //           new Pose2d(0, 0, new Rotation2d(0)),
+                //         trajectoryConfig);
                                 
                 var trajectoryTwo =
                         TrajectoryGenerator.generateTrajectory(
-                          new Pose2d(-1.28, -1.44, new Rotation2d(3.1)),
-                          List.of(new Translation2d(-1.28, 0),new Translation2d(0.5, -0.5)),
-                          new Pose2d(-0,0, new Rotation2d(0)),
+                          new Pose2d(0, 0, new Rotation2d(0)),
+                          List.of(new Translation2d(-0.4, -0.3),new Translation2d(-2, 0.0),
+                          new Translation2d(0.0, 0.0)),
+                          new Pose2d(-0.1,0, new Rotation2d(0)),
                         trajectoryConfig);
 
                 var trajectoryF =
@@ -390,11 +412,36 @@ new JoystickButton(subJoytick, 7).whileFalse(new InstantCommand(()-> m_shooter.S
                         trajectoryConfig);
 
         
-                var trajectoryThree =
+                // var trajectoryThree =
+                //         TrajectoryGenerator.generateTrajectory(
+                //           new Pose2d(0, 0, new Rotation2d(0)),
+                //           List.of(new Translation2d(-0.5, -1),new Translation2d(-1.48, -1),new Translation2d(0, -1)
+                //           ,new Translation2d(0, -0.5)),
+                //           new Pose2d(0,-0.1, new Rotation2d(0)),
+                //         trajectoryConfig);
+
+                var topusikim =
+                        TrajectoryGenerator.generateTrajectory(
+                          List.of(new Pose2d(0, 0, new Rotation2d(0)),
+                          new Pose2d(-0.5, -1, new Rotation2d(0)),
+                          new Pose2d(-1.58, -1.2, new Rotation2d(Math.PI/6))),
+                        trajectoryConfig);
+                        
+                var note3path =
                         TrajectoryGenerator.generateTrajectory(
                           new Pose2d(0, 0, new Rotation2d(0)),
-                          List.of(new Translation2d(1, 0),new Translation2d(1, -1)),
-                          new Pose2d(0,0, new Rotation2d(2)),
+                          List.of(new Translation2d(-0.5, -1),new Translation2d(-1.0, -1.6),
+                          new Translation2d(-1.58, -1.6)
+                          ),
+                          new Pose2d(-1.28,0,new Rotation2d(0)),
+                        trajectoryConfig);
+
+
+                var trajectorymidtopoint =
+                        TrajectoryGenerator.generateTrajectory(
+                          new Pose2d(0, 0, new Rotation2d(0)),
+                          List.of(new Translation2d(0.5, 0),new Translation2d(1, 0.1)),
+                          new Pose2d(0,0, new Rotation2d(0)),
                         trajectoryConfig);
         
                 var goSecondNote =
@@ -464,9 +511,95 @@ new JoystickButton(subJoytick, 7).whileFalse(new InstantCommand(()-> m_shooter.S
                 //         default: return new AutoNoteShoot(m_shooter, m_feeder, () -> 70); 
                 //         //pathCommand(goSecondNote).andThen(pathCommand(secondNoteToSpeaker));
                 //         }
-        
+                        // return null;
                                  
-                return new AutoNoteShoot(m_shooter, m_feeder, () -> 60).withTimeout(2).andThen(pathCommand(trajectoryOne));
+                // return new AutoNoteShoot(m_shooter, m_feeder, () -> 55).withTimeout(2)
+                // .andThen(pathCommand(trajectoryOne).alongWith(new pickupforAuto(m_intake, m_joystick).withTimeout(3.8))
+                // .withTimeout(5)
+                // .andThen(new InstantCommand(()-> m_intake.StopNoteMotor())
+                // .andThen(new InstantCommand(()-> swerveSubsystem.stopModules()))))
+                // .andThen(new fedleme(m_intake, m_feeder, m_joystick, m_shooter)).withTimeout(8.5)
+                // .andThen(new InstantCommand(()-> m_intake.StopNoteMotor()))
+                // .andThen(new AutoNoteShoot(m_shooter, m_feeder, ()-> 100))
+                // .andThen(pathCommand(trajectoryTwo).alongWith(new pickupforAuto(m_intake, m_joystick).withTimeout(11.5))
+                // .alongWith(new InstantCommand(()-> m_intake.StopNoteMotor())
+                // .andThen(new InstantCommand(()-> m_shooter.throwStop()))
+                // .andThen(new InstantCommand(()-> swerveSubsystem.stopModules()))))
+                // .andThen(new fedleme(m_intake, m_feeder, m_joystick, m_shooter)).withTimeout(13)
+                // .andThen(new InstantCommand(()-> m_intake.StopNoteMotor())).andThen(new AutoNoteShoot(m_shooter,m_feeder,() -> 100)).
+                // withTimeout(14.9)
+                // .andThen(new InstantCommand(()-> m_shooter.throwStop()));
+
+                // return new AutoNoteShoot(m_shooter, m_feeder, () -> 50).withTimeout(2)
+                // .andThen(pathCommand(trajectoryOne).alongWith(new pickupforAuto(m_intake, m_joystick).withTimeout(3.75))
+                // .withTimeout(4.75)
+                // .andThen(new InstantCommand(()-> m_intake.StopNoteMotor())
+                // .andThen(new InstantCommand(()-> swerveSubsystem.stopModules()))))
+                // .andThen(new otofeedleme(m_intake, m_feeder, m_joystick, m_shooter)).withTimeout(6.75)
+                // .andThen(new InstantCommand(()-> m_intake.StopNoteMotor()))
+                // .andThen(new AutoNoteShoot(m_shooter, m_feeder, ()-> 70)).withTimeout(8)
+                // .andThen(pathCommand(trajectoryThree).alongWith(new pickupforAuto(m_intake, m_joystick).withTimeout(10))
+                // .alongWith(new InstantCommand(()-> m_intake.StopNoteMotor())
+                // .andThen(new InstantCommand(()-> m_shooter.throwStop()))
+                // .andThen(new InstantCommand(()-> swerveSubsystem.stopModules())
+                // .withTimeout(11.5)))).withTimeout(12.5)
+                // .andThen(new otofeedleme(m_intake, m_feeder, m_joystick, m_shooter)).withTimeout(13.5)
+                // .andThen(new AutoNoteShoot(m_shooter,m_feeder,() -> 70))
+                // .withTimeout(14.5)
+                // .andThen(new InstantCommand(()-> m_shooter.throwStop()))
+                // .andThen(new InstantCommand(()-> m_intake.StopNoteMotor()));
+
+                // ÜÇ NOTA
+                
+                // return new AutoNoteShoot(m_shooter, m_feeder, () -> 64).withTimeout(2)
+                // .andThen(pathCommand(trajectoryOne).alongWith(new pickupforAuto(m_intake, m_joystick).withTimeout(3.75))
+                // .withTimeout(4.75)
+                // .andThen(new InstantCommand(()-> m_intake.StopNoteMotor())
+                // .andThen(new InstantCommand(()-> swerveSubsystem.stopModules()))))
+                // .andThen(new otofeedleme(m_intake, m_feeder, m_joystick, m_shooter)).withTimeout(6.75)
+                // .andThen(new InstantCommand(()-> m_intake.StopNoteMotor()))
+                // .andThen(new AutoNoteShoot(m_shooter, m_feeder, ()-> 70)).withTimeout(8)
+                // .andThen(pathCommand(note3path).alongWith(new pickupforAuto(m_intake, m_joystick).withTimeout(9.5))
+                // .alongWith(new InstantCommand(()-> m_intake.StopNoteMotor())
+                // .andThen(new InstantCommand(()-> m_shooter.throwStop()))
+                // .andThen(new InstantCommand(()-> swerveSubsystem.stopModules())
+                // .withTimeout(10.5)))).
+                // withTimeout(11)
+                // .andThen(new InstantCommand(()-> swerveSubsystem.stopModules()))
+                // .andThen(new otofeedleme(m_intake, m_feeder, m_joystick, m_shooter)).withTimeout(13.5)
+                // .andThen(new AutoNoteShoot(m_shooter,m_feeder,() -> 47))
+                // .withTimeout(14.6)
+                // .andThen(new InstantCommand(()-> m_shooter.throwStop()))
+                // .andThen(new InstantCommand(()-> m_intake.StopNoteMotor()));
+
+                                return new AutoNoteShoot(m_shooter, m_feeder, () -> 64).withTimeout(2)
+                .andThen(pathCommand(trajectoryOne).alongWith(new pickupforAuto(m_intake, m_joystick).withTimeout(3.75))
+                .withTimeout(4.75)
+                .andThen(new InstantCommand(()-> m_intake.StopNoteMotor())
+                .andThen(new InstantCommand(()-> swerveSubsystem.stopModules()))))
+                .andThen(new otofeedleme(m_intake, m_feeder, m_joystick, m_shooter)).withTimeout(6.75)
+                .andThen(new InstantCommand(()-> m_intake.StopNoteMotor()))
+                .andThen(new AutoNoteShoot(m_shooter, m_feeder, ()-> 70)).withTimeout(8)
+
+                
+                // return new AutoNoteShoot(m_shooter, m_feeder, () -> 60).andThen(new SwerveJoystickCmd(swerveSubsystem, () -> -0.8, 
+                // () -> 0.0, () -> 0.0, () -> !driverJoytick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)).withTimeout(3))
+                // .alongWith(new pickupforAuto(m_intake, m_joystick)).withTimeout(3)
+                // .andThen(new AutoNoteShoot(m_shooter, m_feeder, ()-> 40));
+
+                //İKİ NOTA
+                // return new AutoNoteShoot(m_shooter, m_feeder, () -> 60).withTimeout(2)
+                // .andThen(pathCommand(trajectoryOne).alongWith(new pickupforAuto(m_intake, m_joystick).withTimeout(4))
+                // .withTimeout(5)
+                // .andThen(new InstantCommand(()-> m_intake.StopNoteMotor())
+                // .andThen(new InstantCommand(()-> swerveSubsystem.stopModules()))))
+                // .andThen(new InstantCommand(()-> m_joystick.intakemodchange(0)))
+                // .andThen(new fedleme(m_intake, m_feeder, m_joystick, m_shooter)).withTimeout(8.5)
+                // .andThen(new AutoNoteShoot(m_shooter, m_feeder, ()-> 60));
+                        
+                // .andThen((pathCommand(trajectoryOne).alongWith(new pickupforAuto(m_intake, m_joystick).withTimeout(3))
+                // .andThen(new fedleme(m_intake, m_feeder, m_joystick, m_shooter)).withTimeout(1)));
+                // .andThen(new AutoNoteShoot(m_shooter, m_feeder, () -> 60));
 
                 //return pathCommand(trajectoryF).andThen(pathCommand(trajectoryP));
 

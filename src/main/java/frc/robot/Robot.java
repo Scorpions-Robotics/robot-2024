@@ -65,6 +65,11 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    m_robotContainer.m_intake.StopAngleMotor();
+    m_robotContainer.m_intake.StopNoteMotor();
+    m_robotContainer.m_shooter.throwStop();
+    m_robotContainer.m_feeder.stop();
+    m_robotContainer.swerveSubsystem.stopModules();
   }
 
   @Override

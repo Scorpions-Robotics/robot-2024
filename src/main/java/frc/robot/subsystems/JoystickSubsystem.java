@@ -12,10 +12,46 @@ public class JoystickSubsystem extends SubsystemBase {
   public double intakedeger;
   public double shooterdeger;
 
+  boolean onceeklenmismi = false;
+  double shooterdegeri;
+
+  public boolean turnforshoot = false;
+
   public JoystickSubsystem() {
 
 
   }
+
+public void turnforshoot_true(){
+turnforshoot = true;
+}
+
+
+
+public void shooterkayma(double shooterdegerr){
+
+if(!onceeklenmismi){
+shooterdegeri = shooterdegerr;
+
+}
+
+}
+
+public void shooterdegistiraktif(){
+onceeklenmismi = false;
+}
+
+
+public double returnshooterdegeri(){
+  return shooterdegeri;
+}
+
+
+public void turnforshoot_false(){
+turnforshoot = false;
+}
+
+
   public void shootermodchange(int mod){
     shootermod = mod;
   }
@@ -44,6 +80,10 @@ break;
 
 case 1:
 intakedeger = 12.5;
+break;
+
+case 3:
+intakedeger = 2.3;
 break;
 }
 

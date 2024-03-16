@@ -8,17 +8,18 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Intake.IntakeModeChange;
 import frc.robot.commands.Intake.RunTillSwitch;
+import frc.robot.commands.Intake.SwitchAuto;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.JoystickSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class pickup extends SequentialCommandGroup {
+public class pickupforAuto extends SequentialCommandGroup {
   /** Creates a new pickup. */
-  public pickup(IntakeSubsystem m_intake, JoystickSubsystem m_joystick) {
+  public pickupforAuto(IntakeSubsystem m_intake, JoystickSubsystem m_joystick) {
     addCommands(new RunTillSwitch(m_intake,false).alongWith(new IntakeModeChange(m_joystick, 1))
     .until(()-> m_intake.intakeTwoStich())
-    .andThen(new IntakeModeChange(m_joystick, 0)));
+    .andThen(new IntakeModeChange(m_joystick, 3)));
   }
 }
