@@ -14,7 +14,7 @@ public class NetworkSubsystem extends SubsystemBase {
   double apriltag_x_value;
   double apriltag_y_value;
   double apriltag_target_value;
-
+  ShooterSubsystem m_shooter;
 
   public NetworkTableInstance inst = NetworkTableInstance.getDefault();
   //table
@@ -27,6 +27,9 @@ public class NetworkSubsystem extends SubsystemBase {
   public NetworkTableEntry apriltag_x = networkTable.getEntry("apriltag_x");
   public NetworkTableEntry apriltag_y = networkTable.getEntry("apriltag_y");
   public NetworkTableEntry apriltag_target = networkTable.getEntry("apriltag_target");
+
+  public NetworkTableEntry apriltag_reverse = networkTable.getEntry("apriltag_reverse");
+
 
   public NetworkSubsystem() {
    // inst.setServerTeam(7672);
@@ -57,6 +60,8 @@ public class NetworkSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("apriltag x value", apriltag_x_value);
     SmartDashboard.putNumber("apriltag y value", apriltag_y_value);
     SmartDashboard.putBoolean("connection",inst.isConnected());
+    
+    apriltag_reverse.setBoolean(m_shooter.whichSide());
   }
 
 
