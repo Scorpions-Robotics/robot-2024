@@ -14,7 +14,7 @@ public class NetworkSubsystem extends SubsystemBase {
   double apriltag_x_value;
   double apriltag_y_value;
   double apriltag_target_value;
-  ShooterSubsystem m_shooter;
+  //ShooterSubsystem m_shooter;
 
   public NetworkTableInstance inst = NetworkTableInstance.getDefault();
   //table
@@ -61,7 +61,7 @@ public class NetworkSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("apriltag y value", apriltag_y_value);
     SmartDashboard.putBoolean("connection",inst.isConnected());
     
-    apriltag_reverse.setBoolean(m_shooter.whichSide());
+    //apriltag_reverse.setBoolean(m_shooter.whichSide());
   }
 
 

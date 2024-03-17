@@ -72,8 +72,8 @@ public class RobotContainer {
         public final IntakeSubsystem m_intake = new IntakeSubsystem();
         public final ShooterSubsystem m_shooter = new ShooterSubsystem();
         public final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-        public final XboxController driverJoytick = new XboxController(0);
-        public final XboxController subJoytick = new XboxController(1);
+        public final XboxController driverJoytick = new XboxController(1);
+        public final XboxController subJoytick = new XboxController(3);
         public final FeederSubsystem m_feeder = new FeederSubsystem();
         public final ArmSubsystem m_arm = new ArmSubsystem();
         public final JoystickSubsystem m_joystick = new JoystickSubsystem();
