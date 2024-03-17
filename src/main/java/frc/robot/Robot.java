@@ -23,11 +23,10 @@ public class Robot extends TimedRobot {
   public void robotInit() {
 
     m_robotContainer = new RobotContainer();
-
-    auto_chooser.setDefaultOption("2 Note", 0);
-    auto_chooser.addOption("3 Note", 1);
-    auto_chooser.addOption("4 Note", 2);
-    auto_chooser.setDefaultOption("1 Note", 3);
+    auto_chooser.setDefaultOption("1 Note", 0);
+    auto_chooser.setDefaultOption("2 Note", 1);
+    auto_chooser.addOption("3 Note", 2);
+    SmartDashboard.putData(auto_chooser);
   }
 
   @Override
@@ -49,7 +48,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand(auto_chooser.getSelected());
 
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();

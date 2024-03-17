@@ -343,7 +343,7 @@ new JoystickButton(subJoytick, 9).whileFalse(new InstantCommand(()-> m_intake.St
         
         }
 
-        public Command getAutonomousCommand() {
+        public Command getAutonomousCommand(int mode) {
 
                 // TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
                 //         AutoConstants.kMaxSpeedMetersPerSecond,
@@ -455,28 +455,76 @@ new JoystickButton(subJoytick, 9).whileFalse(new InstantCommand(()-> m_intake.St
                 // .andThen(new InstantCommand(()-> m_shooter.throwStop()))
                 // .andThen(new InstantCommand(()-> m_intake.StopNoteMotor()));
 
-                // ÜÇ NOTA
-                
-                // return new AutoNoteShoot(m_shooter, m_feeder, () -> 64).withTimeout(2)
-                // .andThen(pathCommand(trajectoryOne).alongWith(new pickupforAuto(m_intake, m_joystick).withTimeout(3.75))
-                // .withTimeout(4.75)
-                // .andThen(new InstantCommand(()-> m_intake.StopNoteMotor())
-                // .andThen(new InstantCommand(()-> swerveSubsystem.stopModules()))))
-                // .andThen(new otofeedleme(m_intake, m_feeder, m_joystick, m_shooter)).withTimeout(6.75)
-                // .andThen(new InstantCommand(()-> m_intake.StopNoteMotor()))
-                // .andThen(new AutoNoteShoot(m_shooter, m_feeder, ()-> 70)).withTimeout(8)
-                // .andThen(pathCommand(note3path).alongWith(new pickupforAuto(m_intake, m_joystick).withTimeout(9.5))
-                // .alongWith(new InstantCommand(()-> m_intake.StopNoteMotor())
-                // .andThen(new InstantCommand(()-> m_shooter.throwStop()))
-                // .andThen(new InstantCommand(()-> swerveSubsystem.stopModules())
-                // .withTimeout(10.5)))).
-                // withTimeout(11)
-                // .andThen(new InstantCommand(()-> swerveSubsystem.stopModules()))
-                // .andThen(new otofeedleme(m_intake, m_feeder, m_joystick, m_shooter)).withTimeout(13.5)
-                // .andThen(new AutoNoteShoot(m_shooter,m_feeder,() -> 47))
-                // .withTimeout(14.6)
-                // .andThen(new InstantCommand(()-> m_shooter.throwStop()))
-                // .andThen(new InstantCommand(()-> m_intake.StopNoteMotor()));
+               // ÜÇ NOTA
+        //        return new AutoNoteShoot(m_shooter, m_feeder, () -> 64).withTimeout(2)
+        //        .andThen(pathCommand(trajectoryOne).alongWith(new pickupforAuto(m_intake, m_joystick).withTimeout(3.75))
+        //        .withTimeout(4.75)
+        //        .andThen(new InstantCommand(()-> m_intake.StopNoteMotor())
+        //        .andThen(new InstantCommand(()-> swerveSubsystem.stopModules()))))
+        //        .andThen(new otofeedleme(m_intake, m_feeder, m_joystick, m_shooter)).withTimeout(6.75)
+        //        .andThen(new InstantCommand(()-> m_intake.StopNoteMotor()))
+        //        .andThen(new AutoNoteShoot(m_shooter, m_feeder, ()-> 70)).withTimeout(8)
+        //        .andThen(pathCommand(note3path).alongWith(new pickupforAuto(m_intake, m_joystick).withTimeout(9.5))
+        //        .alongWith(new InstantCommand(()-> m_intake.StopNoteMotor())
+        //        .andThen(new InstantCommand(()-> m_shooter.throwStop()))
+        //        .andThen(new InstantCommand(()-> swerveSubsystem.stopModules())
+        //        .withTimeout(10.5)))).
+        //        withTimeout(11)
+        //        .andThen(new InstantCommand(()-> swerveSubsystem.stopModules()))
+        //        .andThen(new otofeedleme(m_intake, m_feeder, m_joystick, m_shooter)).withTimeout(13.5)
+        //        .andThen(new AutoNoteShoot(m_shooter,m_feeder,() -> 47))
+        //        .withTimeout(14.6)
+        //        .andThen(new InstantCommand(()-> m_shooter.throwStop()))
+        //        .andThen(new InstantCommand(()-> m_intake.StopNoteMotor()));
+
+               if(mode == 2){
+                return new AutoNoteShoot(m_shooter, m_feeder, () -> 64).withTimeout(2)
+                .andThen(pathCommand(trajectoryOne).alongWith(new pickupforAuto(m_intake, m_joystick).withTimeout(3.75))
+                .withTimeout(4.75)
+                .andThen(new InstantCommand(()-> m_intake.StopNoteMotor())
+                .andThen(new InstantCommand(()-> swerveSubsystem.stopModules()))))
+                .andThen(new otofeedleme(m_intake, m_feeder, m_joystick, m_shooter)).withTimeout(6.75)
+                .andThen(new InstantCommand(()-> m_intake.StopNoteMotor()))
+                .andThen(new AutoNoteShoot(m_shooter, m_feeder, ()-> 70)).withTimeout(8)
+                .andThen(pathCommand(note3path).alongWith(new pickupforAuto(m_intake, m_joystick).withTimeout(9.5))
+                .alongWith(new InstantCommand(()-> m_intake.StopNoteMotor())
+                .andThen(new InstantCommand(()-> m_shooter.throwStop()))
+                .andThen(new InstantCommand(()-> swerveSubsystem.stopModules())
+                .withTimeout(10.5)))).
+                withTimeout(11)
+                .andThen(new InstantCommand(()-> swerveSubsystem.stopModules()))
+                .andThen(new otofeedleme(m_intake, m_feeder, m_joystick, m_shooter)).withTimeout(13.5)
+                .andThen(new AutoNoteShoot(m_shooter,m_feeder,() -> 47))
+                .withTimeout(14.6)
+                .andThen(new InstantCommand(()-> m_shooter.throwStop()))
+                .andThen(new InstantCommand(()-> m_intake.StopNoteMotor()));
+               }
+               else if(mode == 1){
+
+                return new AutoNoteShoot(m_shooter, m_feeder, () -> 64).withTimeout(2)
+                .andThen(pathCommand(trajectoryOne).alongWith(new pickupforAuto(m_intake, m_joystick).withTimeout(3.75))
+                .withTimeout(4.75)
+                .andThen(new InstantCommand(()-> m_intake.StopNoteMotor())
+                .andThen(new InstantCommand(()-> swerveSubsystem.stopModules()))))
+                .andThen(new otofeedleme(m_intake, m_feeder, m_joystick, m_shooter)).withTimeout(6.75)
+                .andThen(new InstantCommand(()-> m_intake.StopNoteMotor()))
+                .andThen(new AutoNoteShoot(m_shooter, m_feeder, ()-> 70)).withTimeout(8);
+               }
+               else if(mode == 0){
+                return new AutoNoteShoot(m_shooter, m_feeder, () -> 55).withTimeout(3);
+                 }
+               
+
+               else{
+                return new AutoNoteShoot(m_shooter, m_feeder, () -> 64).withTimeout(2)
+                .andThen(pathCommand(trajectoryOne).alongWith(new pickupforAuto(m_intake, m_joystick).withTimeout(3.75))
+                .withTimeout(4.75)
+                .andThen(new InstantCommand(()-> m_intake.StopNoteMotor())
+                .andThen(new InstantCommand(()-> swerveSubsystem.stopModules()))))
+                .andThen(new otofeedleme(m_intake, m_feeder, m_joystick, m_shooter)).withTimeout(6.75)
+                .andThen(new InstantCommand(()-> m_intake.StopNoteMotor()))
+                .andThen(new AutoNoteShoot(m_shooter, m_feeder, ()-> 70)).withTimeout(8);
+               }
 
                 // İKİ NOTA
 
@@ -506,7 +554,9 @@ new JoystickButton(subJoytick, 9).whileFalse(new InstantCommand(()-> m_intake.St
 
                 // sıfır nota (kullanmanız tavsiye olunmaz)
 
-                return null;
+                // return null;
+
+
         
                 }
         
