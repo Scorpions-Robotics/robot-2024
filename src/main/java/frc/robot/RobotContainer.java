@@ -175,7 +175,7 @@ new JoystickButton(subJoytick, 4).whileFalse(new InstantCommand(()-> m_shooter.S
  new JoystickButton(subJoytick, 4).whileFalse(new InstantCommand(()-> m_shooter.ShooterThrow2MotorStop()));
 //button 5 Amfi 
  new JoystickButton(subJoytick, 5).whileTrue(new ShooterSetDegree(m_shooter, ()->180.0));
- new JoystickButton(subJoytick, 6).whileTrue(new ShooterSetDegree(m_shooter, ()->73.0));
+ new JoystickButton(subJoytick, 6).whileTrue(new ShooterSetDegree(m_shooter, ()->70.0));
  new JoystickButton(subJoytick, 6).whileTrue(new InstantCommand(()-> m_shooter.ShooterThrowMotorOutput(-1)));
  new JoystickButton(subJoytick, 6).whileFalse(new InstantCommand(()-> m_shooter.ShooterThrow1MotorStop()));
  new JoystickButton(subJoytick, 6).whileFalse(new InstantCommand(()-> m_shooter.ShooterThrow2MotorStop()));
