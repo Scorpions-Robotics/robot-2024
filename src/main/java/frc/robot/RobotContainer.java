@@ -44,6 +44,7 @@ import frc.robot.commands.Intake.PidIntakeCommand;
 import frc.robot.commands.Intake.RunTillSwitch;
 import frc.robot.commands.Shooter.PidSetRpm;
 import frc.robot.commands.Shooter.ShooterModeChange;
+import frc.robot.commands.Shooter.ShooterSet180;
 import frc.robot.commands.Shooter.ShooterSetDegree;
 import frc.robot.commands.Shooter.TurnForShooter;
 import frc.robot.commands.Shooter.VisionShooter;
@@ -174,8 +175,8 @@ new JoystickButton(subJoytick, 4).whileTrue(new InstantCommand(()-> m_shooter.Sh
 new JoystickButton(subJoytick, 4).whileFalse(new InstantCommand(()-> m_shooter.ShooterThrow1MotorStop()));
  new JoystickButton(subJoytick, 4).whileFalse(new InstantCommand(()-> m_shooter.ShooterThrow2MotorStop()));
 //button 5 Amfi 
- new JoystickButton(subJoytick, 5).whileTrue(new ShooterSetDegree(m_shooter, ()->180.0));
- new JoystickButton(subJoytick, 6).whileTrue(new ShooterSetDegree(m_shooter, ()->70.0));
+ new JoystickButton(subJoytick, 5).whileTrue(new ShooterSet180(m_shooter));
+ new JoystickButton(subJoytick, 6).whileTrue(new ShooterSetDegree(m_shooter, ()->73.0));
  new JoystickButton(subJoytick, 6).whileTrue(new InstantCommand(()-> m_shooter.ShooterThrowMotorOutput(-1)));
  new JoystickButton(subJoytick, 6).whileFalse(new InstantCommand(()-> m_shooter.ShooterThrow1MotorStop()));
  new JoystickButton(subJoytick, 6).whileFalse(new InstantCommand(()-> m_shooter.ShooterThrow2MotorStop()));
@@ -388,6 +389,16 @@ new JoystickButton(subJoytick, 9).whileFalse(new InstantCommand(()-> m_intake.St
                           new Pose2d(-0.1,0, new Rotation2d(0)),
                         trajectoryConfig);
                         
+
+                        var note3pathforblue =
+                        TrajectoryGenerator.generateTrajectory(
+                          new Pose2d(0, 0, new Rotation2d(0)),
+                          List.of(new Translation2d(-0.5, 1),new Translation2d(-1.0, 1.6),
+                          new Translation2d(-1.58, 1.6)
+                          ),
+                          new Pose2d(-1.28,0,new Rotation2d(0)),
+                        trajectoryConfig);
+
                 var note3path =
                         TrajectoryGenerator.generateTrajectory(
                           new Pose2d(0, 0, new Rotation2d(0)),
@@ -477,7 +488,30 @@ new JoystickButton(subJoytick, 9).whileFalse(new InstantCommand(()-> m_intake.St
         //        .andThen(new InstantCommand(()-> m_shooter.throwStop()))
         //        .andThen(new InstantCommand(()-> m_intake.StopNoteMotor()));
 
-               if(mode == 2){
+        if(mode == 3){
+                return new AutoNoteShoot(m_shooter, m_feeder, () -> 64).withTimeout(2)
+                .andThen(pathCommand(trajectoryOne).alongWith(new pickupforAuto(m_intake, m_joystick).withTimeout(3.75))
+                .withTimeout(4.75)
+                .andThen(new InstantCommand(()-> m_intake.StopNoteMotor())
+                .andThen(new InstantCommand(()-> swerveSubsystem.stopModules()))))
+                .andThen(new otofeedleme(m_intake, m_feeder, m_joystick, m_shooter)).withTimeout(6.75)
+                .andThen(new InstantCommand(()-> m_intake.StopNoteMotor()))
+                .andThen(new AutoNoteShoot(m_shooter, m_feeder, ()-> 70)).withTimeout(8)
+                .andThen(pathCommand(note3pathforblue).alongWith(new pickupforAuto(m_intake, m_joystick).withTimeout(9.5))
+                .alongWith(new InstantCommand(()-> m_intake.StopNoteMotor())
+                .andThen(new InstantCommand(()-> m_shooter.throwStop()))
+                .andThen(new InstantCommand(()-> swerveSubsystem.stopModules())
+                .withTimeout(10.5)))).
+                withTimeout(11)
+                .andThen(new InstantCommand(()-> swerveSubsystem.stopModules()))
+                .andThen(new otofeedleme(m_intake, m_feeder, m_joystick, m_shooter)).withTimeout(13.5)
+                .andThen(new AutoNoteShoot(m_shooter,m_feeder,() -> 47))
+                .withTimeout(14.6)
+                .andThen(new InstantCommand(()-> m_shooter.throwStop()))
+                .andThen(new InstantCommand(()-> m_intake.StopNoteMotor()));
+               }     
+        
+        else if(mode == 2){
                 return new AutoNoteShoot(m_shooter, m_feeder, () -> 64).withTimeout(2)
                 .andThen(pathCommand(trajectoryOne).alongWith(new pickupforAuto(m_intake, m_joystick).withTimeout(3.75))
                 .withTimeout(4.75)

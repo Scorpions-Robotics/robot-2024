@@ -27,7 +27,9 @@ public class VisionShooter extends PIDCommand {
             e.printStackTrace();
         }*/
 
-  m_shooter.ShooterAngleMotorOutput(output * .13);
+        m_shooter.ShooterAngleMotorOutput(output * .13);
+
+ // m_shooter.ShooterAngleMotorOutput(output * .09);
 });
 
     addRequirements(m_shooter);

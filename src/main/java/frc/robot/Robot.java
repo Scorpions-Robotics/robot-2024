@@ -25,7 +25,9 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     auto_chooser.setDefaultOption("1 Note", 0);
     auto_chooser.setDefaultOption("2 Note", 1);
-    auto_chooser.addOption("3 Note", 2);
+    auto_chooser.addOption("3 Note For RED", 2);
+    auto_chooser.addOption("3 Note For BLUE", 3);
+
     SmartDashboard.putData(auto_chooser);
   }
 
