@@ -139,8 +139,9 @@ new JoystickButton(driverJoytick, 7).whileFalse(new InstantCommand(()-> m_arm.le
 
 new JoystickButton(driverJoytick, 8).whileTrue(new InstantCommand(()-> m_arm.rightarmdown()));
 new JoystickButton(driverJoytick, 8).whileFalse(new InstantCommand(()-> m_arm.rightarmstop()));
-
 new JoystickButton(driverJoytick, 10).whileTrue(new InstantCommand(()-> swerveSubsystem.resetGyro()));
+new JoystickButton(driverJoytick, 10).whileTrue(new InstantCommand(()-> swerveSubsystem.resetOdometry()));
+
 
 /* 
  ____  _  _  ____  ____  ____  __  _  _  ____  ____
@@ -542,7 +543,7 @@ new JoystickButton(subJoytick, 9).whileFalse(new InstantCommand(()-> m_intake.St
                 .andThen(new InstantCommand(()-> swerveSubsystem.stopModules()))))
                 .andThen(new otofeedleme(m_intake, m_feeder, m_joystick, m_shooter)).withTimeout(6.75)
                 .andThen(new InstantCommand(()-> m_intake.StopNoteMotor()))
-                .andThen(new AutoNoteShoot(m_shooter, m_feeder, ()-> 70)).withTimeout(8);
+                .andThen(new AutoNoteShoot(m_shooter, m_feeder, ()-> 73)).withTimeout(8);
                }
                else if(mode == 0){
                 return new AutoNoteShoot(m_shooter, m_feeder, () -> 55).withTimeout(3);

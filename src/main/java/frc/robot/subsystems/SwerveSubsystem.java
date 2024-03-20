@@ -142,13 +142,12 @@ public static AutoBuilder autoBuilder = new AutoBuilder();
 
 
   
-   public void resetOdometry(Pose2d pose) {
+   public void resetOdometry() {
     odometer.resetPosition(getRotation2d(), new SwerveModulePosition[] {
    frontLeft.getPosition(), frontRight.getPosition(), backLeft.getPosition(), backRight.getPosition()}
    , getPose());
    }
    
-
   public void stopModules() {
     frontLeft.stop();
     frontRight.stop();

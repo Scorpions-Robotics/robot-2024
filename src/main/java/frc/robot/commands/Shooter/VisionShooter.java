@@ -13,7 +13,8 @@ public class VisionShooter extends PIDCommand {
     super(
 
         new PIDController(0.004,
-            0.01,
+            //0.01,
+            0.003,
             Constants.values.shooter.PidShooterAngleKD),
         () -> m_network.getY(),
         () -> m_network.getTarget(),
