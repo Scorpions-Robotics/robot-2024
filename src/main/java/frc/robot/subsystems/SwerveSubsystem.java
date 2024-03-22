@@ -18,6 +18,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -61,7 +62,8 @@ public class SwerveSubsystem extends SubsystemBase {
       DriveConstants.kBackRightDriveAbsoluteEncoderOffsetRad,
       DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
 
-  private final AHRS gyro = new AHRS(SerialPort.Port.kUSB);
+ private final AHRS gyro = new AHRS(SerialPort.Port.kUSB);
+  //private final AHRS gyro = new AHRS(I2C.Port.kOnboard);
 
   private SwerveModule[] modules = {frontLeft, frontRight, backLeft, backRight};
 

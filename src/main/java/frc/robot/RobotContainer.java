@@ -112,7 +112,7 @@ public class RobotContainer {
 //buton 1
 new JoystickButton(driverJoytick, 1).whileTrue(new InstantCommand(()-> m_feeder.forward()));
 new JoystickButton(driverJoytick, 1).whileFalse(new InstantCommand(()-> m_feeder.stop()));
-new JoystickButton(driverJoytick, 1).whileTrue(new InstantCommand(()-> m_shooter.ShooterThrowMotorOutput(0.2)));
+new JoystickButton(driverJoytick, 1).whileTrue(new InstantCommand(()-> m_shooter.ShooterThrowMotorOutput(0.5)));
 new JoystickButton(driverJoytick, 1).whileFalse(new InstantCommand(()-> m_shooter.ShooterThrow1MotorStop()));
 new JoystickButton(driverJoytick, 1).whileFalse(new InstantCommand(()-> m_shooter.ShooterThrow2MotorStop()));
 
@@ -372,6 +372,12 @@ new JoystickButton(subJoytick, 9).whileFalse(new InstantCommand(()-> m_intake.St
                           new Pose2d(-1.28, -0.02, new Rotation2d(0.0)),
                           new Pose2d(0.0, 0.0, new Rotation2d(0.0))),
                         trajectoryConfig);
+
+                        var trajectory5 =
+                        TrajectoryGenerator.generateTrajectory(
+                          List.of(new Pose2d(0.0, 0.0, new Rotation2d(0.0)),
+                          new Pose2d(-2.28, -0.02, new Rotation2d(0.0))),
+                        trajectoryConfig);
                 
                 // var trajectoryOne =
                 //         TrajectoryGenerator.generateTrajectory(
@@ -546,10 +552,10 @@ new JoystickButton(subJoytick, 9).whileFalse(new InstantCommand(()-> m_intake.St
                 .andThen(new AutoNoteShoot(m_shooter, m_feeder, ()-> 73)).withTimeout(8);
                }
                else if(mode == 0){
-                return new AutoNoteShoot(m_shooter, m_feeder, () -> 55).withTimeout(3);
+                return new AutoNoteShoot(m_shooter, m_feeder, () -> 55).withTimeout(3)
+                .andThen(pathCommand(trajectory5));
                  }
-               
-
+                 
                else{
                 return new AutoNoteShoot(m_shooter, m_feeder, () -> 64).withTimeout(2)
                 .andThen(pathCommand(trajectoryOne).alongWith(new pickupforAuto(m_intake, m_joystick).withTimeout(3.75))
