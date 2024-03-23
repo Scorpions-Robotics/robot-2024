@@ -162,7 +162,9 @@ new JoystickButton(subJoytick, 2).whileFalse(new InstantCommand(()->m_intake.Sto
 
 //buton 3 Shooter Manuel subbuffer
 new JoystickButton(subJoytick, 3).whileTrue(new VisionShooter(m_shooter, m_network));
-new JoystickButton(subJoytick, 3).whileTrue(new TurnForShooter(m_network, swerveSubsystem));
+//x hizalama iptal
+//new JoystickButton(subJoytick, 3).whileTrue(new TurnForShooter(m_network, swerveSubsystem));
+
 //new JoystickButton(subJoytick, 3).whileTrue(new InstantCommand(() -> m_joystick.shooterdegistiraktif()));
 //new JoystickButton(subJoytick, 3).whileTrue(new InstantCommand(() -> m_joystick.shooterkayma(m_shooter.getMappedOutput())));
 //new JoystickButton(subJoytick, 7).whileTrue(new ShooterSetDegree(m_shooter, () -> m_joystick.returnshooterdegeri()));
@@ -555,7 +557,7 @@ new JoystickButton(subJoytick, 9).whileFalse(new InstantCommand(()-> m_intake.St
                 return new AutoNoteShoot(m_shooter, m_feeder, () -> 55).withTimeout(3)
                 .andThen(pathCommand(trajectory5));
                  }
-                 
+
                else{
                 return new AutoNoteShoot(m_shooter, m_feeder, () -> 64).withTimeout(2)
                 .andThen(pathCommand(trajectoryOne).alongWith(new pickupforAuto(m_intake, m_joystick).withTimeout(3.75))

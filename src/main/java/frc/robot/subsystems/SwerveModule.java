@@ -57,8 +57,8 @@ public class SwerveModule extends SubsystemBase {
 
     turningPidController = new PIDController(0.5, 0, 0);
     turningPidController.enableContinuousInput(-Math.PI, Math.PI);
-    driveMotor.setOpenLoopRampRate(0.2);
-    turningMotor.setOpenLoopRampRate(0.2);
+    driveMotor.setOpenLoopRampRate(0.4);
+    turningMotor.setOpenLoopRampRate(0.4);
 
   }
 
